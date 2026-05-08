@@ -1,10 +1,73 @@
 {
   "sections": {
-    "main": {
-      "type": "glow-terra-homepage"
+    "glow_terra_homepage": {
+      "type": "glow-terra-homepage",
+      "settings": {
+        "hero_eyebrow": "Small batch botanical skincare",
+        "hero_heading": "Nature-Driven Skincare That Delivers Real Results",
+        "hero_text": "Luxury handcrafted soap bars powered by multi-oil botanical formulations.",
+        "bundle_product": "glow-collection-bundle"
+      },
+      "blocks": {
+        "product_turmeric": {
+          "type": "featured_product",
+          "settings": { "product": "turmeric-clarifying-bar" }
+        },
+        "product_carrot": {
+          "type": "featured_product",
+          "settings": { "product": "carrot-glow-bar" }
+        },
+        "product_batana": {
+          "type": "featured_product",
+          "settings": { "product": "batana-scalp-renewal-bar" }
+        },
+        "product_bundle": {
+          "type": "featured_product",
+          "settings": { "product": "glow-collection-bundle" }
+        },
+        "ingredient_turmeric": {
+          "type": "ingredient",
+          "settings": { "title": "Turmeric", "text": "A classic botanical for a clarified, fresh-feeling finish." }
+        },
+        "ingredient_batana": {
+          "type": "ingredient",
+          "settings": { "title": "Batana Oil", "text": "A rich oil used in scalp and hair rituals for a weekly reset." }
+        },
+        "ingredient_carrot": {
+          "type": "ingredient",
+          "settings": { "title": "Carrot Extract", "text": "A glow-supporting botanical that pairs with gentle plant oils." }
+        },
+        "ingredient_shea": {
+          "type": "ingredient",
+          "settings": { "title": "Shea Butter", "text": "A creamy butter that gives each bar a cushioned feel." }
+        },
+        "ingredient_jojoba": {
+          "type": "ingredient",
+          "settings": { "title": "Jojoba Oil", "text": "A lightweight botanical oil selected for a balanced finish." }
+        },
+        "social_1": { "type": "social_image", "settings": { "alt": "Glow Terra skincare routine" } },
+        "social_2": { "type": "social_image", "settings": { "alt": "Glow Terra botanical ingredients" } },
+        "social_3": { "type": "social_image", "settings": { "alt": "Glow Terra soap bar" } },
+        "social_4": { "type": "social_image", "settings": { "alt": "Glow Terra bath ritual" } }
+      },
+      "block_order": [
+        "product_turmeric",
+        "product_carrot",
+        "product_batana",
+        "product_bundle",
+        "ingredient_turmeric",
+        "ingredient_batana",
+        "ingredient_carrot",
+        "ingredient_shea",
+        "ingredient_jojoba",
+        "social_1",
+        "social_2",
+        "social_3",
+        "social_4"
+      ]
     }
   },
   "order": [
-    "main"
+    "glow_terra_homepage"
   ]
 }
