@@ -39,6 +39,12 @@
         <span>Small batch crafted</span>
       </div>
 
+      <div class="gt-product-benefits" aria-label="Product highlights">
+        <span>Botanical oil base</span>
+        <span>Skin-first formula</span>
+        <span>Clean daily care</span>
+      </div>
+
       {% form 'product', product, class: 'gt-product-form' %}
         {% unless product.has_only_default_variant %}
           <label for="gt-product-variant">Choose option</label>
@@ -60,6 +66,11 @@
           {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
       {% endform %}
+
+      <div class="gt-product-care">
+        <div><strong>Ships fast</strong><span>Carefully packed from the U.S.</span></div>
+        <div><strong>Real product page</strong><span>Uses Shopify variants, cart, and inventory.</span></div>
+      </div>
 
       {% if product.description != blank %}
         <div class="gt-product-description rte">{{ product.description }}</div>
@@ -86,7 +97,7 @@
     <section class="gt-section gt-wrap">
       <div class="gt-heading">
         <div>
-          <p class="gt-eyebrow">Complete the ritual</p>
+          <p class="gt-eyebrow">Complete the routine</p>
           <h2 class="gt-title">Related products</h2>
         </div>
       </div>
@@ -102,17 +113,23 @@
 </section>
 
 <style>
-  .gt-product-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.85fr);gap:54px;padding:56px 0 70px}
+  .gt-product-page{background:radial-gradient(circle at 12% 0%,rgba(177,138,85,.16),transparent 32%),linear-gradient(180deg,#fbf8f1 0%,#fffdf8 52%,#eef1e8 100%)}
+  .gt-product-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,.78fr);gap:58px;padding:64px 0 76px;align-items:start}
   .gt-product-media{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
-  .gt-product-media__item,.gt-product-media>img,.gt-product-media>svg{background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(36,29,24,.08)}
-  .gt-product-media img,.gt-product-media video,.gt-product-media model-viewer,.gt-product-media svg{width:100%;height:auto;display:block}
-  .gt-product-info{position:sticky;top:84px;align-self:start;background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:34px;box-shadow:0 18px 50px rgba(66,48,34,.08)}
-  .gt-product-info h1{font-size:clamp(38px,4vw,58px)}.gt-product-price{margin:18px 0;font-size:20px}.gt-product-trust{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}.gt-product-trust span{border:1px solid var(--gt-line);border-radius:999px;padding:8px 10px;color:var(--gt-muted);font-size:12px;font-weight:700}
-  .gt-product-form{display:grid;gap:12px;margin:0 0 26px}.gt-product-form label{font-weight:800;font-size:13px}.gt-product-form .gt-btn{width:100%;margin-top:8px}
+  .gt-product-media__item,.gt-product-media>img,.gt-product-media>svg{background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(52,75,58,.1);box-shadow:0 18px 44px rgba(66,48,34,.08)}
+  .gt-product-media__item:first-child{grid-column:span 2}
+  .gt-product-media img,.gt-product-media video,.gt-product-media model-viewer,.gt-product-media svg{width:100%;height:100%;display:block;object-fit:cover}
+  .gt-product-media__item:first-child img,.gt-product-media__item:first-child video,.gt-product-media__item:first-child model-viewer,.gt-product-media__item:first-child svg{aspect-ratio:1.12/1}
+  .gt-product-media__item:not(:first-child) img,.gt-product-media__item:not(:first-child) video,.gt-product-media__item:not(:first-child) model-viewer,.gt-product-media__item:not(:first-child) svg{aspect-ratio:1}
+  .gt-product-info{position:sticky;top:84px;align-self:start;background:linear-gradient(180deg,#fffdf8,#f8f0e5);border:1px solid rgba(52,75,58,.13);border-radius:8px;padding:34px;box-shadow:0 24px 70px rgba(52,75,58,.13)}
+  .gt-product-info h1{font-size:clamp(36px,4vw,56px)}.gt-product-price{margin:16px 0 18px;font-size:21px}.gt-product-trust{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}.gt-product-trust span{border:1px solid var(--gt-line);border-radius:999px;padding:8px 10px;color:var(--gt-muted);font-size:12px;font-weight:700}
+  .gt-product-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 24px}.gt-product-benefits span{background:#eef1e8;border:1px solid rgba(52,75,58,.14);border-radius:8px;padding:12px 10px;font-size:12px;font-weight:800;color:var(--gt-moss);text-align:center}
+  .gt-product-form{display:grid;gap:12px;margin:0 0 26px;background:#fff;border:1px solid var(--gt-line);border-radius:8px;padding:18px}.gt-product-form label{font-weight:800;font-size:13px}.gt-product-form .gt-btn{width:100%;margin-top:8px}
+  .gt-product-care{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:-8px 0 24px}.gt-product-care div{border:1px solid rgba(52,75,58,.12);border-radius:8px;padding:13px;background:rgba(255,253,248,.72)}.gt-product-care strong{display:block;font-size:13px;color:var(--gt-moss)}.gt-product-care span{display:block;margin-top:4px;color:var(--gt-muted);font-size:12px;line-height:1.45}
   .gt-product-description{color:var(--gt-muted);line-height:1.65;margin:24px 0}
   .gt-product-related{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   @media(max-width:990px){.gt-product-layout{grid-template-columns:1fr;gap:24px}.gt-product-info{position:static}.gt-product-related{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:680px){.gt-product-layout{padding:28px 0 48px}.gt-product-media{grid-template-columns:1fr}.gt-product-info{padding:22px}.gt-product-related{grid-template-columns:1fr}}
+  @media(max-width:680px){.gt-product-layout{padding:28px 0 48px}.gt-product-media{grid-template-columns:1fr}.gt-product-media__item:first-child{grid-column:auto}.gt-product-info{padding:22px}.gt-product-benefits,.gt-product-care{grid-template-columns:1fr}.gt-product-related{grid-template-columns:1fr}}
 </style>
 
 {% schema %}
