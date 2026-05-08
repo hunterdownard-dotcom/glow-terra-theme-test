@@ -2,12 +2,16 @@
 {% render 'gt-bottom-nav' %}
 
 {% liquid
+  assign featured_collection = section.settings.featured_collection
   assign collection_url = routes.all_products_collection_url
+  if featured_collection != blank
+    assign collection_url = featured_collection.url
+  endif
+
   assign bundle_product = section.settings.bundle_product
+  assign bundle_url = collection_url
   if bundle_product != blank
     assign bundle_url = bundle_product.url
-  else
-    assign bundle_url = '/products/glow-collection-bundle'
   endif
 %}
 
@@ -59,17 +63,30 @@
   <section class="gt-section gt-wrap">
     <div class="gt-heading">
       <div>
-        <p class="gt-eyebrow">Shop the ritual</p>
+        <p class="gt-eyebrow">Shop the routine</p>
         <h2 class="gt-title">Purposeful bars for skin, scalp, and glow.</h2>
       </div>
       <a class="gt-heading__link" href="{{ collection_url }}">View all products</a>
     </div>
     <div class="gt-home-products">
+      {% assign rendered_products = 0 %}
       {% for block in section.blocks %}
         {% if block.type == 'featured_product' and block.settings.product != blank %}
           {% render 'gt-product-card', product: block.settings.product, show_quick_add: true %}
+          {% assign rendered_products = rendered_products | plus: 1 %}
         {% endif %}
       {% endfor %}
+      {% if rendered_products == 0 %}
+        {% liquid
+          assign fallback_collection = featured_collection
+          if fallback_collection == blank
+            assign fallback_collection = collections.all
+          endif
+        %}
+        {% for product in fallback_collection.products limit: 4 %}
+          {% render 'gt-product-card', product: product, show_quick_add: true %}
+        {% endfor %}
+      {% endif %}
     </div>
   </section>
 
@@ -83,7 +100,7 @@
       <article class="gt-card"><span>01</span><h3>Multi-oil formulations</h3><p>Coconut, olive, castor, shea, jojoba, and targeted botanicals work together.</p></article>
       <article class="gt-card"><span>02</span><h3>Ingredient density</h3><p>The formula keeps the focus on oils, butters, and plant-based actives.</p></article>
       <article class="gt-card"><span>03</span><h3>Fragrance-free focus</h3><p>No artificial fragrance. Just a more comfortable bar for function-first routines.</p></article>
-      <article class="gt-card"><span>04</span><h3>Skincare-first philosophy</h3><p>Refined bars created to support daily rituals with a clean, trustworthy feel.</p></article>
+      <article class="gt-card"><span>04</span><h3>Skincare-first philosophy</h3><p>Refined bars created to support daily routines with a clean, trustworthy feel.</p></article>
     </div>
   </section>
 
@@ -91,9 +108,22 @@
     <p class="gt-eyebrow">Customer feedback</p>
     <h2 class="gt-title">Quiet results customers come back to.</h2>
     <div class="gt-home-reviews">
-      <article class="gt-card"><p>"The Turmeric Bar feels clean and gentle on my skin."</p><strong>Maya R.</strong></article>
-      <article class="gt-card"><p>"The Batana bar has become part of my weekly routine."</p><strong>Jordan L.</strong></article>
-      <article class="gt-card"><p>"Simple ingredients, nice lather, and my skin does not feel tight after."</p><strong>Alina P.</strong></article>
+      {% for block in section.blocks %}
+        {% if block.type == 'review' %}
+          <article class="gt-card gt-home-review" {{ block.shopify_attributes }}>
+            {% if block.settings.avatar != blank %}
+              {{ block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.name }}
+            {% else %}
+              <div class="gt-home-review__avatar" aria-hidden="true">{{ block.settings.name | slice: 0 }}</div>
+            {% endif %}
+            <div>
+              <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <p>"{{ block.settings.quote }}"</p>
+              <strong>{{ block.settings.name }}</strong>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
     </div>
   </section>
 
@@ -101,7 +131,7 @@
     <div class="gt-heading">
       <div>
         <p class="gt-eyebrow">Ingredient library</p>
-        <h2 class="gt-title">Botanicals chosen for a clean, comfortable ritual.</h2>
+        <h2 class="gt-title">Botanicals chosen for a clean, comfortable routine.</h2>
       </div>
     </div>
     <div class="gt-home-ingredients">
@@ -134,16 +164,22 @@
   </section>
 
   <section class="gt-section gt-wrap gt-home-center">
-    <p class="gt-eyebrow">From the community</p>
-    <h2 class="gt-title">Clean counters, real routines, warm light.</h2>
+    <p class="gt-eyebrow">Glow Terra Routine Guide</p>
+    <h2 class="gt-title">Simple ways to use each bar with confidence.</h2>
     <div class="gt-home-social">
       {% for block in section.blocks %}
         {% if block.type == 'social_image' %}
-          {% if block.settings.image != blank %}
-            {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.alt }}
-          {% else %}
-            {{ 'lifestyle-2' | placeholder_svg_tag }}
-          {% endif %}
+          <article class="gt-routine-card" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.alt }}
+            {% else %}
+              {{ 'lifestyle-2' | placeholder_svg_tag }}
+            {% endif %}
+            <div>
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </article>
         {% endif %}
       {% endfor %}
     </div>
@@ -183,18 +219,21 @@
   .gt-home-why__grid,.gt-home-reviews{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
   .gt-home-why article,.gt-home-reviews article{padding:24px}.gt-home-why span{color:var(--gt-clay);font-weight:800}
   .gt-home-center{text-align:center}.gt-home-center .gt-title{margin-inline:auto}
-  .gt-home-reviews{grid-template-columns:repeat(3,1fr);margin-top:34px;text-align:left}.gt-home-reviews p{line-height:1.6}
+  .gt-home-reviews{grid-template-columns:repeat(3,1fr);margin-top:34px;text-align:left}
+  .gt-home-review{display:grid;grid-template-columns:62px 1fr;gap:16px;align-items:start;background:linear-gradient(180deg,#fffaf4,#f7efe5);box-shadow:0 24px 70px rgba(66,48,34,.12)}
+  .gt-home-review img,.gt-home-review__avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;background:#e8ded3;color:var(--gt-clay);display:grid;place-items:center;font-weight:800}
+  .gt-home-review p{margin:8px 0 12px;line-height:1.62;color:var(--gt-ink)}
   .gt-home-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .gt-home-ingredients article{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden}
   .gt-home-ingredients img,.gt-home-ingredients svg{width:100%;aspect-ratio:1;object-fit:cover}.gt-home-ingredients h3,.gt-home-ingredients p{padding-inline:16px}.gt-home-ingredients p{padding-bottom:18px;color:var(--gt-muted);line-height:1.55;font-size:14px}
   .gt-home-sale{position:relative;overflow:hidden;margin-top:18px;padding:44px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:#3f3a2c;color:#fff;box-shadow:0 24px 70px rgba(36,29,24,.16)}
   .gt-home-sale:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(49,39,32,.88),rgba(89,98,70,.82));z-index:0}.gt-home-sale>*{position:relative;z-index:1}.gt-home-sale__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .gt-home-sale h2{font-size:clamp(32px,4vw,52px);color:#fff}.gt-home-sale p:not(.gt-eyebrow){font-size:18px;color:rgba(255,255,255,.86)}.gt-home-sale .gt-eyebrow{color:#ead8c2}
-  .gt-home-social{display:grid;grid-template-columns:1.1fr .9fr .9fr 1.1fr;gap:12px;margin-top:34px}.gt-home-social img,.gt-home-social svg{width:100%;height:360px;object-fit:cover;border-radius:8px;box-shadow:0 18px 42px rgba(66,48,34,.1)}
+  .gt-home-social{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;text-align:left}.gt-routine-card{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden;box-shadow:0 18px 42px rgba(66,48,34,.1)}.gt-routine-card img,.gt-routine-card svg{width:100%;height:260px;object-fit:cover}.gt-routine-card div{padding:18px}.gt-routine-card h3{margin:0 0 8px;font-size:18px}.gt-routine-card p{margin:0;color:var(--gt-muted);line-height:1.55;font-size:14px}
   .gt-home-newsletter{width:min(920px,calc(100% - 40px));margin:20px auto 90px;text-align:center;background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:48px;box-shadow:0 18px 50px rgba(66,48,34,.08)}
   .gt-home-newsletter h2{font-size:clamp(32px,4vw,50px)}.gt-home-newsletter__form{display:grid;grid-template-columns:1fr auto;gap:10px;margin:28px auto 0;max-width:560px}
   @media(max-width:990px){.gt-home-hero__inner{grid-template-columns:1fr}.gt-home-products{grid-template-columns:repeat(2,1fr)}.gt-home-trust{grid-template-columns:repeat(2,1fr)}.gt-home-why{grid-template-columns:1fr}.gt-home-ingredients{grid-template-columns:repeat(3,1fr)}.gt-home-social{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:680px){.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr 1fr;gap:8px}.gt-home-social img,.gt-home-social svg{height:210px}.gt-home-newsletter{width:calc(100% - 28px);padding:34px 18px}.gt-home-newsletter__form{grid-template-columns:1fr}}
+  @media(max-width:680px){.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-review{grid-template-columns:52px 1fr}.gt-home-review img,.gt-home-review__avatar{width:52px;height:52px}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr;gap:14px}.gt-routine-card img,.gt-routine-card svg{height:220px}.gt-home-newsletter{width:calc(100% - 28px);padding:34px 18px}.gt-home-newsletter__form{grid-template-columns:1fr}}
 </style>
 
 {% schema %}
@@ -206,18 +245,26 @@
     { "type": "textarea", "id": "hero_text", "label": "Hero text", "default": "Luxury handcrafted soap bars powered by multi-oil botanical formulations." },
     { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
     { "type": "image_picker", "id": "hero_side_image", "label": "Hero side image" },
+    { "type": "collection", "id": "featured_collection", "label": "Shop collection" },
     { "type": "product", "id": "bundle_product", "label": "Glow Collection Bundle product" },
     { "type": "image_picker", "id": "banner_image", "label": "Bundle banner image" }
   ],
   "blocks": [
     { "type": "featured_product", "name": "Featured product", "settings": [{ "type": "product", "id": "product", "label": "Product" }] },
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "image_picker", "id": "avatar", "label": "Avatar image" },
+      { "type": "text", "id": "name", "label": "Customer name", "default": "Maya R." },
+      { "type": "textarea", "id": "quote", "label": "Review", "default": "The Turmeric Bar feels clean and gentle on my skin." }
+    ] },
     { "type": "ingredient", "name": "Ingredient", "settings": [
       { "type": "text", "id": "title", "label": "Title", "default": "Turmeric" },
       { "type": "textarea", "id": "text", "label": "Text", "default": "A classic botanical for a clarified, fresh-feeling finish." },
       { "type": "image_picker", "id": "image", "label": "Image" }
     ] },
-    { "type": "social_image", "name": "Community image", "settings": [
+    { "type": "social_image", "name": "Routine guide item", "settings": [
       { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Cleanse gently" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Use your selected bar with warm water, then let it dry between uses." },
       { "type": "text", "id": "alt", "label": "Alt text", "default": "Glow Terra skincare routine" }
     ] }
   ],
@@ -229,15 +276,18 @@
         { "type": "featured_product", "settings": { "product": "carrot-glow-bar" } },
         { "type": "featured_product", "settings": { "product": "batana-scalp-renewal-bar" } },
         { "type": "featured_product", "settings": { "product": "glow-collection-bundle" } },
+        { "type": "review", "settings": { "name": "Maya R.", "quote": "The Turmeric Bar feels clean and gentle on my skin." } },
+        { "type": "review", "settings": { "name": "Jordan L.", "quote": "The Batana bar has become part of my weekly routine." } },
+        { "type": "review", "settings": { "name": "Alina P.", "quote": "Simple ingredients, nice lather, and my skin does not feel tight after." } },
         { "type": "ingredient", "settings": { "title": "Turmeric", "text": "A classic botanical for a clarified, fresh-feeling finish." } },
-        { "type": "ingredient", "settings": { "title": "Batana Oil", "text": "A rich oil used in scalp and hair rituals for a weekly reset." } },
+        { "type": "ingredient", "settings": { "title": "Batana Oil", "text": "A rich oil used in scalp and hair routines for a weekly reset." } },
         { "type": "ingredient", "settings": { "title": "Carrot Extract", "text": "A glow-supporting botanical that pairs with gentle plant oils." } },
         { "type": "ingredient", "settings": { "title": "Shea Butter", "text": "A creamy butter that gives each bar a cushioned feel." } },
         { "type": "ingredient", "settings": { "title": "Jojoba Oil", "text": "A lightweight botanical oil selected for a balanced finish." } },
-        { "type": "social_image" },
-        { "type": "social_image" },
-        { "type": "social_image" },
-        { "type": "social_image" }
+        { "type": "social_image", "settings": { "title": "Cleanse gently", "text": "Use your selected bar with warm water, then let it dry between uses." } },
+        { "type": "social_image", "settings": { "title": "Rotate by need", "text": "Keep Turmeric, Carrot, and Batana ready so each bar has a clear role." } },
+        { "type": "social_image", "settings": { "title": "Build the bundle routine", "text": "Use the 3-Bar Bundle as a simple weekly system for face, body, and scalp care." } },
+        { "type": "social_image", "settings": { "title": "Use Batana weekly", "text": "Work the Batana bar into scalp and hair wash days as a focused reset." } }
       ]
     }
   ]
