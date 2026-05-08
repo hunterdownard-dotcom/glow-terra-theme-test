@@ -1,0 +1,97 @@
+{% render 'gt-premium-styles' %}
+{% render 'gt-bottom-nav' %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<section class="gt-store gt-bundle">
+  <div class="gt-bundle-hero">
+    {% if section.settings.banner_image != blank %}
+      {{ section.settings.banner_image | image_url: width: 2000 | image_tag: class: 'gt-bundle-hero__bg', loading: 'eager', alt: section.settings.banner_image.alt }}
+    {% elsif product.featured_image != blank %}
+      {{ product.featured_image | image_url: width: 2000 | image_tag: class: 'gt-bundle-hero__bg', loading: 'eager', alt: product.title }}
+    {% endif %}
+    <div class="gt-wrap gt-bundle-hero__inner">
+      <p class="gt-eyebrow">Bundle and save</p>
+      <h1 class="gt-title">{{ product.title }}</h1>
+      <p>{{ section.settings.hero_text }}</p>
+      <a class="gt-btn gt-btn--light" href="#gt-bundle-buy">Add the Bundle</a>
+    </div>
+  </div>
+
+  <div class="gt-wrap gt-bundle-layout" id="gt-bundle-buy">
+    <div class="gt-bundle-gallery">
+      {% if product.media.size > 0 %}
+        {% for media in product.media limit: 4 %}
+          <div>{% render 'media', media: media, sizes: '(min-width: 990px) 50vw, 100vw' %}</div>
+        {% endfor %}
+      {% elsif product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: product.title }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {% endif %}
+    </div>
+
+    <div class="gt-card gt-bundle-buy">
+      <p class="gt-eyebrow">3-Bar Bundle</p>
+      <h2 class="gt-title">Real Ingredients. Real Results.</h2>
+      <div class="gt-price">
+        {% if product.compare_at_price > product.price %}
+          <span>{{ product.price | money }}</span>
+          <s>{{ product.compare_at_price | money }}</s>
+        {% else %}
+          <span>{{ product.price | money }}</span>
+        {% endif %}
+      </div>
+      <p class="gt-copy">{{ section.settings.bundle_text }}</p>
+      <ul class="gt-bundle-list">
+        <li>Turmeric Clarifying Bar</li>
+        <li>Carrot Glow Bar</li>
+        <li>Batana Scalp Renewal Bar</li>
+      </ul>
+
+      {% form 'product', product, class: 'gt-product-form' %}
+        {% unless product.has_only_default_variant %}
+          <label for="gt-bundle-variant">Choose option</label>
+          <select class="gt-field" id="gt-bundle-variant" name="id">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {% endunless %}
+        <label for="gt-bundle-quantity">Quantity</label>
+        <input class="gt-field" id="gt-bundle-quantity" type="number" name="quantity" value="1" min="1">
+        <button class="gt-btn gt-btn--dark" type="submit" {% unless current_variant.available %}disabled{% endunless %}>
+          {% if current_variant.available %}Add Bundle to Cart{% else %}Sold Out{% endif %}
+        </button>
+      {% endform %}
+
+      <div class="gt-bundle-note">
+        Uses your real Shopify bundle product. No custom bundle inventory logic is added here.
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gt-bundle-hero{position:relative;isolation:isolate;min-height:540px;display:grid;align-items:end;background:#2b241d;color:#fff;overflow:hidden}.gt-bundle-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}.gt-bundle-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(31,24,18,.86),rgba(31,24,18,.48));z-index:-1}.gt-bundle-hero__inner{padding:92px 0 68px}.gt-bundle-hero h1{font-size:clamp(46px,6vw,76px);color:#fff;max-width:760px}.gt-bundle-hero p:not(.gt-eyebrow){max-width:560px;color:rgba(255,255,255,.86);font-size:19px;line-height:1.6}
+  .gt-bundle-layout{display:grid;grid-template-columns:1fr 430px;gap:44px;padding:72px 0}.gt-bundle-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.gt-bundle-gallery>div,.gt-bundle-gallery>img,.gt-bundle-gallery>svg{background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(36,29,24,.08)}.gt-bundle-gallery img,.gt-bundle-gallery video,.gt-bundle-gallery svg{width:100%;display:block}.gt-bundle-buy{padding:34px;align-self:start;position:sticky;top:84px}.gt-bundle-buy h2{font-size:clamp(34px,4vw,52px)}.gt-bundle-list{display:grid;gap:10px;margin:24px 0;padding:0;list-style:none}.gt-bundle-list li{border:1px solid var(--gt-line);border-radius:8px;padding:13px 14px;background:#fff}.gt-bundle-note{margin-top:18px;color:var(--gt-muted);font-size:13px;line-height:1.5}
+  @media(max-width:990px){.gt-bundle-layout{grid-template-columns:1fr}.gt-bundle-buy{position:static}.gt-bundle-gallery{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.gt-bundle-hero{min-height:430px}.gt-bundle-hero__inner{padding:76px 0 46px}.gt-bundle-layout{padding:48px 0}.gt-bundle-gallery{grid-template-columns:1fr}.gt-bundle-buy{padding:22px}}
+</style>
+
+{% schema %}
+{
+  "name": "Glow Terra Bundle Product",
+  "settings": [
+    { "type": "textarea", "id": "hero_text", "label": "Hero text", "default": "The complete Glow Terra routine with Turmeric, Carrot, and Batana bars in one simple bundle." },
+    { "type": "textarea", "id": "bundle_text", "label": "Bundle text", "default": "A simple way to try the core Glow Terra ritual while your Shopify bundle app handles inventory syncing behind the scenes." },
+    { "type": "image_picker", "id": "banner_image", "label": "Bundle banner image" }
+  ],
+  "presets": [{ "name": "Glow Terra Bundle Product" }]
+}
+{% endschema %}
