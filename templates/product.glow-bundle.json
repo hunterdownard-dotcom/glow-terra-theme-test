@@ -1,19 +1,13 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "gt-bundle-product",
+      "type": "gt-main-product",
       "settings": {
-        "hero_text": "The complete Glow Terra routine with Turmeric, Carrot, and Batana bars in one simple bundle.",
-        "bundle_text": "A simple way to try the core Glow Terra ritual while your Shopify bundle app handles inventory syncing behind the scenes."
+        "eyebrow": "Glow Terra skincare",
+        "ingredient_text": "Made with a thoughtful botanical oil base and skin-first ingredients. See product description for the exact formula.",
+        "usage_text": "Lather with water, apply gently, rinse thoroughly, and allow the bar to dry between uses.",
+        "shipping_text": "Ships from the U.S. Returns and support are handled through Glow Terra customer care.",
+        "show_related": true
       }
     }
   },
