@@ -1,0 +1,171 @@
+{% liquid
+  assign collection_url = routes.all_products_collection_url
+  assign bundle_url = '/products/glow-collection-bundle'
+%}
+
+<section class="gt-home" aria-label="Glow Terra homepage">
+  <div class="gt-hero">
+    <img class="gt-hero__bg" src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1800&q=82" alt="" loading="eager">
+    <div class="gt-hero__inner">
+      <div class="gt-hero__copy">
+        <p class="gt-eyebrow">Small batch botanical skincare</p>
+        <h1>Nature-Driven Skincare That Delivers Real Results</h1>
+        <p>Luxury handcrafted soap bars powered by multi-oil botanical formulations.</p>
+        <div class="gt-actions">
+          <a class="gt-btn gt-btn--dark" href="{{ collection_url }}">Shop Collection</a>
+          <a class="gt-btn gt-btn--light" href="{{ bundle_url }}">Bundle &amp; Save</a>
+        </div>
+        <div class="gt-pills">
+          <span>Fragrance-free focus</span>
+          <span>Plant oil base</span>
+          <span>Small batch crafted</span>
+        </div>
+      </div>
+      <aside class="gt-hero__card" aria-label="Glow Terra product preview">
+        <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=82" alt="Premium skincare soap with botanicals" loading="eager">
+        <div>
+          <strong>Multi-oil formulas</strong>
+          <span>Crafted with botanical oils, butters, and skin-first ingredients.</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="gt-trust">
+    <span>100% Natural Ingredients</span>
+    <span>Secure Checkout</span>
+    <span>Fast U.S. Shipping</span>
+    <span>Small Batch Crafted</span>
+  </div>
+
+  <section class="gt-section">
+    <div class="gt-heading">
+      <div>
+        <p class="gt-eyebrow">Shop the ritual</p>
+        <h2>Purposeful bars for skin, scalp, and glow.</h2>
+      </div>
+      <a href="{{ collection_url }}">View all products</a>
+    </div>
+    <div class="gt-products">
+      {% assign products = 'turmeric-clarifying-bar|Turmeric Clarifying Bar|Clarifies without a stripped feel.|Sale|https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=82,carrot-glow-bar|Carrot Glow Bar|A gentle daily bar for a healthy-looking glow.|Sale|https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=82,batana-scalp-renewal-bar|Batana Scalp Renewal Bar|A weekly scalp ritual with a clean botanical finish.|Best Seller|https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=900&q=82,glow-collection-bundle|Glow Collection Bundle|The complete Glow Terra routine in one set.|Bundle|https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=82' | split: ',' %}
+      {% for row in products %}
+        {% assign item = row | split: '|' %}
+        {% assign product = all_products[item[0]] %}
+        <article class="gt-product">
+          <a class="gt-product__image" href="{% if product != blank %}{{ product.url }}{% else %}/products/{{ item[0] }}{% endif %}">
+            <span>{{ item[3] }}</span>
+            {% if product != blank and product.featured_image != blank %}
+              {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+            {% else %}
+              <img src="{{ item[4] }}" alt="{{ item[1] }}" loading="lazy">
+            {% endif %}
+          </a>
+          <div class="gt-product__body">
+            <div class="gt-rating">&#9733;&#9733;&#9733;&#9733;&#9733; <small>4.8</small></div>
+            <h3>{% if product != blank %}{{ product.title }}{% else %}{{ item[1] }}{% endif %}</h3>
+            <p>{{ item[2] }}</p>
+            <div class="gt-product__buy">
+              <strong>{% if product != blank %}{{ product.price | money }}{% else %}From $7.99{% endif %}</strong>
+              {% if product != blank and product.selected_or_first_available_variant.available %}
+                {% form 'product', product %}
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <button class="gt-mini-btn" type="submit">Quick Add</button>
+                {% endform %}
+              {% else %}
+                <a class="gt-mini-btn" href="/products/{{ item[0] }}">Quick Add</a>
+              {% endif %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="gt-section gt-why">
+    <div>
+      <p class="gt-eyebrow">Why Glow Terra</p>
+      <h2>Skincare-first soap, built around ingredient density.</h2>
+      <p>Each bar is designed around botanical oils and butters, so the cleansing experience feels intentional, gentle, and elevated.</p>
+    </div>
+    <div class="gt-why__grid">
+      <article><span>01</span><h3>Multi-oil formulations</h3><p>Coconut, olive, castor, shea, jojoba, and targeted botanicals work together.</p></article>
+      <article><span>02</span><h3>Ingredient density</h3><p>The formula keeps the focus on oils, butters, and plant-based actives.</p></article>
+      <article><span>03</span><h3>Fragrance-free focus</h3><p>No artificial fragrance. Just a more comfortable bar for function-first routines.</p></article>
+      <article><span>04</span><h3>Skincare-first philosophy</h3><p>Refined bars created to support daily rituals with a clean, trustworthy feel.</p></article>
+    </div>
+  </section>
+
+  <section class="gt-section gt-center">
+    <p class="gt-eyebrow">Customer feedback</p>
+    <h2>Quiet results customers come back to.</h2>
+    <div class="gt-reviews">
+      <article><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=240&q=80" alt="Customer profile"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>"The Turmeric Bar feels clean and gentle on my skin."</p><strong>Maya R.</strong></article>
+      <article><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=240&q=80" alt="Customer profile"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>"The Batana bar has become part of my weekly routine."</p><strong>Jordan L.</strong></article>
+      <article><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=240&q=80" alt="Customer profile"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>"Simple ingredients, nice lather, and my skin does not feel tight after."</p><strong>Alina P.</strong></article>
+    </div>
+  </section>
+
+  <section class="gt-section">
+    <div class="gt-heading">
+      <div>
+        <p class="gt-eyebrow">Ingredient library</p>
+        <h2>Botanicals chosen for a clean, comfortable ritual.</h2>
+      </div>
+    </div>
+    <div class="gt-ingredients">
+      <article><img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=700&q=80" alt="Turmeric"><h3>Turmeric</h3><p>A classic botanical for a clarified, fresh-feeling finish.</p></article>
+      <article><img src="https://images.unsplash.com/photo-1611078489935-0cb964de46d6?auto=format&fit=crop&w=700&q=80" alt="Botanical oil"><h3>Batana Oil</h3><p>A rich oil used in scalp and hair rituals for a weekly reset.</p></article>
+      <article><img src="https://images.unsplash.com/photo-1447175008436-17017068e8b0?auto=format&fit=crop&w=700&q=80" alt="Carrot extract"><h3>Carrot Extract</h3><p>A glow-supporting botanical that pairs with gentle plant oils.</p></article>
+      <article><img src="https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=700&q=80" alt="Shea butter"><h3>Shea Butter</h3><p>A creamy butter that gives each bar a cushioned feel.</p></article>
+      <article><img src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=700&q=80" alt="Jojoba oil"><h3>Jojoba Oil</h3><p>A lightweight botanical oil selected for a balanced finish.</p></article>
+    </div>
+  </section>
+
+  <section class="gt-sale">
+    <div>
+      <p class="gt-eyebrow">Limited bundle value</p>
+      <h2>Real Ingredients. Real Results.</h2>
+      <p>Build a complete routine with the 3-Bar Bundle for <strong>$19.99</strong>.</p>
+    </div>
+    <a class="gt-btn gt-btn--dark" href="{{ bundle_url }}">Shop 3-Bar Bundle</a>
+  </section>
+
+  <section class="gt-section gt-center">
+    <p class="gt-eyebrow">From the community</p>
+    <h2>Clean counters, real routines, warm light.</h2>
+    <div class="gt-social">
+      <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=80" alt="Skincare products on a vanity" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80" alt="Natural skincare routine" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=80" alt="Soap and botanicals" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=700&q=80" alt="Premium bath routine" loading="lazy">
+    </div>
+  </section>
+
+  <section class="gt-newsletter">
+    <p class="gt-eyebrow">Glow notes</p>
+    <h2>Join The Glow Terra Community</h2>
+    <p>Get early access to restocks, bundles, and ingredient education.</p>
+    {% form 'customer', class: 'gt-newsletter__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="visually-hidden" for="gt-newsletter-email">Email address</label>
+      <input id="gt-newsletter-email" type="email" name="contact[email]" placeholder="Email address" required>
+      <button class="gt-btn gt-btn--dark" type="submit">Sign Up</button>
+    {% endform %}
+  </section>
+</section>
+
+<style>
+  .gt-home{--ink:#241d18;--muted:#6d6258;--line:#e8ded3;--cream:#fbf7f0;--sand:#efe4d7;--moss:#4d5a41;--clay:#9a684d;--white:#fffaf4;background:var(--cream);color:var(--ink);overflow:hidden}.gt-home *{box-sizing:border-box}.gt-home a{text-decoration:none;color:inherit}.gt-eyebrow{margin:0 0 12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);font-weight:700}.gt-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff}.gt-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(.95)}.gt-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(30,22,17,.84),rgba(45,35,28,.58) 46%,rgba(246,230,211,.16)),linear-gradient(0deg,rgba(20,15,12,.45),rgba(20,15,12,.08))}.gt-hero__inner{position:relative;z-index:1;width:min(1180px,calc(100% - 40px));margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:56px;align-items:center;padding:96px 0 74px}.gt-hero h1,.gt-section h2,.gt-sale h2,.gt-newsletter h2{font-family:var(--font-h1--family);font-weight:600;letter-spacing:0;line-height:1}.gt-hero h1{margin:0;font-size:clamp(46px,6vw,78px);max-width:850px;color:#fff}.gt-hero__copy>p:not(.gt-eyebrow){max-width:560px;margin:22px 0 0;font-size:20px;line-height:1.55;color:rgba(255,255,255,.86)}.gt-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}.gt-btn,.gt-mini-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid transparent;min-height:48px;padding:0 22px;font-weight:700;font-size:14px;transition:transform .2s ease,box-shadow .2s ease}.gt-btn:hover,.gt-mini-btn:hover{transform:translateY(-2px)}.gt-btn--dark{background:var(--ink);color:#fff;box-shadow:0 18px 40px rgba(36,29,24,.2)}.gt-btn--light{background:rgba(255,250,244,.14);border-color:rgba(255,255,255,.4);color:#fff;backdrop-filter:blur(10px)}.gt-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.gt-pills span{border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:8px 12px;font-size:13px;color:rgba(255,255,255,.86)}.gt-hero__card{position:relative;border:1px solid rgba(255,255,255,.28);background:rgba(255,250,244,.12);backdrop-filter:blur(14px);padding:14px;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.24)}.gt-hero__card img{aspect-ratio:4/5;object-fit:cover;border-radius:6px}.gt-hero__card div{position:absolute;left:-28px;bottom:34px;width:250px;background:#fffaf4;color:var(--ink);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:16px;box-shadow:0 24px 60px rgba(36,29,24,.18)}.gt-hero__card strong{display:block;margin-bottom:5px}.gt-hero__card span{font-size:13px;color:var(--muted);line-height:1.5}.gt-trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-block:1px solid var(--line)}.gt-trust span{display:flex;align-items:center;justify-content:center;background:var(--white);padding:18px 12px;font-size:14px;font-weight:700}.gt-section{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:88px 0}.gt-heading{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:34px}.gt-heading h2,.gt-why h2{margin:0;font-size:clamp(34px,4vw,54px);max-width:710px}.gt-heading a{font-weight:700;color:var(--moss);border-bottom:1px solid currentColor}.gt-products{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.gt-product,.gt-why article,.gt-reviews article{background:var(--white);border:1px solid rgba(36,29,24,.08);border-radius:8px;box-shadow:0 18px 50px rgba(66,48,34,.08)}.gt-product{overflow:hidden;transition:transform .22s ease,box-shadow .22s ease}.gt-product:hover{transform:translateY(-5px);box-shadow:0 26px 70px rgba(66,48,34,.14)}.gt-product__image{position:relative;display:block;overflow:hidden;background:var(--sand)}.gt-product__image img{aspect-ratio:4/5;object-fit:cover;transition:transform .4s ease}.gt-product:hover .gt-product__image img{transform:scale(1.04)}.gt-product__image span{position:absolute;z-index:1;top:12px;left:12px;background:#fffaf4;color:var(--clay);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.gt-product__body{padding:18px}.gt-rating{color:#a87545;font-size:12px}.gt-rating small{color:var(--muted);font-weight:700}.gt-product h3,.gt-why h3,.gt-ingredients h3{margin:10px 0 6px;font-size:18px;letter-spacing:0}.gt-product p,.gt-why p,.gt-ingredients p,.gt-newsletter p{color:var(--muted);line-height:1.58}.gt-product__buy{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}.gt-product__buy form{margin:0}.gt-mini-btn{min-height:38px;padding:0 14px;background:var(--moss);color:#fff;border:0;font-size:12px;cursor:pointer;white-space:nowrap}.gt-why{display:grid;grid-template-columns:.9fr 1.35fr;gap:44px;align-items:start}.gt-why__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.gt-why article{padding:24px}.gt-why span{color:var(--clay);font-weight:800}.gt-center{text-align:center}.gt-center h2{margin-inline:auto}.gt-reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px;text-align:left}.gt-reviews article{padding:22px}.gt-reviews img{width:58px;height:58px;border-radius:50%;object-fit:cover;margin-bottom:14px}.gt-reviews span{color:#a87545;font-size:12px}.gt-reviews p{line-height:1.55}.gt-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.gt-ingredients article{background:var(--white);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden}.gt-ingredients img{aspect-ratio:1/1;object-fit:cover}.gt-ingredients h3,.gt-ingredients p{padding-inline:16px}.gt-ingredients p{padding-bottom:18px;font-size:14px}.gt-sale{width:min(1180px,calc(100% - 40px));margin:18px auto 0;padding:44px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:linear-gradient(135deg,#312720,#596246),url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-blend-mode:multiply;color:#fff;box-shadow:0 24px 70px rgba(36,29,24,.16)}.gt-sale h2{font-size:clamp(32px,4vw,52px);margin:0}.gt-sale p:not(.gt-eyebrow){font-size:18px;color:rgba(255,255,255,.86)}.gt-sale .gt-eyebrow{color:#ead8c2}.gt-social{display:grid;grid-template-columns:1.1fr .9fr .9fr 1.1fr;gap:12px;margin-top:34px}.gt-social img{height:360px;object-fit:cover;border-radius:8px;box-shadow:0 18px 42px rgba(66,48,34,.1)}.gt-newsletter{width:min(920px,calc(100% - 40px));margin:20px auto 90px;text-align:center;background:var(--white);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:48px;box-shadow:0 18px 50px rgba(66,48,34,.08)}.gt-newsletter h2{margin:0;font-size:clamp(32px,4vw,50px)}.gt-newsletter__form{display:grid;grid-template-columns:1fr auto;gap:10px;margin:28px auto 0;max-width:560px}.gt-newsletter input{min-height:50px;border:1px solid var(--line);border-radius:999px;padding:0 18px;background:#fff;color:var(--ink)}@media(max-width:990px){.gt-hero__inner{grid-template-columns:1fr}.gt-trust{grid-template-columns:repeat(2,1fr)}.gt-products{grid-template-columns:repeat(2,1fr)}.gt-why{grid-template-columns:1fr}.gt-ingredients{grid-template-columns:repeat(3,1fr)}.gt-social{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.gt-hero__inner,.gt-section,.gt-sale,.gt-newsletter{width:calc(100% - 28px)}.gt-hero__inner{padding-top:70px}.gt-hero h1{font-size:42px}.gt-actions{display:grid}.gt-btn{width:100%}.gt-hero__card div{left:16px;right:16px;bottom:16px;width:auto}.gt-trust,.gt-products,.gt-why__grid,.gt-reviews,.gt-ingredients{grid-template-columns:1fr}.gt-section{padding:58px 0}.gt-heading{display:block}.gt-heading a{display:inline-block;margin-top:16px}.gt-sale{display:block;padding:32px 22px}.gt-sale .gt-btn{margin-top:18px}.gt-social{grid-template-columns:1fr 1fr;gap:8px}.gt-social img{height:210px}.gt-newsletter{padding:34px 18px}.gt-newsletter__form{grid-template-columns:1fr}}
+</style>
+
+{% schema %}
+{
+  "name": "Glow Terra Homepage",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Glow Terra Homepage"
+    }
+  ]
+}
+{% endschema %}
