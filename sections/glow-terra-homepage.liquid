@@ -116,7 +116,7 @@
             {% if block.settings.avatar != blank %}
               {{ block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.name }}
             {% else %}
-              <div class="gt-home-review__avatar" aria-hidden="true">{{ block.settings.name | slice: 0 }}</div>
+              <div class="gt-home-review__avatar" aria-hidden="true"><span>{{ block.settings.name | slice: 0 }}</span></div>
             {% endif %}
             <div>
               <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -128,7 +128,7 @@
       {% endfor %}
       {% if rendered_reviews == 0 %}
         <article class="gt-card gt-home-review">
-          <div class="gt-home-review__avatar" aria-hidden="true">M</div>
+          <div class="gt-home-review__avatar" aria-hidden="true"><span>M</span></div>
           <div>
             <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <p>"The Turmeric Bar feels clean and gentle on my skin."</p>
@@ -136,7 +136,7 @@
           </div>
         </article>
         <article class="gt-card gt-home-review">
-          <div class="gt-home-review__avatar" aria-hidden="true">J</div>
+          <div class="gt-home-review__avatar" aria-hidden="true"><span>J</span></div>
           <div>
             <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <p>"The Batana bar has become part of my weekly routine."</p>
@@ -144,7 +144,7 @@
           </div>
         </article>
         <article class="gt-card gt-home-review">
-          <div class="gt-home-review__avatar" aria-hidden="true">A</div>
+          <div class="gt-home-review__avatar" aria-hidden="true"><span>A</span></div>
           <div>
             <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <p>"Simple ingredients, nice lather, and my skin does not feel tight after."</p>
@@ -214,15 +214,26 @@
   </section>
 
   <section class="gt-home-newsletter">
-    <p class="gt-eyebrow">Glow notes</p>
-    <h2 class="gt-title">Join The Glow Terra Community</h2>
-    <p class="gt-copy">Get early access to restocks, bundles, and ingredient education.</p>
-    {% form 'customer', class: 'gt-home-newsletter__form' %}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <label class="visually-hidden" for="gt-newsletter-email">Email address</label>
-      <input class="gt-field" id="gt-newsletter-email" type="email" name="contact[email]" placeholder="Email address" required>
-      <button class="gt-btn gt-btn--dark" type="submit">Sign Up</button>
-    {% endform %}
+    <div class="gt-wrap gt-home-newsletter__inner">
+      <div>
+        <p class="gt-eyebrow">Glow notes</p>
+        <h2 class="gt-title">Join The Glow Terra Community</h2>
+        <p class="gt-copy">Get early access to restocks, bundles, and ingredient education.</p>
+      </div>
+      <div>
+        {% form 'customer', class: 'gt-home-newsletter__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="gt-newsletter-email">Email address</label>
+          <input class="gt-field" id="gt-newsletter-email" type="email" name="contact[email]" placeholder="Email address" required>
+          <button class="gt-btn gt-btn--dark" type="submit">Sign Up</button>
+        {% endform %}
+        <div class="gt-home-newsletter__trust">
+          <span>No spam</span>
+          <span>Restock alerts</span>
+          <span>Bundle updates</span>
+        </div>
+      </div>
+    </div>
   </section>
 </section>
 
@@ -252,6 +263,10 @@
   .gt-home-review:before{content:"";position:absolute;inset:0;border-radius:8px;background:linear-gradient(135deg,rgba(176,138,87,.12),rgba(64,81,63,.05));pointer-events:none}
   .gt-home-review>*{position:relative}
   .gt-home-review img,.gt-home-review__avatar{width:66px;height:66px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#d9c2a4,#f4eadc);color:#40513f;display:grid;place-items:center;font-weight:900;border:2px solid rgba(255,255,255,.9);box-shadow:0 12px 28px rgba(66,48,34,.14)}
+  .gt-home-review__avatar{position:relative;overflow:hidden}
+  .gt-home-review__avatar:before{content:"";position:absolute;top:13px;width:20px;height:20px;border-radius:50%;background:rgba(64,81,63,.35)}
+  .gt-home-review__avatar:after{content:"";position:absolute;bottom:10px;width:38px;height:24px;border-radius:999px 999px 12px 12px;background:rgba(64,81,63,.24)}
+  .gt-home-review__avatar span{position:relative;z-index:1;margin-top:8px;color:#fff;text-shadow:0 1px 5px rgba(33,26,22,.28)}
   .gt-home-review p{margin:8px 0 12px;line-height:1.62;color:var(--gt-ink);font-size:15px}
   .gt-home-review strong{color:#40513f}
   .gt-home-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
@@ -261,10 +276,15 @@
   .gt-home-sale:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(49,39,32,.88),rgba(89,98,70,.82));z-index:0}.gt-home-sale>*{position:relative;z-index:1}.gt-home-sale__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .gt-home-sale h2{font-size:clamp(32px,4vw,52px);color:#fff}.gt-home-sale p:not(.gt-eyebrow){font-size:18px;color:rgba(255,255,255,.86)}.gt-home-sale .gt-eyebrow{color:#ead8c2}
   .gt-home-social{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;text-align:left}.gt-routine-card{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden;box-shadow:0 18px 42px rgba(66,48,34,.1)}.gt-routine-card img,.gt-routine-card svg{width:100%;height:260px;object-fit:cover}.gt-routine-card div{padding:18px}.gt-routine-card h3{margin:0 0 8px;font-size:18px}.gt-routine-card p{margin:0;color:var(--gt-muted);line-height:1.55;font-size:14px}
-  .gt-home-newsletter{width:min(920px,calc(100% - 40px));margin:20px auto 90px;text-align:center;background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:48px;box-shadow:0 18px 50px rgba(66,48,34,.08)}
-  .gt-home-newsletter h2{font-size:clamp(32px,4vw,50px)}.gt-home-newsletter__form{display:grid;grid-template-columns:1fr auto;gap:10px;margin:28px auto 0;max-width:560px}
+  .gt-home-newsletter{margin:10px 0 0;padding:52px 0;background:linear-gradient(135deg,#344b3a,#5d6b48);color:#fff}
+  .gt-home-newsletter__inner{display:grid;grid-template-columns:.95fr 1.05fr;gap:44px;align-items:center}
+  .gt-home-newsletter .gt-eyebrow{color:#e7d3b8}.gt-home-newsletter .gt-copy{max-width:520px;color:rgba(255,255,255,.78)}
+  .gt-home-newsletter h2{font-size:clamp(32px,4vw,50px);color:#fff}
+  .gt-home-newsletter__form{display:grid;grid-template-columns:1fr auto;gap:10px;margin:0}.gt-home-newsletter__form .gt-field{border-color:rgba(255,255,255,.24);background:rgba(255,253,248,.96)}
+  .gt-home-newsletter__form .gt-btn{background:#fffdf8;color:#211a16!important;box-shadow:none}
+  .gt-home-newsletter__trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.gt-home-newsletter__trust span{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:rgba(255,255,255,.82)}
   @media(max-width:990px){.gt-home-hero__inner{grid-template-columns:1fr}.gt-home-products{grid-template-columns:repeat(2,1fr)}.gt-home-trust{grid-template-columns:repeat(2,1fr)}.gt-home-why{grid-template-columns:1fr}.gt-home-ingredients{grid-template-columns:repeat(3,1fr)}.gt-home-social{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:680px){.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-review{grid-template-columns:52px 1fr}.gt-home-review img,.gt-home-review__avatar{width:52px;height:52px}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr;gap:14px}.gt-routine-card img,.gt-routine-card svg{height:220px}.gt-home-newsletter{width:calc(100% - 28px);padding:34px 18px}.gt-home-newsletter__form{grid-template-columns:1fr}}
+  @media(max-width:680px){.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-review{grid-template-columns:52px 1fr}.gt-home-review img,.gt-home-review__avatar{width:52px;height:52px}.gt-home-review__avatar:before{top:10px;width:16px;height:16px}.gt-home-review__avatar:after{bottom:8px;width:30px;height:19px}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr;gap:14px}.gt-routine-card img,.gt-routine-card svg{height:220px}.gt-home-newsletter{padding:38px 0}.gt-home-newsletter__inner{grid-template-columns:1fr;gap:22px}.gt-home-newsletter__form{grid-template-columns:1fr}}
 </style>
 
 {% schema %}
