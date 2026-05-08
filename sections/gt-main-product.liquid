@@ -97,7 +97,22 @@
     </div>
   </div>
 
-  {% if section.settings.show_related and product.collections.first.products.size > 1 %}
+  {% liquid
+    assign related_collection = product.collections.first
+    if related_collection == blank or related_collection.products.size <= 1
+      assign related_collection = collections.all
+    endif
+    assign related_count = 0
+    if related_collection != blank
+      for related_product in related_collection.products limit: 5
+        unless related_product.id == product.id
+          assign related_count = related_count | plus: 1
+        endunless
+      endfor
+    endif
+  %}
+
+  {% if section.settings.show_related and related_count > 0 %}
     <section class="gt-section gt-wrap">
       <div class="gt-heading">
         <div>
@@ -106,7 +121,7 @@
         </div>
       </div>
       <div class="gt-product-related">
-        {% for related_product in product.collections.first.products limit: 4 %}
+        {% for related_product in related_collection.products limit: 5 %}
           {% unless related_product.id == product.id %}
             {% render 'gt-product-card', product: related_product, show_quick_add: true %}
           {% endunless %}
