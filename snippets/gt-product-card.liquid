@@ -1,0 +1,42 @@
+{% liquid
+  assign card_product = product
+  assign show_quick_add = show_quick_add | default: true
+%}
+
+<article class="gt-card gt-product-card">
+  <a class="gt-product-card__image" href="{{ card_product.url }}" aria-label="View {{ card_product.title | escape }}">
+    {% if card_product.compare_at_price > card_product.price %}
+      <span class="gt-badge">Sale</span>
+    {% endif %}
+    {% if card_product.featured_image != blank %}
+      {{ card_product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: card_product.title }}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {% endif %}
+  </a>
+  <div class="gt-product-card__body">
+    <div class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733; <small>4.8</small></div>
+    <h3><a href="{{ card_product.url }}">{{ card_product.title }}</a></h3>
+    {% if card_product.description != blank %}
+      <p>{{ card_product.description | strip_html | truncate: 92 }}</p>
+    {% endif %}
+    <div class="gt-product-card__bottom">
+      <div class="gt-price">
+        {% if card_product.compare_at_price > card_product.price %}
+          <span>{{ card_product.price | money }}</span>
+          <s>{{ card_product.compare_at_price | money }}</s>
+        {% else %}
+          <span>{{ card_product.price | money }}</span>
+        {% endif %}
+      </div>
+      {% if show_quick_add and card_product.selected_or_first_available_variant.available %}
+        {% form 'product', card_product %}
+          <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+          <button class="gt-mini-btn" type="submit">Quick Add</button>
+        {% endform %}
+      {% else %}
+        <a class="gt-mini-btn" href="{{ card_product.url }}">View</a>
+      {% endif %}
+    </div>
+  </div>
+</article>
