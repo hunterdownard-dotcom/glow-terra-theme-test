@@ -22,14 +22,16 @@
 
   <div class="gt-wrap gt-bundle-layout" id="gt-bundle-buy">
     <div class="gt-bundle-gallery">
-      {% if product.media.size > 0 %}
-        {% for media in product.media limit: 4 %}
-          <div>{% render 'media', media: media, sizes: '(min-width: 990px) 50vw, 100vw' %}</div>
+      {% if product.images.size > 0 %}
+        {% for image in product.images limit: 4 %}
+          <div class="gt-bundle-gallery__item">
+            {{ image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: image.alt | default: product.title }}
+          </div>
         {% endfor %}
       {% elsif product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: product.title }}
-      {% else %}
-        {{ 'product-1' | placeholder_svg_tag }}
+        <div class="gt-bundle-gallery__item">{{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: product.title }}</div>
+      {% elsif request.design_mode %}
+        <div class="gt-bundle-placeholder">Add product images</div>
       {% endif %}
     </div>
 
@@ -80,7 +82,7 @@
 
 <style>
   .gt-bundle-hero{position:relative;isolation:isolate;min-height:540px;display:grid;align-items:end;background:#2b241d;color:#fff;overflow:hidden}.gt-bundle-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}.gt-bundle-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(31,24,18,.86),rgba(31,24,18,.48));z-index:-1}.gt-bundle-hero__inner{padding:92px 0 68px}.gt-bundle-hero h1{font-size:clamp(46px,6vw,76px);color:#fff;max-width:760px}.gt-bundle-hero p:not(.gt-eyebrow){max-width:560px;color:rgba(255,255,255,.86);font-size:19px;line-height:1.6}
-  .gt-bundle-layout{display:grid;grid-template-columns:1fr 430px;gap:44px;padding:72px 0}.gt-bundle-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.gt-bundle-gallery>div,.gt-bundle-gallery>img,.gt-bundle-gallery>svg{background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(36,29,24,.08)}.gt-bundle-gallery img,.gt-bundle-gallery video,.gt-bundle-gallery svg{width:100%;display:block}.gt-bundle-buy{padding:34px;align-self:start;position:sticky;top:84px}.gt-bundle-buy h2{font-size:clamp(34px,4vw,52px)}.gt-bundle-list{display:grid;gap:10px;margin:24px 0;padding:0;list-style:none}.gt-bundle-list li{border:1px solid var(--gt-line);border-radius:8px;padding:13px 14px;background:#fff}.gt-bundle-note{margin-top:18px;color:var(--gt-muted);font-size:13px;line-height:1.5}
+  .gt-bundle-layout{display:grid;grid-template-columns:1fr 430px;gap:44px;padding:72px 0}.gt-bundle-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.gt-bundle-gallery__item,.gt-bundle-placeholder{aspect-ratio:1;background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(36,29,24,.08)}.gt-bundle-gallery__item img,.gt-bundle-gallery__item video,.gt-bundle-gallery__item svg,.gt-bundle-gallery__item model-viewer{width:100%;height:100%;display:block;object-fit:cover}.gt-bundle-placeholder{display:grid;place-items:center;background:linear-gradient(135deg,#f7efe5,#e7dbcc);color:var(--gt-muted);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.1em}.gt-bundle-buy{padding:34px;align-self:start;position:sticky;top:84px}.gt-bundle-buy h2{font-size:clamp(34px,4vw,52px)}.gt-bundle-list{display:grid;gap:10px;margin:24px 0;padding:0;list-style:none}.gt-bundle-list li{border:1px solid var(--gt-line);border-radius:8px;padding:13px 14px;background:#fff}.gt-bundle-note{margin-top:18px;color:var(--gt-muted);font-size:13px;line-height:1.5}
   @media(max-width:990px){.gt-bundle-layout{grid-template-columns:1fr}.gt-bundle-buy{position:static}.gt-bundle-gallery{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.gt-bundle-hero{min-height:430px}.gt-bundle-hero__inner{padding:76px 0 46px}.gt-bundle-layout{padding:48px 0}.gt-bundle-gallery{grid-template-columns:1fr}.gt-bundle-buy{padding:22px}}
 </style>
 
@@ -89,7 +91,7 @@
   "name": "Glow Terra Bundle Product",
   "settings": [
     { "type": "textarea", "id": "hero_text", "label": "Hero text", "default": "The complete Glow Terra routine with Turmeric, Carrot, and Batana bars in one simple bundle." },
-    { "type": "textarea", "id": "bundle_text", "label": "Bundle text", "default": "A simple way to try the core Glow Terra ritual while your Shopify bundle app handles inventory syncing behind the scenes." },
+    { "type": "textarea", "id": "bundle_text", "label": "Bundle text", "default": "A simple way to try the core Glow Terra bundle while your Shopify bundle app handles inventory syncing behind the scenes." },
     { "type": "image_picker", "id": "banner_image", "label": "Bundle banner image" }
   ],
   "presets": [{ "name": "Glow Terra Bundle Product" }]
