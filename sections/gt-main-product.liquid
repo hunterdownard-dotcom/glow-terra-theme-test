@@ -1,0 +1,130 @@
+{% render 'gt-premium-styles' %}
+{% render 'gt-bottom-nav' %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<section class="gt-store gt-product-page">
+  <div class="gt-wrap gt-product-layout">
+    <div class="gt-product-media" aria-label="{{ product.title | escape }} media">
+      {% if product.media.size > 0 %}
+        {% for media in product.media %}
+          <div class="gt-product-media__item">
+            {% render 'media', media: media, sizes: '(min-width: 990px) 55vw, 100vw' %}
+          </div>
+        {% endfor %}
+      {% elsif product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', alt: product.title }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {% endif %}
+    </div>
+
+    <div class="gt-product-info">
+      <p class="gt-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="gt-title">{{ product.title }}</h1>
+      <div class="gt-price gt-product-price">
+        {% if product.compare_at_price > product.price %}
+          <span>{{ product.price | money }}</span>
+          <s>{{ product.compare_at_price | money }}</s>
+        {% else %}
+          <span>{{ product.price | money }}</span>
+        {% endif %}
+      </div>
+
+      <div class="gt-product-trust">
+        <span>Secure checkout</span>
+        <span>Fast U.S. shipping</span>
+        <span>Small batch crafted</span>
+      </div>
+
+      {% form 'product', product, class: 'gt-product-form' %}
+        {% unless product.has_only_default_variant %}
+          <label for="gt-product-variant">Choose option</label>
+          <select class="gt-field" id="gt-product-variant" name="id">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }}{% unless variant.available %} - Sold out{% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {% endunless %}
+
+        <label for="gt-product-quantity">Quantity</label>
+        <input class="gt-field" id="gt-product-quantity" type="number" name="quantity" value="1" min="1">
+
+        <button class="gt-btn gt-btn--dark" type="submit" {% unless current_variant.available %}disabled{% endunless %}>
+          {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+        </button>
+      {% endform %}
+
+      {% if product.description != blank %}
+        <div class="gt-product-description rte">{{ product.description }}</div>
+      {% endif %}
+
+      <div class="gt-accordion">
+        <details open>
+          <summary>Ingredient highlights</summary>
+          <p>{{ section.settings.ingredient_text }}</p>
+        </details>
+        <details>
+          <summary>How to use</summary>
+          <p>{{ section.settings.usage_text }}</p>
+        </details>
+        <details>
+          <summary>Shipping and returns</summary>
+          <p>{{ section.settings.shipping_text }}</p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_related and product.collections.first.products.size > 1 %}
+    <section class="gt-section gt-wrap">
+      <div class="gt-heading">
+        <div>
+          <p class="gt-eyebrow">Complete the ritual</p>
+          <h2 class="gt-title">Related products</h2>
+        </div>
+      </div>
+      <div class="gt-product-related">
+        {% for related_product in product.collections.first.products limit: 4 %}
+          {% unless related_product.id == product.id %}
+            {% render 'gt-product-card', product: related_product, show_quick_add: true %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+</section>
+
+<style>
+  .gt-product-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.85fr);gap:54px;padding:56px 0 70px}
+  .gt-product-media{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
+  .gt-product-media__item,.gt-product-media>img,.gt-product-media>svg{background:#efe4d7;border-radius:8px;overflow:hidden;border:1px solid rgba(36,29,24,.08)}
+  .gt-product-media img,.gt-product-media video,.gt-product-media model-viewer,.gt-product-media svg{width:100%;height:auto;display:block}
+  .gt-product-info{position:sticky;top:84px;align-self:start;background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;padding:34px;box-shadow:0 18px 50px rgba(66,48,34,.08)}
+  .gt-product-info h1{font-size:clamp(38px,4vw,58px)}.gt-product-price{margin:18px 0;font-size:20px}.gt-product-trust{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}.gt-product-trust span{border:1px solid var(--gt-line);border-radius:999px;padding:8px 10px;color:var(--gt-muted);font-size:12px;font-weight:700}
+  .gt-product-form{display:grid;gap:12px;margin:0 0 26px}.gt-product-form label{font-weight:800;font-size:13px}.gt-product-form .gt-btn{width:100%;margin-top:8px}
+  .gt-product-description{color:var(--gt-muted);line-height:1.65;margin:24px 0}
+  .gt-product-related{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:990px){.gt-product-layout{grid-template-columns:1fr;gap:24px}.gt-product-info{position:static}.gt-product-related{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:680px){.gt-product-layout{padding:28px 0 48px}.gt-product-media{grid-template-columns:1fr}.gt-product-info{padding:22px}.gt-product-related{grid-template-columns:1fr}}
+</style>
+
+{% schema %}
+{
+  "name": "Glow Terra Product",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Glow Terra skincare" },
+    { "type": "textarea", "id": "ingredient_text", "label": "Ingredient highlight text", "default": "Made with a thoughtful botanical oil base and skin-first ingredients. See product description for the exact formula." },
+    { "type": "textarea", "id": "usage_text", "label": "Usage text", "default": "Lather with water, apply gently, rinse thoroughly, and allow the bar to dry between uses." },
+    { "type": "textarea", "id": "shipping_text", "label": "Shipping and returns text", "default": "Ships from the U.S. Returns and support are handled through Glow Terra customer care." },
+    { "type": "checkbox", "id": "show_related", "label": "Show related products", "default": true }
+  ],
+  "presets": [{ "name": "Glow Terra Product" }]
+}
+{% endschema %}
