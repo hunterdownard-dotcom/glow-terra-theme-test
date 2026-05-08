@@ -1,0 +1,59 @@
+{% render 'gt-premium-styles' %}
+{% render 'gt-bottom-nav' %}
+
+<section class="gt-store gt-contact">
+  <div class="gt-wrap gt-contact-layout">
+    <div class="gt-contact-copy">
+      <p class="gt-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="gt-title">{{ section.settings.heading }}</h1>
+      <p class="gt-copy">{{ section.settings.text }}</p>
+      <div class="gt-contact-details">
+        {% if section.settings.email != blank %}
+          <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+        {% endif %}
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}">Instagram</a>
+        {% endif %}
+        <span>Secure checkout</span>
+        <span>Fast U.S. shipping</span>
+      </div>
+    </div>
+
+    <div class="gt-card gt-contact-card">
+      {% form 'contact', class: 'gt-contact-form' %}
+        {% if form.posted_successfully? %}
+          <p class="gt-contact-message">Thank you. Your message has been sent.</p>
+        {% endif %}
+        {% if form.errors %}
+          <p class="gt-contact-message">Please check the form and try again.</p>
+        {% endif %}
+        <label for="ContactForm-name">Name</label>
+        <input class="gt-field" id="ContactForm-name" type="text" name="contact[name]" autocomplete="name" value="{% if form.name %}{{ form.name }}{% endif %}" required>
+        <label for="ContactForm-email">Email</label>
+        <input class="gt-field" id="ContactForm-email" type="email" name="contact[email]" autocomplete="email" value="{% if form.email %}{{ form.email }}{% endif %}" required>
+        <label for="ContactForm-message">Message</label>
+        <textarea class="gt-field" id="ContactForm-message" name="contact[body]" required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+        <button class="gt-btn gt-btn--dark" type="submit">Send Message</button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gt-contact-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;padding:86px 0}.gt-contact-copy{padding-top:26px}.gt-contact h1{font-size:clamp(44px,6vw,72px)}.gt-contact-copy .gt-copy{max-width:520px}.gt-contact-details{display:grid;gap:10px;margin-top:28px;color:var(--gt-muted);font-weight:700}.gt-contact-details a{color:var(--gt-moss);width:max-content;border-bottom:1px solid currentColor}.gt-contact-card{padding:34px}.gt-contact-form{display:grid;gap:12px}.gt-contact-form label{font-weight:800;font-size:13px}.gt-contact-form .gt-btn{margin-top:8px;width:100%}.gt-contact-message{margin:0 0 10px;color:var(--gt-moss);font-weight:700}
+  @media(max-width:850px){.gt-contact-layout{grid-template-columns:1fr;padding:58px 0}.gt-contact-copy{padding-top:0}.gt-contact-card{padding:22px}}
+</style>
+
+{% schema %}
+{
+  "name": "Glow Terra Contact",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact Glow Terra" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Let us help with your skincare ritual." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Questions about ingredients, orders, or choosing the right bar? Send a note and Glow Terra customer care will help." },
+    { "type": "text", "id": "email", "label": "Email address" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" }
+  ],
+  "presets": [{ "name": "Glow Terra Contact" }]
+}
+{% endschema %}
