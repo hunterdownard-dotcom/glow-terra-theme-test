@@ -1,54 +1,117 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "glow_terra_homepage": {
       "type": "glow-terra-homepage",
-      "settings": {
-        "hero_eyebrow": "Small batch botanical skincare",
-        "hero_heading": "Nature-Driven Skincare That Delivers Real Results",
-        "hero_text": "Luxury handcrafted soap bars powered by multi-oil botanical formulations.",
-        "bundle_product": "glow-collection-bundle"
-      },
       "blocks": {
         "product_turmeric": {
           "type": "featured_product",
-          "settings": { "product": "turmeric-clarifying-bar" }
+          "settings": {
+            "product": "turmeric-clarifying-soap-bar"
+          }
         },
         "product_carrot": {
           "type": "featured_product",
-          "settings": { "product": "carrot-glow-bar" }
+          "settings": {
+            "product": "carrot-revitalizing-soap-bar"
+          }
         },
         "product_batana": {
           "type": "featured_product",
-          "settings": { "product": "batana-scalp-renewal-bar" }
+          "settings": {
+            "product": "batana-scalp-renewal-bar"
+          }
         },
         "product_bundle": {
           "type": "featured_product",
-          "settings": { "product": "glow-collection-bundle" }
+          "settings": {
+            "product": "the-glow-collection-1"
+          }
         },
         "ingredient_turmeric": {
           "type": "ingredient",
-          "settings": { "title": "Turmeric", "text": "A classic botanical for a clarified, fresh-feeling finish." }
+          "settings": {
+            "title": "Turmeric",
+            "text": "A classic botanical for a clarified, fresh-feeling finish.",
+            "image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_54_16_AM.png"
+          }
         },
         "ingredient_batana": {
           "type": "ingredient",
-          "settings": { "title": "Batana Oil", "text": "A rich oil used in scalp and hair rituals for a weekly reset." }
+          "settings": {
+            "title": "Batana Oil",
+            "text": "A rich oil used in scalp and hair rituals for a weekly reset.",
+            "image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_59_45_AM.png"
+          }
         },
         "ingredient_carrot": {
           "type": "ingredient",
-          "settings": { "title": "Carrot Extract", "text": "A glow-supporting botanical that pairs with gentle plant oils." }
+          "settings": {
+            "title": "Carrot Extract",
+            "text": "A glow-supporting botanical that pairs with gentle plant oils.",
+            "image": "shopify://shop_images/ChatGPT_Image_May_8_2026_08_01_33_AM.png"
+          }
         },
         "ingredient_shea": {
           "type": "ingredient",
-          "settings": { "title": "Shea Butter", "text": "A creamy butter that gives each bar a cushioned feel." }
+          "settings": {
+            "title": "Shea Butter",
+            "text": "A creamy butter that gives each bar a cushioned feel.",
+            "image": "shopify://shop_images/ChatGPT_Image_May_8_2026_08_05_06_AM.png"
+          }
         },
         "ingredient_jojoba": {
           "type": "ingredient",
-          "settings": { "title": "Jojoba Oil", "text": "A lightweight botanical oil selected for a balanced finish." }
+          "settings": {
+            "title": "Jojoba Oil",
+            "text": "A lightweight botanical oil selected for a balanced finish.",
+            "image": "shopify://shop_images/ChatGPT_Image_May_8_2026_08_07_33_AM.png"
+          }
         },
-        "social_1": { "type": "social_image", "settings": { "alt": "Glow Terra skincare routine" } },
-        "social_2": { "type": "social_image", "settings": { "alt": "Glow Terra botanical ingredients" } },
-        "social_3": { "type": "social_image", "settings": { "alt": "Glow Terra soap bar" } },
-        "social_4": { "type": "social_image", "settings": { "alt": "Glow Terra bath ritual" } }
+        "social_1": {
+          "type": "social_image",
+          "settings": {
+            "image": "shopify://shop_images/idk.jpg",
+            "title": "Scalp cleanse & massage",
+            "text": "Work into a rich lather and massage gently into the scalp and hair before rinsing thoroughly.",
+            "alt": "Glow Terra skincare routine"
+          }
+        },
+        "social_2": {
+          "type": "social_image",
+          "settings": {
+            "image": "shopify://shop_images/idk_3.jpg",
+            "title": "Refresh & brighten",
+            "text": "Lather with warm water and cleanse gently to leave skin feeling fresh, clean, and balanced.",
+            "alt": "Glow Terra botanical ingredients"
+          }
+        },
+        "social_3": {
+          "type": "social_image",
+          "settings": {
+            "image": "shopify://shop_images/idk_2.jpg",
+            "title": "Daily glow routine",
+            "text": "Use daily with warm water for a smooth, refreshing cleanse with a soft healthy-looking finish.",
+            "alt": "Glow Terra soap bar"
+          }
+        },
+        "social_4": {
+          "type": "social_image",
+          "settings": {
+            "image": "shopify://shop_images/5.jpg",
+            "title": "Simple everyday care",
+            "text": "Crafted for an easy routine — cleanse gently, rinse well, and let your bar dry between uses.",
+            "alt": "Glow Terra bath ritual"
+          }
+        }
       },
       "block_order": [
         "product_turmeric",
@@ -64,7 +127,16 @@
         "social_2",
         "social_3",
         "social_4"
-      ]
+      ],
+      "settings": {
+        "hero_eyebrow": "Small batch botanical skincare",
+        "hero_heading": "Nature-Driven Skincare That Delivers Real Results",
+        "hero_text": "Luxury handcrafted soap bars powered by multi-oil botanical formulations.",
+        "hero_image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_00_21_AM.png",
+        "hero_side_image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_51_45_AM.png",
+        "featured_collection": "",
+        "bundle_product": "glow-collection-bundle"
+      }
     }
   },
   "order": [
