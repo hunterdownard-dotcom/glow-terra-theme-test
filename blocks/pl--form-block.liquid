@@ -1,0 +1,939 @@
+{% comment %}
+  Block: Form Block (PL)
+  Version: 0.5.0
+  Dependencies:
+    Blocks: pl--button, pl--grid, pl--group, pl--input
+    Snippets: 
+    Assets:
+  ===================================================
+  IMPORTANT - PLEASE READ BEFORE MODIFYING THIS FILE
+  ===================================================
+  This is a Pent Library block template.
+  - Please report bugs to support@pentlibrary.com. Include the block ID and version in the email.
+  - Modifying this file may break functionality and changes might be automatically overwritten.
+  - For best practices, visit our docs: https://www.pentlibrary.com/docs
+{% endcomment %}
+
+{% stylesheet %}
+  .pl--form-block {
+    background-color: var(--bg-color);
+    gap: var(--gap);
+
+    padding: var(--pl-padding-top) var(--pl-padding-right) var(--pl-padding-bottom)
+      var(--pl-padding-left);
+
+    border-top: var(--border-top, none);
+    border-bottom: var(--border-bottom, none);
+    border-left: var(--border-left, none);
+    border-right: var(--border-right, none);
+    border-radius: var(--border-radius);
+  }
+
+  .pl--form-block__success {
+    background-color: var(--bg-color-success);
+
+    padding: var(--pl-padding-top-success) var(--pl-padding-right-success)
+      var(--pl-padding-bottom-success) var(--pl-padding-left-success);
+
+    border-top: var(--border-top-success, none);
+    border-bottom: var(--border-bottom-success, none);
+    border-left: var(--border-left-success, none);
+    border-right: var(--border-right-success, none);
+    border-radius: var(--border-radius-success);
+
+    font-family: var(--font-family-success);
+    font-size: var(--font-size-success);
+    color: var(--color-success);
+    text-align: var(--text-alignment-success);
+  }
+
+  @media screen and (max-width: 768px) {
+    .pl--form-block {
+      padding: var(--pl-padding-top-mobile) var(--pl-padding-right-mobile)
+        var(--pl-padding-bottom-mobile) var(--pl-padding-left-mobile) !important;
+      border-radius: var(--border-radius-mobile);
+    }
+
+    .pl--form-block {
+      gap: var(--gap-mobile) !important;
+      justify-content: var(--row-alignment-mobile, center) !important;
+      align-items: var(--column-alignment-mobile, center) !important;
+    }
+
+    .pl--form-block__success {
+      padding: var(--pl-padding-top-mobile-success) var(--pl-padding-right-mobile-success)
+        var(--pl-padding-bottom-mobile-success) var(--pl-padding-left-mobile-success) !important;
+    }
+  }
+{% endstylesheet %}
+
+{% liquid
+  assign border_mode = block.settings.border_mode
+  assign border_mode_success = block.settings.border_mode_success
+  assign font_size_success = block.settings.font_size_success | abs | append: 'px'
+  assign color_success = block.settings.color_success
+  assign text_alignment_success = block.settings.text_alignment_success
+%}
+
+{% unless block.settings.font_success.system? %}
+  <style>
+    {{ block.settings.font_success | font_face: font_display: 'swap' }}
+  </style>
+{% endunless %}
+
+{% comment %} border values for normal state {% endcomment %}
+{% if border_mode != 'none' %}
+  {% liquid
+    assign border_value = block.settings.border_width | append: block.settings.border_width_unit | append: ' ' | append: block.settings.border_style | append: ' ' | append: block.settings.border_color
+  %}
+{% endif %}
+
+{% comment %} border values for success state {% endcomment %}
+{% if border_mode_success != 'none' %}
+  {% liquid
+    assign border_value_success = block.settings.border_width_success | append: block.settings.border_width_unit_success | append: ' ' | append: block.settings.border_style_success | append: ' ' | append: block.settings.border_color_success
+  %}
+{% endif %}
+
+{% assign form_type = block.settings.form_type %}
+
+{% form form_type, style: 'width: 100%' %}
+  {{ form.errors | default_errors }}
+  {% if form.posted_successfully?
+    or request.design_mode
+    and block.settings.form_state == 'success'
+  %}
+    <div
+      {{ block.shopify_attributes }}
+      class="pl--form-block__success"
+      style="
+          --bg-color-success: {{ block.settings.bg_color_success }};
+          --font-family-success: {{ block.settings.font_success.family | remove: '"' }};
+          --font-size-success: {{ font_size_success }};
+          --color-success: {{ color_success }};
+          --text-alignment-success: {{ text_alignment_success }};
+          --border-radius-success: {{ block.settings.border_radius_success | abs | append: 'px' }};
+          --gap: {{ block.settings.gap }}{{ block.settings.gap_unit }};
+          --gap-mobile: {{ block.settings.gap_mobile }}{{ block.settings.gap_unit_mobile }};
+          --column-alignment: {{ block.settings.column_alignment }};
+          --row-alignment: {{ block.settings.row_alignment }};
+          --column-alignment-mobile: {{ block.settings.column_alignment_mobile }};
+          --row-alignment-mobile: {{ block.settings.row_alignment_mobile }};
+          {% if border_mode_success == 'all' %}
+            --border-top-success: {{ border_value_success }};
+            --border-bottom-success: {{ border_value_success }};
+            --border-left-success: {{ border_value_success }};
+            --border-right-success: {{ border_value_success }};
+        {% elsif border_mode_success == 'custom' %}
+          {% if block.settings.border_top_success %}--border-top-success: {{ border_value_success }};{% endif %}
+          {% if block.settings.border_bottom_success %}--border-bottom-success: {{ border_value_success }};{% endif %}
+          {% if block.settings.border_left_success %}--border-left-success: {{ border_value_success }};{% endif %}
+          {% if block.settings.border_right_success %}--border-right-success: {{ border_value_success }};{% endif %}
+        {% endif %}
+         {%- render 'pl--css-var',
+         variableName: 'pl-padding-top-success',
+         baseValue: block.settings.padding_mode_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_top_success,
+         overrideUnit: block.settings.padding_unit_success,
+         defaultValue: block.settings.padding_all_success,
+         defaultValueUnit: block.settings.padding_unit_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right-success',
+         baseValue: block.settings.padding_mode_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_right_success      ,
+         overrideUnit: block.settings.padding_unit_success,
+         defaultValue: block.settings.padding_all_success,
+         defaultValueUnit: block.settings.padding_unit_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom-success',
+         baseValue: block.settings.padding_mode_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_bottom_success,
+         overrideUnit: block.settings.padding_unit_success,
+         defaultValue: block.settings.padding_all_success,
+         defaultValueUnit: block.settings.padding_unit_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left-success',
+         baseValue: block.settings.padding_mode_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_left_success,
+         overrideUnit: block.settings.padding_unit_success,
+         defaultValue: block.settings.padding_all_success ,
+         defaultValueUnit: block.settings.padding_unit_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-top-mobile-success',
+         baseValue: block.settings.padding_mode_mobile_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_top_mobile_success,
+         overrideUnit: block.settings.padding_unit_mobile_success,
+         defaultValue: block.settings.padding_all_mobile_success,
+         defaultValueUnit: block.settings.padding_unit_mobile_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right-mobile-success',
+         baseValue: block.settings.padding_mode_mobile_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_right_mobile_success,
+         overrideUnit: block.settings.padding_unit_mobile_success,
+         defaultValue: block.settings.padding_all_mobile_success,
+         defaultValueUnit: block.settings.padding_unit_mobile_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom-mobile-success',
+         baseValue: block.settings.padding_mode_mobile_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_bottom_mobile_success,
+         overrideUnit: block.settings.padding_unit_mobile_success,
+         defaultValue: block.settings.padding_all_mobile_success,
+         defaultValueUnit: block.settings.padding_unit_mobile_success
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left-mobile-success',
+         baseValue: block.settings.padding_mode_mobile_success,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_left_mobile_success,
+         overrideUnit: block.settings.padding_unit_mobile_success,
+         defaultValue: block.settings.padding_all_mobile_success,
+         defaultValueUnit: block.settings.padding_unit_mobile_success
+        -%}
+      "
+    >
+      <p>{{ block.settings.success_message }}</p>
+    </div>
+  {% else %}
+    <div
+      {{ block.shopify_attributes }}
+      class="pl--form-block"
+      style="
+        display: block;
+        --bg-color: {{ block.settings.bg_color }};
+        --text-color: {{ block.settings.text_color }};
+        --border-radius: {{ block.settings.border_radius | abs | append: 'px' }};
+        --gap: {{ block.settings.gap }}{{ block.settings.gap_unit }};
+        --gap-mobile: {{ block.settings.gap_mobile }}{{ block.settings.gap_unit_mobile }};
+        --column-alignment: {{ block.settings.column_alignment }};
+        --row-alignment: {{ block.settings.row_alignment }};
+        --column-alignment-mobile: {{ block.settings.column_alignment_mobile }};
+        --row-alignment-mobile: {{ block.settings.row_alignment_mobile }};
+        {% comment %} if in design mode and form state is success, hide the form {% endcomment %}
+        {% if request.design_mode and block.settings.form_state == 'success' %}display: none; {%endif%}
+        {% if border_mode == 'all' %}
+          --border-top: {{ border_value }};
+          --border-bottom: {{ border_value }};
+          --border-left: {{ border_value }};
+          --border-right: {{ border_value }};
+        {% elsif border_mode == 'custom' %}
+          {% if block.settings.border_top %}--border-top: {{ border_value }};{% endif %}
+          {% if block.settings.border_bottom %}--border-bottom: {{ border_value }};{% endif %}
+          {% if block.settings.border_left %}--border-left: {{ border_value }};{% endif %}
+          {% if block.settings.border_right %}--border-right: {{ border_value }};{% endif %}
+        {% endif %}
+         {%- render 'pl--css-var',
+         variableName: 'pl-padding-top',
+         baseValue: block.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_top,
+         overrideUnit: block.settings.padding_unit,
+         defaultValue: block.settings.padding_all,
+         defaultValueUnit: block.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right',
+         baseValue: block.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_right,
+         overrideUnit: block.settings.padding_unit,
+         defaultValue: block.settings.padding_all,
+         defaultValueUnit: block.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom',
+         baseValue: block.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_bottom,
+         overrideUnit: block.settings.padding_unit,
+         defaultValue: block.settings.padding_all,
+         defaultValueUnit: block.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left',
+         baseValue: block.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_left,
+         overrideUnit: block.settings.padding_unit,
+         defaultValue: block.settings.padding_all,
+         defaultValueUnit: block.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-top-mobile',
+         baseValue: block.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_top_mobile,
+         overrideUnit: block.settings.padding_unit_mobile,
+         defaultValue: block.settings.padding_all_mobile,
+         defaultValueUnit: block.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right-mobile',
+         baseValue: block.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_right_mobile,
+         overrideUnit: block.settings.padding_unit_mobile,
+         defaultValue: block.settings.padding_all_mobile,
+         defaultValueUnit: block.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom-mobile',
+         baseValue: block.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_bottom_mobile,
+         overrideUnit: block.settings.padding_unit_mobile,
+         defaultValue: block.settings.padding_all_mobile,
+         defaultValueUnit: block.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left-mobile',
+         baseValue: block.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: block.settings.padding_left_mobile,
+         overrideUnit: block.settings.padding_unit_mobile,
+         defaultValue: block.settings.padding_all_mobile,
+         defaultValueUnit: block.settings.padding_unit_mobile
+        -%}
+      "
+    >
+      {% content_for 'blocks' %}
+    </div>
+  {% endif %}
+{% endform %}
+
+{% schema %}
+{
+  "name": "Form Block",
+  "tag": null,
+  "blocks": [
+    { "type": "pl--input" },
+    { "type": "pl--button" },
+    { "type": "pl--group" },
+    { "type": "pl--grid" }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Customize the section to your liking. Need help? Check our [documentation](https://www.pentlibrary.com/docs)."
+    },
+    {
+      "type": "select",
+      "id": "settings_view",
+      "label": "Settings for",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "desktop", "label": "Desktop" },
+        { "value": "mobile", "label": "Mobile" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "header",
+      "content": "🌐 Form Type",
+      "visible_if": "{{ block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "select",
+      "id": "form_type",
+      "label": "Form Type",
+      "options": [
+        { "value": "customer", "label": "Newsletter signup" },
+        { "value": "contact", "label": "Contact form" }
+      ],
+      "default": "customer",
+      "visible_if": "{{ block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "header",
+      "content": "🌐 Form Styles",
+      "visible_if": "{{ block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "select",
+      "id": "form_state",
+      "label": "Form State",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "success", "label": "Success" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "transparent",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_success",
+      "label": "Background Color",
+      "info": "Background color for success state",
+      "default": "#f0f0f0",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "header",
+      "content": "🌐 Font",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_success",
+      "label": "Font",
+      "info": "Font for success state",
+      "default": "inter_n4",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "font_size_success",
+      "label": "Font Size",
+      "info": "Font size for success state",
+      "placeholder": "Enter a value in pixels",
+      "default": 16,
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "color",
+      "id": "color_success",
+      "label": "Color",
+      "info": "Color for success state",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment_success",
+      "label": "Align",
+      "info": "Text alignment for success state",
+      "default": "left",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Thank you for your message!",
+      "info": "This message will be displayed when the form is submitted successfully.",
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "header",
+      "content": "🌐 Border",
+      "visible_if": "{{ block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_mode",
+      "label": "Border",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "custom", "label": "Custom" },
+        { "value": "none", "label": "None" }
+      ],
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_mode_success",
+      "label": "Border",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "custom", "label": "Custom" },
+        { "value": "none", "label": "None" }
+      ],
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose which borders to style",
+      "visible_if": "{{ block.settings.border_mode == 'custom' and block.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_top",
+      "label": "Top border",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_top_success",
+      "label": "Top border",
+      "info": "Border for success state",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode_success == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom",
+      "label": "Bottom border",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom_success",
+      "label": "Bottom border",
+      "info": "Border for success state",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode_success == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_left",
+      "label": "Left border",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_left_success",
+      "label": "Left border",
+      "info": "Border for success state",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode_success == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_right",
+      "label": "Right border",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_right_success",
+      "label": "Right border",
+      "info": "Border for success state",
+      "default": true,
+      "visible_if": "{{ block.settings.border_mode_success == 'custom' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_style",
+      "label": "Style",
+      "options": [
+        { "value": "solid", "label": "─ Solid" },
+        { "value": "dashed", "label": "┄ Dashed" },
+        { "value": "dotted", "label": "⋯ Dotted" }
+      ],
+      "default": "solid",
+      "visible_if": "{{ block.settings.border_mode != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_style_success",
+      "label": "Style",
+      "options": [
+        { "value": "solid", "label": "─ Solid" },
+        { "value": "dashed", "label": "┄ Dashed" },
+        { "value": "dotted", "label": "⋯ Dotted" }
+      ],
+      "default": "solid",
+      "info": "Border for success state",
+      "visible_if": "{{ block.settings.border_mode_success != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Width",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "default": 1,
+      "visible_if": "{{ block.settings.border_mode != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_width_success",
+      "label": "Width",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "info": "Border for success state",
+      "default": 1,
+      "visible_if": "{{ block.settings.border_mode_success != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "select",
+      "id": "border_width_unit",
+      "label": "Width Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.border_mode != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' and block.settings.use_custom_units == true }}"
+    },
+    {
+      "type": "select",
+      "id": "border_width_unit_success",
+      "label": "Width Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.border_mode_success != 'none' and block.settings.use_custom_units == true and block.settings.settings_view == 'all'  }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color",
+      "default": "#999",
+      "visible_if": "{{ block.settings.border_mode != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color_success",
+      "label": "Color",
+      "info": "Border for success state",
+      "default": "#999",
+      "visible_if": "{{ block.settings.border_mode_success != 'none' and block.settings.settings_view == 'all' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 6,
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.border_mode != 'none' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius_success",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "info": "Border for success state",
+      "default": 6,
+      "visible_if": "{{ block.settings.settings_view == 'all' and block.settings.border_mode_success != 'none' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "header",
+      "content": "🖥️ Padding",
+      "visible_if": "{{ block.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode",
+      "label": "Padding Mode",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "all",
+      "visible_if": "{{ block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "default": 0,
+      "visible_if": "{{ block.settings.padding_mode == 'all' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode == 'custom' and block.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit",
+      "label": "Padding Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.use_custom_units == true and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode_success",
+      "label": "Padding Mode",
+      "info": "Padding for success state",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "all",
+      "visible_if": "{{ block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all_success",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "default": 16,
+      "visible_if": "{{ block.settings.padding_mode_success == 'all' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_success",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_success == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_success",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_success == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left_success",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_success == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right_success",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_success == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit_success",
+      "label": "Padding Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.use_custom_units == true and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "header",
+      "content": "📱 Padding",
+      "visible_if": "{{ block.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode_mobile",
+      "label": "Padding Mode",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "all",
+      "visible_if": "{{ block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all_mobile",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "default": 0,
+      "visible_if": "{{ block.settings.padding_mode_mobile == 'all' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode_mobile == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode_mobile == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left_mobile",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode_mobile == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right_mobile",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ block.settings.padding_mode_mobile == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit_mobile",
+      "label": "Padding Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.use_custom_units == true and block.settings.settings_view != 'desktop' and block.settings.form_state == 'normal' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode_mobile_success",
+      "label": "Padding Mode",
+      "info": "Padding for success state",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "all",
+      "visible_if": "{{ block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all_mobile_success",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "default": 16,
+      "visible_if": "{{ block.settings.padding_mode_mobile_success == 'all' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile_success",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_mobile_success == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile_success",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_mobile_success == 'custom' and block.settings.settings_view != 'mobile' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left_mobile_success",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_mobile_success == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right_mobile_success",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "info": "Padding for success state",
+      "visible_if": "{{ block.settings.padding_mode_mobile_success == 'custom' and block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit_mobile_success",
+      "label": "Padding Unit",
+      "info": "Padding for success state",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ block.settings.use_custom_units == true and block.settings.settings_view != 'desktop' and block.settings.form_state == 'success' }}"
+    },
+    {
+      "type": "header",
+      "content": "⚙️ Advanced"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_custom_units",
+      "label": "Use Custom Units",
+      "default": false,
+      "info": "Enable custom units for precise control over spacing and sizing"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Form Block"
+    }
+  ]
+}
+{% endschema %}

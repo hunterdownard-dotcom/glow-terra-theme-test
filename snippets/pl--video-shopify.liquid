@@ -1,0 +1,126 @@
+{% comment %}
+  Renders a Shopify-hosted video
+  
+  Accepts:
+  - video: {Object} The video object
+  - video_id: {String} The video ID
+  - block: {Object} The block object
+  - autoplay: {Boolean} Whether to autoplay the video
+  - loop: {Boolean} Whether to loop the video
+  - mute: {Boolean} Whether to mute the video
+  - controls: {String} The controls type (full, light, none)
+  - full_controls: {Boolean} Whether to show full controls
+  - light_controls: {Boolean} Whether to show light controls
+  - no_controls: {Boolean} Whether to show no controls
+  - thumbnail: {Object} The thumbnail image
+  - is_mobile: {Boolean} Whether this is the mobile version
+{% endcomment %}
+{%  liquid 
+  assign desktop_video_id = video_id | append: '-desktop'
+  assign video_class = '--pl--video'
+  assign controls_class = ''
+  if is_mobile
+    assign desktop_video_id = video_id | append: '-mobile'
+    assign video_class = video_class | append: ' --pl--show-mobile-landscape'
+    assign controls_class = controls_class | append: ' --pl--show-mobile-landscape'
+  elsif block.settings.video_mob or block.settings.video_url_mob
+    assign video_class = video_class | append: ' --pl--hide-mobile-landscape'
+    assign controls_class = controls_class | append: ' --pl--hide-mobile-landscape'
+  endif
+  assign final_alt = block.settings.alt | default: video.alt
+  assign poster_url = thumbnail | image_url | default: video.preview_image | image_url
+  assign play_pause_wrapper_id = 'playPauseWrapper-' | append: block.id
+  if is_mobile
+    assign play_pause_wrapper_id = play_pause_wrapper_id | append: '-mobile'
+  endif
+%}
+
+{% style %}
+{% if autoplay %}
+  #{{ play_pause_wrapper_id }} {
+    opacity: 0%;
+  }
+{% endif %}
+
+{% if no_controls %}
+  #{{ play_pause_wrapper_id }} {
+    opacity: 0%;
+  }
+{% endif %}
+
+#{{ play_pause_wrapper_id }} {
+  transition: opacity 0.1s ease;
+}
+{% endstyle %}
+
+{{ video 
+    | video_tag:
+      autoplay: autoplay,
+      loop: loop,
+      muted: mute,
+      class: video_class,
+      id: desktop_video_id,
+      alt: final_alt,
+      poster: poster_url,
+      controls: full_controls
+}}
+
+{% assign show_thumbnail_play_pause = true %}
+{% if no_controls == true and autoplay == true %}
+  {% assign show_thumbnail_play_pause = false %}
+{% endif %}
+
+{% if show_thumbnail_play_pause %}
+  <div id="{{ play_pause_wrapper_id }}" class="pl--thubmnail-play-pause-wrapper-{{ block.id }}">
+    <div id="wrapperIcon-{{ block.id }}{% if is_mobile %}-mobile{% endif %}" class="pause_background {{ controls_class }}">
+      <div class="thumbnail-svg-wrapper">
+        {{ 'pl--play-icon-solid.svg' | inline_asset_content }}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% if light_controls %}
+  <div class="--pl--light-controls-wrapper" id="light-play-pause-wrapper-{{ block.id }}{% if is_mobile %}-mobile{% endif %}">
+    <a id="playPauseButton-{{ block.id }}{% if is_mobile %}-mobile{% endif %}" class="--pl--light-controls-button {{ controls_class }}">
+      <div class="--pl--svg-wrapper-light-controls">
+        {{ 'pl--pause-icon-solid.svg' | inline_asset_content }}
+      </div>
+    </a>
+  </div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const player = document.getElementById('{{ desktop_video_id }}');
+    const playBtn = document.getElementById('playPauseWrapper-{{ block.id }}{% if is_mobile %}-mobile{% endif %}');
+    const lightBtn = document.getElementById('light-play-pause-wrapper-{{ block.id }}{% if is_mobile %}-mobile{% endif %}');
+    let isPlaying = {{ autoplay }};
+    
+    if (!isPlaying && {{ light_controls }} && lightBtn)
+    // Handle light controls click
+    if({{ light_controls }} && lightBtn) {
+        lightBtn.style.opacity = isPlaying ? '100%' : '0%';
+        lightBtn.addEventListener('click', function() {
+            isPlaying ? player.pause() : player.play();
+            isPlaying = !isPlaying;
+            lightBtn.style.opacity = isPlaying ? '100%' : '0%';
+        });
+    }
+    
+    // Handle video click
+    player?.addEventListener('click', function() {
+      if (!isPlaying && {{ light_controls }} && lightBtn) {
+        player.play();
+        isPlaying = true;
+        lightBtn.style.opacity = '100%';
+      }
+    });
+    
+    // Handle play/pause events
+    if (playBtn) {
+      player.addEventListener('pause', () => playBtn.style.opacity = '100%');
+      player.addEventListener('play', () => playBtn.style.opacity = '0%');
+    }
+  });
+</script>

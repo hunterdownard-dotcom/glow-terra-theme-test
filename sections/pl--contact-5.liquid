@@ -1,0 +1,637 @@
+{% comment %}
+  Section: contact 5
+  Version: 0.5.0
+  Dependencies:
+    Blocks: pl--form-block, pl--grid, pl--group, pl--heading, pl--input, pl--submit-button, pl--text, pl--video
+    Snippets: pl--video-shopify, pl--video-vimeo, pl--video-youtube
+    Assets: pl--video-placeholder-landscape.png
+  ===================================================
+  IMPORTANT - PLEASE READ BEFORE MODIFYING THIS FILE
+  ===================================================
+  This is a Pent Library section template.
+  - Please report bugs to support@pentlibrary.com. Include the section ID and version in the email.
+  - Modifying this file may break functionality and changes might be automatically overwritten.
+  - For best practices, visit our docs: https://www.pentlibrary.com/docs
+{% endcomment %}
+
+{% stylesheet %}
+  .pl--section-wrapper {
+    letter-spacing: 0;
+  }
+
+  .pl--contact-5__bg {
+    background-color: var(--bg-color, transparent);
+    grid-column: 1 / -1;
+  }
+
+  .pl--contact-5__page-width {
+    max-width: var(--max-width, none);
+  }
+
+  /* Mobile-first: Base styles are for mobile */
+  .pl--contact-5__inline-padding {
+    padding-left: var(--pl-padding-left);
+    padding-right: var(--pl-padding-right);
+  }
+
+  .pl--contact-5__container {
+    max-width: var(--max-width, none);
+  }
+
+  .pl--contact-5__custom-padding {
+    padding-top: var(--pl-padding-top);
+    padding-bottom: var(--pl-padding-bottom);
+  }
+
+  .pl--contact-5__grid {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-column-gap: var(--gap, 0);
+    grid-row-gap: var(--gap, 0);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    align-items: center;
+  }
+
+  /* Tablet and down: Override desktop styles */
+  @media screen and (max-width: 768px) {
+    .pl--contact-5__inline-padding {
+      padding-left: var(--pl-padding-left-mobile);
+      padding-right: var(--pl-padding-right-mobile);
+    }
+
+    .pl--contact-5__custom-padding {
+      padding-top: var(--pl-padding-top-mobile);
+      padding-bottom: var(--pl-padding-bottom-mobile);
+    }
+
+    .pl--contact-5__grid {
+      grid-column-gap: var(--gap-mobile, 0);
+      grid-row-gap: var(--gap-mobile, 0);
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Legacy support for existing preset classes */
+  .--pl--contact-5-padding-left-group {
+    padding-left: 5vw !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    .--pl--contact-5-padding-left-group {
+      padding-left: 5% !important;
+      padding-right: 5% !important;
+    }
+  }
+{% endstylesheet %}
+
+<div
+  class="--pl--section-wrapper pl--contact-5__bg"
+  style="
+    --bg-color: {{ section.settings.bg_color }};
+    --max-width: {{ section.settings.max_width }}{{ section.settings.max_width_unit }};
+    --gap: {{ section.settings.gap }}{{ section.settings.gap_unit }};
+    --gap-mobile: {{ section.settings.gap_mob }}{{ section.settings.gap_unit_mobile }};
+    {%- render 'pl--css-var',
+         variableName: 'pl-padding-top',
+         baseValue: section.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_top,
+         overrideUnit: section.settings.padding_unit,
+         defaultValue: section.settings.padding_all,
+         defaultValueUnit: section.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right',
+         baseValue: section.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_right,
+         overrideUnit: section.settings.padding_unit,
+         defaultValue: section.settings.padding_all,
+         defaultValueUnit: section.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom',
+         baseValue: section.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_bottom,
+         overrideUnit: section.settings.padding_unit,
+         defaultValue: section.settings.padding_all,
+         defaultValueUnit: section.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left',
+         baseValue: section.settings.padding_mode,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_left,
+         overrideUnit: section.settings.padding_unit,
+         defaultValue: section.settings.padding_all,
+         defaultValueUnit: section.settings.padding_unit
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-top-mobile',
+         baseValue: section.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_top_mobile,
+         overrideUnit: section.settings.padding_unit_mobile,
+         defaultValue: section.settings.padding_all_mobile,
+         defaultValueUnit: section.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-right-mobile',
+         baseValue: section.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_right_mobile,
+         overrideUnit: section.settings.padding_unit_mobile,
+         defaultValue: section.settings.padding_all_mobile,
+         defaultValueUnit: section.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-bottom-mobile',
+         baseValue: section.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_bottom_mobile,
+         overrideUnit: section.settings.padding_unit_mobile,
+         defaultValue: section.settings.padding_all_mobile,
+         defaultValueUnit: section.settings.padding_unit_mobile
+        -%}
+        {%- render 'pl--css-var',
+         variableName: 'pl-padding-left-mobile',
+         baseValue: section.settings.padding_mode_mobile,
+         overrideTrigger: 'custom',
+         overrideValue: section.settings.padding_left_mobile,
+         overrideUnit: section.settings.padding_unit_mobile,
+         defaultValue: section.settings.padding_all_mobile,
+         defaultValueUnit: section.settings.padding_unit_mobile
+        -%}
+  "
+>
+  <div class="--pl--page-width-global">
+    <div class="pl--contact-5__inline-padding">
+      <div class="pl--contact-5__container">
+        <div class="pl--contact-5__custom-padding">
+          <div class="pl--contact-5__grid">
+            {% content_for 'blocks' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact",
+  "tag": "section",
+  "class": "pl--section-wrapper",
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Customize the section to your liking. Need help? Check our [documentation](https://www.pentlibrary.com/docs)."
+    },
+    {
+      "type": "select",
+      "id": "settings_view",
+      "label": "Settings for",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "desktop", "label": "Desktop" },
+        { "value": "mobile", "label": "Mobile" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "header",
+      "content": "🌐 Background",
+      "visible_if": "{{ section.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": " Background Color",
+      "visible_if": "{{ section.settings.settings_view == 'all' }}"
+    },
+    {
+      "type": "header",
+      "content": "🖥️ Layout",
+      "visible_if": "{{ section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Max Width",
+      "placeholder": "Enter a value in pixels",
+      "visible_if": "{{ section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "select",
+      "id": "max_width_unit",
+      "label": "Max Width Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" }
+      ],
+      "default": "px",
+      "visible_if": "{{ section.settings.use_custom_units == true and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "gap",
+      "label": "Column Gap ↔",
+      "placeholder": "Enter a value in pixels",
+      "visible_if": "{{ section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "select",
+      "id": "gap_unit",
+      "label": "Gap Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ section.settings.use_custom_units == true and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "header",
+      "content": "🖥️ Padding",
+      "visible_if": "{{ section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode",
+      "label": "Padding Mode",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "custom",
+      "visible_if": "{{ section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "default": 64,
+      "visible_if": "{{ section.settings.padding_mode == 'all' and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode == 'custom' and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode == 'custom' and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode == 'custom' and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode == 'custom' and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit",
+      "label": "Padding Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ section.settings.use_custom_units == true and section.settings.settings_view != 'mobile' }}"
+    },
+    {
+      "type": "header",
+      "content": "📱 Layout",
+      "visible_if": "{{ section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "gap_mob",
+      "label": "Row Gap ↕",
+      "placeholder": "Enter a value in pixels",
+      "visible_if": "{{ section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "select",
+      "id": "gap_unit_mobile",
+      "label": "Gap Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ section.settings.use_custom_units == true and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "header",
+      "content": "📱 Padding",
+      "visible_if": "{{ section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_mode_mobile",
+      "label": "Padding Mode",
+      "options": [
+        { "value": "all", "label": "All sides" },
+        { "value": "custom", "label": "Custom sides" }
+      ],
+      "default": "custom",
+      "visible_if": "{{ section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_all_mobile",
+      "label": "All Sides",
+      "placeholder": "Enter a value",
+      "default": 32,
+      "visible_if": "{{ section.settings.padding_mode_mobile == 'all' and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Top",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode_mobile == 'custom' and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode_mobile == 'custom' and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_left_mobile",
+      "label": "Left",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode_mobile == 'custom' and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "number",
+      "id": "padding_right_mobile",
+      "label": "Right",
+      "placeholder": "Enter a value",
+      "visible_if": "{{ section.settings.padding_mode_mobile == 'custom' and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "select",
+      "id": "padding_unit_mobile",
+      "label": "Padding Unit",
+      "options": [
+        { "value": "px", "label": "px" },
+        { "value": "rem", "label": "rem" },
+        { "value": "em", "label": "em" },
+        { "value": "%", "label": "%" },
+        { "value": "ch", "label": "ch" },
+        { "value": "vw", "label": "vw" },
+        { "value": "vh", "label": "vh" },
+        { "value": "svh", "label": "svh" },
+        { "value": "svw", "label": "svw" }
+      ],
+      "default": "px",
+      "visible_if": "{{ section.settings.use_custom_units == true and section.settings.settings_view != 'desktop' }}"
+    },
+    {
+      "type": "header",
+      "content": "⚙️ Advanced"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_custom_units",
+      "label": "Use Custom Units",
+      "default": false,
+      "info": "Enable custom units for precise control over spacing and sizing"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Class",
+      "info": "For developers: Add space-separated CSS classes. See our [docs](https://www.pentlibrary.com/docs) for available classes."
+    },
+    {
+      "type": "paragraph",
+      "content": "contact 5 (v.0.5.0)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "contact 5 (PL)",
+      "category": "Contact (PL)",
+      "settings": {
+        "gap_mob": 32,
+        "padding_mode": "all",
+        "padding_all": 0,
+        "padding_mode_mobile": "all",
+        "padding_all_mobile": 0
+      },
+      "blocks": [
+        {
+          "type": "pl--group",
+          "settings": {
+            "gap": 24,
+            "gap_mob": 16,
+            "padding_right": 64,
+            "padding_left": 64,
+            "padding_top_mob": 64,
+            "padding_bottom_mob": 32,
+            "padding_left_mob": 32,
+            "padding_right_mob": 32,
+            "flex_wrap": "nowrap",
+            "flex_wrap_mob": "nowrap",
+            "height": "100%",
+            "flex_direction": "column",
+            "flex_direction_mob": "column",
+            "align_items": "flex-start",
+            "align_items_mob": "flex-start",
+            "justify_content": "center",
+            "justify_content_mob": "flex-start",
+            "justify_self": "flex-end"
+          },
+          "blocks": [
+            {
+              "type": "pl--text",
+              "settings": {
+                "text": "<p>Tagline</p>",
+                "font_size": 16,
+                "font": "inter_n6",
+                "custom_class": "-pl-mb-n2"
+              }
+            },
+            {
+              "type": "pl--heading",
+              "settings": {
+                "tag": "h2",
+                "text_alignment": "left",
+                "heading_variant": "xlarge"
+              }
+            },
+            {
+              "type": "pl--text",
+              "settings": {
+                "text": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>",
+                "text_variant": "regular"
+              }
+            },
+            {
+              "type": "pl--form-block",
+              "settings": {
+                "form_state": "normal",
+                "padding_top_success": 16,
+                "padding_bottom_success": 16,
+                "padding_left_success": 16,
+                "padding_right_success": 16,
+                "border_mode": "none",
+                "border_mode_success": "none",
+                "text_alignment_success": "center",
+                "form_type": "contact"
+              },
+              "blocks": [
+                {
+                  "type": "pl--grid",
+                  "settings": {
+                    "grid_columns": 1,
+                    "grid_columns_mobile": 1,
+                    "grid_rows": 1,
+                    "grid_auto_flow": "row",
+                    "grid_auto_flow_mobile": "row",
+                    "gap_vertical": 16,
+                    "gap_horizontal": 16,
+                    "gap_vertical_mobile": 16,
+                    "gap_horizontal_mobile": 16,
+                    "grid_template_columns": "auto"
+                  },
+                  "blocks": [
+                    {
+                      "type": "pl--input",
+                      "settings": {
+                        "placeholder": "Name",
+                        "input_type": "text",
+                        "label": "",
+                        "padding_top": 8,
+                        "padding_bottom": 8,
+                        "padding_left": 8,
+                        "padding_right": 8,
+                        "padding_top_mobile": 8,
+                        "padding_bottom_mobile": 8,
+                        "padding_left_mobile": 8,
+                        "padding_right_mobile": 8,
+                        "border_mode": "all",
+                        "border_width": 1,
+                        "border_width_unit": "px",
+                        "border_style": "solid",
+                        "border_color": "#999"
+                      }
+                    },
+                    {
+                      "type": "pl--input",
+                      "settings": {
+                        "placeholder": "Email",
+                        "input_type": "email",
+                        "label": "",
+                        "padding_top": 8,
+                        "padding_bottom": 8,
+                        "padding_left": 8,
+                        "padding_right": 8,
+                        "padding_top_mobile": 8,
+                        "padding_bottom_mobile": 8,
+                        "padding_left_mobile": 8,
+                        "padding_right_mobile": 8,
+                        "border_mode": "all",
+                        "border_width": 1,
+                        "border_width_unit": "px",
+                        "border_style": "solid",
+                        "border_color": "#999"
+                      }
+                    },
+                    {
+                      "type": "pl--input",
+                      "settings": {
+                        "placeholder": "Your message here...",
+                        "input_type": "text",
+                        "input_style": "textarea",
+                        "label": "",
+                        "padding_top": 8,
+                        "padding_bottom": 8,
+                        "padding_left": 8,
+                        "padding_right": 8,
+                        "padding_top_mobile": 8,
+                        "padding_bottom_mobile": 8,
+                        "padding_left_mobile": 8,
+                        "padding_right_mobile": 8,
+                        "border_mode": "all",
+                        "border_width": 1,
+                        "border_width_unit": "px",
+                        "border_style": "solid",
+                        "border_color": "#999"
+                      }
+                    },
+                    {
+                      "type": "pl--submit-button",
+                      "settings": {
+                        "label": "Send message"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "pl--video",
+          "settings": {
+            "aspect_ratio": "3/4",
+            "aspect_ratio_mob": "3/4",
+            "border_radius": 0,
+            "border_radius_mob": 0,
+            "placeholder": "pl--video-placeholder-portrait.png"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

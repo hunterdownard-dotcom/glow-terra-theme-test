@@ -1,0 +1,535 @@
+{% liquid 
+  assign video_id = block.settings.video.id | default: block.settings.video_url.id
+  assign video_id_mob = block.settings.video_mob.id | default: block.settings.video_url_mob.id
+  
+  # Set up control variables
+  assign full_controls = false
+  if block.settings.controls == 'full'
+    assign full_controls = true
+  endif
+  assign light_controls = false
+  if block.settings.controls == 'light'
+    assign light_controls = true
+  endif
+  assign no_controls = false
+  if block.settings.controls == 'none'
+    assign no_controls = true
+  endif
+
+  assign full_controls_mob = false
+  if block.settings.controls_mob == 'full'
+    assign full_controls_mob = true
+  endif
+  assign light_controls_mob = false
+  if block.settings.controls_mob == 'light'
+    assign light_controls_mob = true
+  endif
+  assign no_controls_mob = false
+  if block.settings.controls_mob == 'none'
+    assign no_controls_mob = true
+  endif
+  
+%}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Cache elements and HTML
+    const container = document.getElementById('{{ video_id }}-container');
+    const desktopPlayer = document.getElementById('{{ video_id }}-desktop');
+    const mobilePlayer = document.getElementById('{{ video_id_mob }}-mobile');
+    
+    // Handle responsive video display
+    function handleResponsiveVideo() {
+      const isMobile = window.innerWidth < 749;
+      
+      if (isMobile) {
+        desktopPlayer.pause();
+        if ({{ block.settings.autoplay_mob }}) {
+          mobilePlayer.play();
+        }
+      } else {
+        mobilePlayer.pause();
+        if ({{ block.settings.autoplay }}) {
+          desktopPlayer.play();
+        }
+      }
+    }
+    
+    // Initial setup and resize listener with debouncing
+    handleResponsiveVideo();
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleResponsiveVideo, 150);
+    });
+});
+</script>
+
+{%  style %} 
+.pl--video-container-{{ block.id }} {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: {{ block.settings.aspect_ratio | replace: 'fill', 'auto' }};
+  {% if block.settings.aspect_ratio == 'fill' %}
+    height: 100%;
+    width: 100%;
+  {% endif %}
+
+  border-radius: {{ block.settings.border_radius | abs | append: 'px' }};
+}
+
+.pl--thubmnail-play-pause-wrapper-{{ block.id }} {
+  position: absolute;
+  z-index: 2;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.pl--video-overlay-{{ block.id }} {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 1);
+  pointer-events: none;
+  display: block !important;
+  z-index: 2;
+
+  opacity: {{ block.settings.overlay | abs | append: '%' }};
+}
+
+@media (max-width: 768px) {
+  .pl--video-overlay-{{ block.id }} {
+    {% if block.settings.video or block.settings.video_url %}
+      opacity: {{ block.settings.overlay_mob | abs | append: '%' }};
+    {% endif %}
+  }
+
+  .pl--video-container-{{ block.id }} {
+    aspect-ratio: {{ block.settings.aspect_ratio_mob | replace: 'fill', 'auto' }};
+    {% if block.settings.aspect_ratio_mob == 'fill' %}
+      height: 100%;
+    width: 100%;
+  {% endif %}
+
+    border-radius: {{ block.settings.border_radius_mob | abs | append: 'px' }};
+  }
+}
+
+{% endstyle %}
+
+<div class="pl--video-container-{{ block.id }}" {{ block.shopify_attributes }} id="{{ video_id }}-container">
+  <!-- Overlay -->
+  <div class="pl--video-overlay-{{ block.id }}" id="pl--video-overlay-{{ block.id }}"></div>
+
+  <!-- Desktop Video -->
+  {% if block.settings.video %}
+    {% render 'pl--video-shopify', 
+      video: block.settings.video,
+      video_mob: block.settings.video_mob,
+      video_id: video_id,
+      block: block,
+      autoplay: block.settings.autoplay,
+      loop: block.settings.loop,
+      mute: block.settings.mute,
+      controls: block.settings.controls,
+      full_controls: full_controls,
+      light_controls: light_controls,
+      no_controls: no_controls,
+      thumbnail: block.settings.thumbnail,
+      is_mobile: false
+    %}
+  {% elsif block.settings.video_url %}
+    {% if block.settings.video_url.type == 'youtube' %}
+      {% render 'pl--video-youtube',
+        video_id: video_id,
+        block: block,
+        autoplay: block.settings.autoplay,
+        loop: block.settings.loop,
+        mute: block.settings.mute,
+        full_controls: full_controls,
+        light_controls: light_controls,
+        no_controls: no_controls,
+        thumbnail: block.settings.thumbnail,
+        is_mobile: false
+      %}
+    {% else %}
+      {% render 'pl--video-vimeo',
+        video_id: video_id,
+        block: block,
+        autoplay: block.settings.autoplay,
+        loop: block.settings.loop,
+        mute: block.settings.mute,
+        full_controls: full_controls,
+        light_controls: light_controls,
+        no_controls: no_controls,
+        thumbnail: block.settings.thumbnail,
+        is_mobile: false,
+      %}
+    {% endif %}
+  {% else %}
+    <img src="{{ 'pl--video-placeholder-landscape.png' | asset_url }}" alt="Placeholder video" loading="lazy" width="100%" height="100%" class="--pl--video --pl--hide-mobile-landscape">
+  {% endif %}
+
+  <!-- Mobile Video -->
+  {% if block.settings.video_mob %}
+    {% render 'pl--video-shopify', 
+      video: block.settings.video_mob,
+      video_mob: block.settings.video_mob,
+      video_id: video_id_mob,
+      block: block,
+      autoplay: block.settings.autoplay_mob,
+      loop: block.settings.loop_mob,
+      mute: block.settings.mute_mob,
+      controls: block.settings.controls_mob,
+      full_controls: full_controls_mob,
+      light_controls: light_controls_mob,
+      no_controls: no_controls_mob,
+      thumbnail: block.settings.thumbnail_mob,
+      is_mobile: true
+    %}
+  {% elsif block.settings.video_url_mob %}
+    {% if block.settings.video_url_mob.type == 'youtube' %}
+      {% render 'pl--video-youtube',
+        video_id: video_id_mob,
+        block: block,
+        autoplay: block.settings.autoplay_mob,
+        loop: block.settings.loop_mob,
+        mute: block.settings.mute_mob,
+        full_controls: full_controls_mob,
+        light_controls: light_controls_mob,
+        no_controls: no_controls_mob,
+        thumbnail: block.settings.thumbnail_mob,
+        is_mobile: true
+      %}
+    {% else %}
+      {% render 'pl--video-vimeo',
+        video_id: video_id_mob,
+        block: block,
+        autoplay: block.settings.autoplay_mob,
+        loop: block.settings.loop_mob,
+        mute: block.settings.mute_mob,
+        full_controls: full_controls_mob,
+        light_controls: light_controls_mob,
+        no_controls: no_controls_mob,
+        thumbnail: block.settings.thumbnail_mob,
+        is_mobile: true
+      %}
+    {% endif %}
+  {% elsif block.settings.video == blank and block.settings.video_url == blank %}
+    <img src="{{ 'pl--video-placeholder-landscape.png' | asset_url }}" alt="Placeholder video" loading="lazy" width="100%" height="100%" class="--pl--video --pl--show-mobile-landscape">
+  {% endif %}
+</div>
+
+
+{% schema %}
+  {
+    "name": "Video",
+    "tag": null,
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Customize the video to your liking. Need help? Check our [documentation](https://www.pentlibrary.com/docs)."
+      },
+      {
+        "type": "header",
+        "content": "Video Source"
+      },
+      {
+        "type": "video",
+        "id": "video",
+        "label": "Video",
+        "info": "(Shopify-hosted)"
+      },
+      {
+        "type": "header",
+        "content": "Or Video URL",
+        "info": "Only used when no Shopify video is selected above."
+      },
+      {
+        "type": "video_url",
+        "id": "video_url",
+        "label": "Video URL",
+        "accept": [
+          "youtube",
+          "vimeo"
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Thumbnail & Controls"
+      },
+      {
+        "type": "image_picker",
+        "id": "thumbnail",
+        "label": "Thumbnail"
+      },
+      {
+        "type": "select",
+        "id": "controls",
+        "label": "Controls",
+        "default": "full",
+        "options": [
+          {
+            "label": "Full",
+            "value": "full"
+          },
+          {
+            "label": "Light",
+            "value": "light"
+          },
+          {
+            "label": "None",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Video Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Autoplay",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "loop",
+        "label": "Loop",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "mute",
+        "label": "Muted",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "select",
+        "id": "aspect_ratio",
+        "label": "Aspect Ratio",
+        "default": "fill",
+        "options": [
+          {
+            "label": "1:1 (Square)",
+            "value": "1/1"
+          },
+          {
+            "label": "4:3 (Classic)",
+            "value": "4/3"
+          },
+          {
+            "label": "3:4 (Portrait)",
+            "value": "3/4"
+          },
+          {
+            "label": "16:9 (Widescreen)",
+            "value": "16/9"
+          },
+          {
+            "label": "9:16 (Reels)",
+            "value": "9/16"
+          },
+          {
+            "label": "Fill Container",
+            "value": "fill"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "border_radius",
+        "label": "Corner Radius",
+        "default": 16,
+        "unit": "px",
+        "max": 100,
+        "min": 0,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "overlay",
+        "label": "Overlay Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "header",
+        "content": "📱 Mobile"
+      },
+      {
+        "type": "video",
+        "id": "video_mob",
+        "label": "Video"
+      },
+      {
+        "type": "header",
+        "content": "Or Video URL",
+        "info": "Only used when no Shopify video is selected above."
+      },
+      {
+        "type": "video_url",
+        "id": "video_url_mob",
+        "label": "Video URL",
+        "accept": [
+          "youtube",
+          "vimeo"
+        ]
+      },
+      {
+        "type": "header",
+        "content": "📱 Thumbnail & Controls"
+      },
+      {
+        "type": "image_picker",
+        "id": "thumbnail_mob",
+        "label": "Thumbnail"
+      },
+      {
+        "type": "select",
+        "id": "controls_mob",
+        "label": "Controls",
+        "default": "full",
+        "options": [
+          {
+            "label": "Full",
+            "value": "full"
+          },
+          {
+            "label": "Light",
+            "value": "light"
+          },
+          {
+            "label": "None",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "📱 Video Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay_mob",
+        "label": "Autoplay",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "loop_mob",
+        "label": "Loop",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "mute_mob",
+        "label": "Mute",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "📱 Style"
+      },
+      {
+        "type": "select",
+        "id": "aspect_ratio_mob",
+        "label": "Aspect Ratio",
+        "default": "fill",
+        "options": [
+          {
+            "label": "1:1 (Square)",
+            "value": "1/1"
+          },
+          {
+            "label": "4:3 (Classic)",
+            "value": "4/3"
+          },
+          {
+            "label": "3:4 (Portrait)",
+            "value": "3/4"
+          },
+          {
+            "label": "16:9 (Widescreen)",
+            "value": "16/9"
+          },
+          {
+            "label": "9:16 (Reels)",
+            "value": "9/16"
+          },
+          {
+            "label": "Fill Container",
+            "value": "fill"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "border_radius_mob",
+        "label": "Corner Radius",
+        "default": 16,
+        "unit": "px",
+        "max": 100,
+        "min": 0,
+        "step": 1
+      },
+      {
+        "type": "range",
+        "id": "overlay_mob",
+        "label": "Overlay Opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0,
+        "unit": "%"
+      },
+      {
+        "type": "header",
+        "content": "⚙️ Advanced"
+      },
+      {
+        "type": "text",
+        "id": "placeholder",
+        "label": "Placeholder",
+        "placeholder": "Default setting"
+      },
+      {
+        "type": "text",
+        "id": "alt",
+        "label": "Alt Text",
+        "placeholder": "Stainless steel water bottle with matte black finish"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "Class",
+        "info": "For developers: Add space-separated CSS classes. See our [docs](https://www.pentlibrary.com/docs) for available classes."
+      },
+      {
+        "type": "paragraph",
+        "content": "video block (v.1.0.0)"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Video (PL)"
+      }
+    ]
+  }
+{% endschema %}

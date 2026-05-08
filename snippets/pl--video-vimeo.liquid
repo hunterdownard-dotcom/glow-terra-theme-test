@@ -1,0 +1,180 @@
+{% comment %}
+  Renders a Vimeo video
+  
+  Accepts:
+  - video_id: {String} The Vimeo video ID
+  - block: {Object} The block object
+  - autoplay: {Boolean} Whether to autoplay the video
+  - loop: {Boolean} Whether to loop the video
+  - mute: {Boolean} Whether to mute the video
+  - thumbnail: {Object} The thumbnail image
+  - is_mobile: {Boolean} Whether this is the mobile version
+  - no_controls: {Boolean} Whether to show no controls
+  - light_controls: {Boolean} Whether to show light controls
+  - full_controls: {Boolean} Whether to show full controls
+{% endcomment %}
+
+{%  liquid 
+    assign vimeo_controls = 'background=1'
+    if full_controls
+      assign vimeo_controls = 'controls=1'
+    elsif light_controls
+      assign vimeo_controls = 'controls=1&title=0&byline=0&portrait=0'
+    endif
+
+    
+%}
+
+{% assign desktop_video_id = video_id | append: '-desktop' %}
+{% assign video_class = '--pl--video' %}
+{% if is_mobile %}
+  {% assign desktop_video_id = video_id | append: '-mobile' %}
+  {% assign video_class = video_class | append: ' --pl--show-mobile-landscape' %}
+  {% assign responsive_class = ' --pl--show-mobile-landscape' %}
+{% elsif block.settings.video_mob or block.settings.video_url_mob %}
+  {% assign video_class = video_class | append: ' --pl--hide-mobile-landscape' %}
+  {% assign responsive_class = ' --pl--hide-mobile-landscape' %}
+{% endif %}
+
+{% assign loop_param = '' %}
+{% if loop %}
+  {% assign loop_param = '&loop=1' %}
+{% endif %}
+
+{% assign autoplay_param = autoplay | replace: 'true', '1' | replace: 'false', '0' %}
+{% assign mute_param = mute | replace: 'true', '1' | replace: 'false', '0' %}
+
+{%  style  %} 
+.pl--vimeo-thumbnail-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.pl--vimeo-thumbnail-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pl--vimeo-play-button {
+    transition: transform 0.2s ease;
+}
+
+.pl--vimeo-thumbnail-wrapper:hover .pl--vimeo-play-button {
+    transform: scale(1.1);
+}
+
+.pl--vimeo-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.pl--vimeo-container iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+
+/* Doesn't work due to iframe sandboxing */
+.{{ video_class }} #player {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.{{ video_class }} video {
+  object-fit: cover;
+}
+{% endstyle %}
+
+{% assign unique_player_id = desktop_video_id | append: '-' | append: block.id %}
+{% assign unique_thumbnail_id = 'thumbnail-overlay-' | append: block.id | append: is_mobile | replace: 'true', '-mobile' | replace: 'false', '' %}
+
+<!-- Vimeo iframe -->
+<iframe 
+    id="{{ unique_player_id }}"
+    class="{{ video_class }} --pl--reset-iframe"
+    src="https://player.vimeo.com/video/{{ video_id }}?{{ vimeo_controls }}&muted={{ mute_param }}{{ loop_param }}&autoplay={{ autoplay_param }}"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    title="{{ block.settings.alt | escape }}"
+    style="{% if autoplay != true %}opacity: 0.01; position: absolute;{% endif %} width: 100%; height: 100%; object-fit: cover;"
+></iframe>
+
+{% if autoplay != true %}
+  <div id="{{ unique_thumbnail_id }}" class="pl--vimeo-thumbnail-wrapper {{ responsive_class }}">
+    {% if thumbnail %}
+      <img src="{{ thumbnail | image_url }}" alt="{{ block.settings.alt | escape }}" loading="eager" width="100%" height="100%">
+    {% else %}
+      <img src="{{ 'pl--video-placeholder-landscape.png' | asset_url }}" alt="{{ block.settings.alt | escape }}" loading="eager" width="100%" height="100%" id="vimeo-thumbnail-{{ block.id }}{% if is_mobile %}-mobile{% endif %}">
+      
+      <script>
+        // Fetch Vimeo thumbnail
+        fetch('https://vimeo.com/api/v2/video/{{ video_id }}.json')
+          .then(response => response.json())
+          .then(data => {
+            if (data && data[0] && data[0].thumbnail_large) {
+              document.getElementById('vimeo-thumbnail-{{ block.id }}{% if is_mobile %}-mobile{% endif %}').src = data[0].thumbnail_large;
+            }
+          })
+          .catch(error => console.error('Error fetching Vimeo thumbnail:', error));
+      </script>
+    {% endif %}
+    
+    <div id="{{ play_pause_wrapper_id }}" class="pl--thubmnail-play-pause-wrapper-{{ block.id }}">
+      <div id="wrapperIcon-{{ block.id }}{% if is_mobile %}-mobile{% endif %}" class="pause_background {{ controls_class }}pl--vimeo-play-button">
+        <div class="thumbnail-svg-wrapper">
+            {{ 'pl--play-icon-solid.svg' | inline_asset_content }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const iframe = document.getElementById('{{ unique_player_id }}');
+      const thumbnail = document.getElementById('{{ unique_thumbnail_id }}');
+      
+      if (!iframe || !thumbnail) return;
+      
+      thumbnail.addEventListener('click', function() {
+        // Create a completely new iframe with autoplay enabled
+        const newIframe = document.createElement('iframe');
+        
+        // Copy all attributes from original iframe
+        for (let i = 0; i < iframe.attributes.length; i++) {
+          const attr = iframe.attributes[i];
+          if (attr.name !== 'src' && attr.name !== 'style') {
+            newIframe.setAttribute(attr.name, attr.value);
+          }
+        }
+        
+        // Set the source with autoplay=1
+        const originalSrc = iframe.getAttribute('src');
+        const newSrc = originalSrc.replace('autoplay=0', 'autoplay=1');
+        newIframe.setAttribute('src', newSrc);
+        
+        // Set style to be visible
+        newIframe.style.opacity = '1';
+        newIframe.style.position = 'relative';
+        
+        // Replace the original iframe
+        iframe.parentNode.replaceChild(newIframe, iframe);
+        
+        // Hide and remove thumbnail
+        thumbnail.style.opacity = '0';
+        setTimeout(() => thumbnail.remove(), 300);
+      });
+    });
+  </script>
+{% endif %}

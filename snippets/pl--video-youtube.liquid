@@ -1,0 +1,109 @@
+{% comment %}
+  Renders a YouTube video
+  
+  Accepts:
+  - video_id: {String} The YouTube video ID
+  - block: {Object} The block object
+  - autoplay: {Boolean} Whether to autoplay the video
+  - loop: {Boolean} Whether to loop the video
+  - mute: {Boolean} Whether to mute the video
+  - thumbnail: {Object} The thumbnail image
+  - is_mobile: {Boolean} Whether this is the mobile version
+  - no_controls: {Boolean} Whether to show no controls
+  - light_controls: {Boolean} Whether to show light controls
+  - full_controls: {Boolean} Whether to show full controls
+{% endcomment %}
+
+{%  liquid 
+  assign desktop_video_id = video_id | append: '-desktop'
+  assign video_class = '--pl--video'
+  if is_mobile
+    assign desktop_video_id = video_id | append: '-mobile'
+    assign video_class = video_class | append: ' --pl--show-mobile-landscape'
+    assign responsive_class = ' --pl--show-mobile-landscape'
+  elsif block.settings.video_mob or block.settings.video_url_mob
+    assign video_class = video_class | append: ' --pl--hide-mobile-landscape'
+    assign responsive_class = ' --pl--hide-mobile-landscape'
+  endif
+
+  assign loop_param = ''
+  if loop
+    assign loop_param = '&loop=1&playlist=' | append: video_id
+  endif
+
+  assign autoplay_param = autoplay | replace: 'true', '1' | replace: 'false', '0'
+  assign mute_param = mute | replace: 'true', '1' | replace: 'false', '0'
+  assign yt_controls = 'controls=0'
+  if full_controls
+    assign yt_controls = 'controls=1'
+  elsif light_controls
+    assign yt_controls = 'controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1'
+  endif
+%}
+
+<!-- YouTube iframe -->
+<iframe 
+    id="{{ desktop_video_id }}"
+    class="{{ video_class }} --pl--reset-iframe"
+    src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&{{ yt_controls }}&autoplay={{ autoplay_param }}&mute={{ mute_param }}{{ loop_param }}"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    title="{{ block.settings.alt | escape }}"
+    style="{% if autoplay != true %}opacity: 0.01; position: absolute;{% endif %}"
+></iframe>
+
+{% if autoplay != true %}
+  <div id="thumbnail-overlay-{{ block.id }}{% if is_mobile %}-mobile{% endif %}" class="--pl--yt-thumbnail-wrapper {{ responsive_class }}" >
+    {% if thumbnail %}
+      <img src="{{ thumbnail | image_url }}" alt="{{ block.settings.alt | escape }}" loading="eager" width="100%" height="100%">
+    {% else %}
+      <img src="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg" alt="{{ block.settings.alt | escape }}" loading="eager" width="100%" height="100%">
+    {% endif %}
+    
+    <div id="{{ play_pause_wrapper_id }}" class="pl--thubmnail-play-pause-wrapper-{{ block.id }}">
+      <div id="wrapperIcon-{{ block.id }}{% if is_mobile %}-mobile{% endif %}" class="pause_background {{ controls_class }} --pl--yt-play-button">
+        <div class="thumbnail-svg-wrapper">
+            {{ 'pl--play-icon-solid.svg' | inline_asset_content }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const iframe = document.getElementById('{{ desktop_video_id }}');
+      const thumbnail = document.getElementById('thumbnail-overlay-{{ block.id }}{% if is_mobile %}-mobile{% endif %}');
+      
+      if (!iframe || !thumbnail) return;
+      
+      thumbnail.addEventListener('click', function() {
+        // Create a completely new iframe with autoplay enabled
+        const newIframe = document.createElement('iframe');
+        
+        // Copy all attributes from original iframe
+        for (let i = 0; i < iframe.attributes.length; i++) {
+          const attr = iframe.attributes[i];
+          if (attr.name !== 'src' && attr.name !== 'style') {
+            newIframe.setAttribute(attr.name, attr.value);
+          }
+        }
+        
+        // Set the source with autoplay=1
+        const originalSrc = iframe.getAttribute('src');
+        const newSrc = originalSrc.replace('autoplay=0', 'autoplay=1');
+        newIframe.setAttribute('src', newSrc);
+        
+        // Set style to be visible
+        newIframe.style.opacity = '1';
+        newIframe.style.position = 'relative';
+        
+        // Replace the original iframe
+        iframe.parentNode.replaceChild(newIframe, iframe);
+        
+        // Hide and remove thumbnail
+        thumbnail.style.opacity = '0';
+        setTimeout(() => thumbnail.remove(), 300);
+      });
+    });
+  </script>
+{% endif %}

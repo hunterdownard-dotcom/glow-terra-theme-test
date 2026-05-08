@@ -1,0 +1,512 @@
+{% comment %}
+  Section: Hero 8
+  Version: 1.0.0
+  
+  ===================================================
+  IMPORTANT - PLEASE READ BEFORE MODIFYING THIS FILE
+  ===================================================
+  
+  This is a Pent Library section template. 
+  - Please report bugs to support@pentlibrary.com. Include the section ID and version in the email.
+  - Modifying the file may break the section, edit at own risk
+  - For best practices, visit our docs: https://www.pentlibrary.com/docs
+
+{% endcomment %}
+
+{% style %}
+  /* Base styles - customize as needed */
+  .pl--hero-8-bg-{{ section.id }} {
+    position: relative;
+    {% if section.settings.height == "fill" %}
+      height: 100vh;
+      display: flex;
+      align-content: {{ section.settings.align_content }};
+      flex-wrap: wrap;
+    {% endif %}
+  }
+
+  .pl--hero-8-container-{{ section.id }} {
+    {% if section.settings.max_width > 0 %}max-width: {{ section.settings.max_width }}px;{% endif %}
+  }
+
+  /* Padding styles */
+  .pl--hero-8-inline-padding-{{ section.id }} {
+    {% if section.settings.padding_left != 0 and section.settings.padding_left != blank %}
+      padding-left: {{ section.settings.padding_left }}px;
+    {% endif %}
+    {% if section.settings.padding_right != 0 and section.settings.padding_right != blank %}
+      padding-right: {{ section.settings.padding_right }}px;
+    {% endif %}
+  }
+
+  .pl--hero-8-custom-padding-{{ section.id }} {
+    {% if section.settings.padding_top != 0 and section.settings.padding_top != blank %}
+      padding-top: {{ section.settings.padding_top }}px;
+    {% endif %}
+    {% if section.settings.padding_bottom != 0 and section.settings.padding_bottom != blank %}
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% endif %}
+
+    display: flex;
+    justify-content: {{ section.settings.justify_content }};
+  }
+
+  /* Layout styles - customize based on your design */
+  .pl--hero-8-layout-{{ section.id }} {
+    display: grid;
+    gap: {{ section.settings.gap }}px;
+    grid-auto-columns: 1fr;
+    grid-template-columns: minmax(0px, 1fr);
+    grid-template-rows: auto;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+
+    max-width: {{ section.settings.content_width | abs | at_least: 350 | append: 'px' }};
+  }
+
+  /* Mobile styles */
+  @media screen and (max-width: 768px) {
+    .pl--hero-8-bg-{{ section.id }} {
+      {% if section.settings.height_mob == "fill" %}
+        height: 100vh;
+        display: flex;
+        align-content: {{ section.settings.align_content_mob }};
+        flex-wrap: wrap;
+      {% endif %}
+    }
+    .pl--hero-8-inline-padding-{{ section.id }} {
+      {% if section.settings.padding_left_mob != 0 and section.settings.padding_left_mob != blank %}
+        padding-left: {{ section.settings.padding_left_mob }}px;
+      {% endif %}
+      {% if section.settings.padding_right_mob != 0 and section.settings.padding_right_mob != blank %}
+        padding-right: {{ section.settings.padding_right_mob }}px;
+      {% endif %}
+    }
+
+    .pl--hero-8-custom-padding-{{ section.id }} {
+      {% if section.settings.padding_top_mob != 0 and section.settings.padding_top_mob != blank %}
+        padding-top: {{ section.settings.padding_top_mob }}px;
+      {% endif %}
+      {% if section.settings.padding_bottom_mob != 0 and section.settings.padding_bottom_mob != blank %}
+        padding-bottom: {{ section.settings.padding_bottom_mob }}px;
+      {% endif %}
+
+      justify-content: {{ section.settings.justify_content_mob }};
+    }
+
+    .pl--hero-8-layout-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<div class="--pl--section-wrapper pl--hero-8-bg-{{ section.id }} {{ section.settings.custom_class }}">
+  <div class="--pl--page-width-global" style="width: 100%;">
+    <div class="--pl--padding-global pl--hero-8-inline-padding-{{ section.id }}">
+      <div class="pl--hero-8-container-{{ section.id }}">
+        <div class="--pl--padding-section-medium pl--hero-8-custom-padding-{{ section.id }}">
+          <div class="pl--hero-8-layout-{{ section.id }}">
+            {% content_for 'blocks' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% render 'pl--background-video', 
+    video: section.settings.video,
+    video_mob: section.settings.video_mob,
+    autoplay: section.settings.autoplay,
+    autoplay_mob: section.settings.autoplay_mob,
+    loop: section.settings.loop,
+    loop_mob: section.settings.loop_mob,
+    mute: true,
+    controls: section.settings.controls,
+    controls_mob: section.settings.controls_mob,
+    overlay_opacity: section.settings.overlay,
+    overlay_opacity_mob: section.settings.overlay_mob,
+    alt: section.settings.alt,
+    section: section
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Hero 8",
+  "tag": "section",
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Customize the section to your liking. Need help? Check our [documentation](https://www.pentlibrary.com/docs)."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Section Height",
+      "default": "fill",
+      "options": [
+        { "value": "hug", "label": "Hug" },
+        { "value": "fill", "label": "Fill ↕" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "align_content",
+      "label": "Position ↕",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "justify_content",
+      "label": "Position ↔",
+      "default": "flex-start",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "content_width",
+      "label": "Max Width",
+      "placeholder": "Enter a value in pixels",
+      "default": 560
+    },
+    {
+      "type": "header",
+      "content": "Background Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "controls",
+      "label": "Controls",
+      "default": "none",
+      "options": [
+        {
+          "label": "Play/Pause",
+          "value": "light"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_left",
+      "label": "Left",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_right",
+      "label": "Right",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "header",
+      "content": "📱 Mobile Layout"
+    },
+    {
+      "type": "select",
+      "id": "height_mob",
+      "label": "Section Height",
+      "default": "fill",
+      "options": [
+        { "value": "hug", "label": "Hug" },
+        { "value": "fill", "label": "Fill ↕" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "📱 Content"
+    },
+    {
+      "type": "select",
+      "id": "align_content_mob",
+      "label": "Position ↕",
+      "default": "center",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "justify_content_mob",
+      "label": "Position ↔",
+      "default": "flex-start",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "📱 Background Video"
+    },
+    {
+      "type": "video",
+      "id": "video_mob",
+      "label": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_mob",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_mob",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "controls_mob",
+      "label": "Controls",
+      "default": "none",
+      "options": [
+        {
+          "label": "Play/Pause",
+          "value": "light"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_mob",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "📱 Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mob",
+      "label": "Top",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mob",
+      "label": "Bottom",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_left_mob",
+      "label": "Left",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "number",
+      "id": "padding_right_mob",
+      "label": "Right",
+      "placeholder": "Enter a value in pixels"
+    },
+    {
+      "type": "header",
+      "content": "⚙️ Advanced"
+    },
+    {
+      "type": "select",
+      "id": "image_loading",
+      "label": "Image Loading",
+      "default": "lazy",
+      "options": [
+        { "value": "lazy", "label": "Lazy" },
+        { "value": "eager", "label": "Eager" },
+        { "value": "auto", "label": "Auto" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Alt Text",
+      "placeholder": "Stainless steel water bottle with matte black finish"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Class",
+      "info": "For developers: Add space-separated CSS classes."
+    },
+    {
+      "type": "paragraph",
+      "content": "hero-8 section (v.1.0.0)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero 8 (PL)",
+      "blocks": [
+        {
+          "type": "pl--group",
+          "settings": {
+            "gap": 24,
+            "gap_mob": 16,
+            "flex_direction": "column",
+            "flex_direction_mob": "column",
+            "align_items": "flex-start",
+            "align_items_mob": "flex-start",
+            "justify_content": "flex-start",
+            "justify_content_mob": "flex-start"
+          },
+          "blocks": [
+            {
+              "type": "pl--text",
+              "settings": {
+                "text": "<p>Tagline</p>",
+                "font_size": 16,
+                "font": "inter_n6",
+                "custom_class": "-pl-mb-n2",
+                "color": "#FFFFFF"
+              }
+            },
+            {
+              "type": "pl--heading",
+              "settings": {
+                "tag": "h2",
+                "text_alignment": "left",
+                "color": "#FFFFFF"
+              }
+            },
+            {
+              "type": "pl--text",
+              "settings": {
+                "color": "#FFFFFF"
+              }
+            },
+            {
+              "type": "pl--group",
+              "settings": {
+                "flex_direction": "row",
+                "flex_direction_mob": "row",
+                "align_items": "flex-start",
+                "align_items_mob": "flex-start",
+                "justify_content": "flex-start",
+                "justify_content_mob": "flex-start",
+                "gap": 16,
+                "gap_mob": 16,
+                "padding_top": 16,
+                "padding_top_mob": 16,
+                "width": "100%",
+                "width_mob": "100%"
+              },
+              "blocks": [
+                {
+                  "type": "pl--button",
+                  "settings": {
+                    "full_width": "false",
+                    "full_width_mob": "false",
+                    "padding_top": 12,
+                    "padding_bottom": 12,
+                    "padding_left": 16,
+                    "padding_right": 16,
+                    "border_radius": 8,
+                    "border_style": "solid",
+                    "border_width": 1,
+                    "border_color": "#000000",
+                    "background_color": "#000000",
+                    "color": "#ffffff"
+                  }
+                },
+                {
+                  "type": "pl--button",
+                  "settings": {
+                    "full_width": "false",
+                    "full_width_mob": "false",
+                    "padding_top": 12,
+                    "padding_bottom": 12,
+                    "padding_left": 16,
+                    "padding_right": 16,
+                    "border_radius": 8,
+                    "border_style": "solid",
+                    "border_width": 1,
+                    "border_color": "#f3f3f3",
+                    "background_color": "#f3f3f3",
+                    "color": "#000000"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %} 
