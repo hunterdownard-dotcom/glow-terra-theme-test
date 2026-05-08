@@ -108,8 +108,10 @@
     <p class="gt-eyebrow">Customer feedback</p>
     <h2 class="gt-title">Quiet results customers come back to.</h2>
     <div class="gt-home-reviews">
+      {% assign rendered_reviews = 0 %}
       {% for block in section.blocks %}
         {% if block.type == 'review' %}
+          {% assign rendered_reviews = rendered_reviews | plus: 1 %}
           <article class="gt-card gt-home-review" {{ block.shopify_attributes }}>
             {% if block.settings.avatar != blank %}
               {{ block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.name }}
@@ -124,6 +126,32 @@
           </article>
         {% endif %}
       {% endfor %}
+      {% if rendered_reviews == 0 %}
+        <article class="gt-card gt-home-review">
+          <div class="gt-home-review__avatar" aria-hidden="true">M</div>
+          <div>
+            <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <p>"The Turmeric Bar feels clean and gentle on my skin."</p>
+            <strong>Maya R.</strong>
+          </div>
+        </article>
+        <article class="gt-card gt-home-review">
+          <div class="gt-home-review__avatar" aria-hidden="true">J</div>
+          <div>
+            <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <p>"The Batana bar has become part of my weekly routine."</p>
+            <strong>Jordan L.</strong>
+          </div>
+        </article>
+        <article class="gt-card gt-home-review">
+          <div class="gt-home-review__avatar" aria-hidden="true">A</div>
+          <div>
+            <span class="gt-rating" aria-label="Customer rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <p>"Simple ingredients, nice lather, and my skin does not feel tight after."</p>
+            <strong>Alina P.</strong>
+          </div>
+        </article>
+      {% endif %}
     </div>
   </section>
 
@@ -220,9 +248,12 @@
   .gt-home-why article,.gt-home-reviews article{padding:24px}.gt-home-why span{color:var(--gt-clay);font-weight:800}
   .gt-home-center{text-align:center}.gt-home-center .gt-title{margin-inline:auto}
   .gt-home-reviews{grid-template-columns:repeat(3,1fr);margin-top:34px;text-align:left}
-  .gt-home-review{display:grid;grid-template-columns:62px 1fr;gap:16px;align-items:start;background:linear-gradient(180deg,#fffaf4,#f7efe5);box-shadow:0 24px 70px rgba(66,48,34,.12)}
-  .gt-home-review img,.gt-home-review__avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;background:#e8ded3;color:var(--gt-clay);display:grid;place-items:center;font-weight:800}
-  .gt-home-review p{margin:8px 0 12px;line-height:1.62;color:var(--gt-ink)}
+  .gt-home-review{position:relative;display:grid;grid-template-columns:66px 1fr;gap:18px;align-items:start;background:linear-gradient(145deg,#fffdf8 0%,#f5eadc 100%);border-color:rgba(70,81,59,.12);box-shadow:0 26px 72px rgba(63,76,54,.13)}
+  .gt-home-review:before{content:"";position:absolute;inset:0;border-radius:8px;background:linear-gradient(135deg,rgba(176,138,87,.12),rgba(64,81,63,.05));pointer-events:none}
+  .gt-home-review>*{position:relative}
+  .gt-home-review img,.gt-home-review__avatar{width:66px;height:66px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#d9c2a4,#f4eadc);color:#40513f;display:grid;place-items:center;font-weight:900;border:2px solid rgba(255,255,255,.9);box-shadow:0 12px 28px rgba(66,48,34,.14)}
+  .gt-home-review p{margin:8px 0 12px;line-height:1.62;color:var(--gt-ink);font-size:15px}
+  .gt-home-review strong{color:#40513f}
   .gt-home-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .gt-home-ingredients article{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden}
   .gt-home-ingredients img,.gt-home-ingredients svg{width:100%;aspect-ratio:1;object-fit:cover}.gt-home-ingredients h3,.gt-home-ingredients p{padding-inline:16px}.gt-home-ingredients p{padding-bottom:18px;color:var(--gt-muted);line-height:1.55;font-size:14px}
