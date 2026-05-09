@@ -171,7 +171,8 @@
             {% else %}
               {{ 'collection-1' | placeholder_svg_tag }}
             {% endif %}
-            <h3>{{ block.settings.title }}</h3>
+            {% assign polished_ingredient_titles = 'Turmeric|Batana Oil|Carrot Extract|Shea Butter|Jojoba Oil' | split: '|' %}
+            <h3{% if polished_ingredient_titles contains block.settings.title %} class="gt-home-ingredient-title--polished"{% endif %}>{{ block.settings.title }}</h3>
             <p>{{ block.settings.text }}</p>
           </article>
         {% endif %}
@@ -271,7 +272,7 @@
   .gt-home-review strong{color:#40513f}
   .gt-home-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .gt-home-ingredients article{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden}
-  .gt-home-ingredients img,.gt-home-ingredients svg{width:100%;aspect-ratio:1;object-fit:cover}.gt-home-ingredients h3,.gt-home-ingredients p{padding-inline:16px}.gt-home-ingredients p{padding-bottom:18px;color:var(--gt-muted);line-height:1.55;font-size:14px}
+  .gt-home-ingredients img,.gt-home-ingredients svg{width:100%;aspect-ratio:1;object-fit:cover}.gt-home-ingredients h3,.gt-home-ingredients p{padding-inline:16px}.gt-home-ingredient-title--polished{font-weight:600;color:#211a16;letter-spacing:0;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}.gt-home-ingredients p{padding-bottom:18px;color:var(--gt-muted);line-height:1.55;font-size:14px}
   .gt-home-sale{position:relative;overflow:hidden;margin-top:18px;padding:44px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px;background:#3f3a2c;color:#fff;box-shadow:0 24px 70px rgba(36,29,24,.16)}
   .gt-home-sale:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(49,39,32,.88),rgba(89,98,70,.82));z-index:0}.gt-home-sale>*{position:relative;z-index:1}.gt-home-sale__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .gt-home-sale h2{font-size:clamp(32px,4vw,52px);color:#fff}.gt-home-sale p:not(.gt-eyebrow){font-size:18px;color:rgba(255,255,255,.86)}.gt-home-sale .gt-eyebrow{color:#ead8c2}
