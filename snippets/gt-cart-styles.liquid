@@ -11,8 +11,12 @@
   }
 
   #header-component .header-actions__action:has(.header-actions__cart-icon),
-  #header-component .action__cart{
+  #header-component .action__cart,
+  #header-component .header-actions__cart-icon,
+  #header-component .header-actions__cart-icon .svg-wrapper{
     background:transparent!important;
+    background-color:transparent!important;
+    border:0!important;
     border-color:transparent!important;
     box-shadow:none!important;
     outline:0!important;
@@ -21,8 +25,14 @@
   #header-component .header-actions__action:has(.header-actions__cart-icon)::before,
   #header-component .header-actions__action:has(.header-actions__cart-icon)::after,
   #header-component .action__cart::before,
-  #header-component .action__cart::after{
+  #header-component .action__cart::after,
+  #header-component .header-actions__cart-icon::before,
+  #header-component .header-actions__cart-icon::after,
+  #header-component .header-actions__cart-icon .svg-wrapper::before,
+  #header-component .header-actions__cart-icon .svg-wrapper::after{
     background:transparent!important;
+    background-color:transparent!important;
+    border:0!important;
     border-color:transparent!important;
     box-shadow:none!important;
   }
