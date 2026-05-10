@@ -10,6 +10,23 @@
     --gt-cart-gold:#b18a55;
   }
 
+  #header-component .header-actions__action:has(.header-actions__cart-icon),
+  #header-component .action__cart{
+    background:transparent!important;
+    border-color:transparent!important;
+    box-shadow:none!important;
+    outline:0!important;
+  }
+
+  #header-component .header-actions__action:has(.header-actions__cart-icon)::before,
+  #header-component .header-actions__action:has(.header-actions__cart-icon)::after,
+  #header-component .action__cart::before,
+  #header-component .action__cart::after{
+    background:transparent!important;
+    border-color:transparent!important;
+    box-shadow:none!important;
+  }
+
   body:has(.cart-page),
   body:has(cart-drawer),
   body:has(.cart-drawer){
