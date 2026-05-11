@@ -38,16 +38,19 @@
     #header-component a[href*="/cart"],
     #header-component button[aria-label*="cart" i],
     #header-component button[name*="cart" i]{
-      width:42px!important;
-      height:42px!important;
-      min-width:42px!important;
-      min-height:42px!important;
+      width:46px!important;
+      height:46px!important;
+      min-width:46px!important;
+      min-height:46px!important;
       display:inline-flex!important;
       align-items:center!important;
       justify-content:center!important;
       border-radius:50%!important;
-      overflow:visible!important;
+      overflow:hidden!important;
       position:relative!important;
+      background:#40513f!important;
+      background-color:#40513f!important;
+      box-shadow:0 10px 24px rgba(33,26,22,.16)!important;
     }
 
     #header-component .header-actions__cart-icon .svg-wrapper,
@@ -81,14 +84,15 @@
     #header-component button[aria-label*="cart" i]::before,
     #header-component button[name*="cart" i]::before{
       content:""!important;
-      width:58px!important;
-      height:58px!important;
+      width:46px!important;
+      height:46px!important;
       position:absolute!important;
       inset:50% auto auto 50%!important;
       transform:translate(-50%,-50%)!important;
       border-radius:50%!important;
       background:#40513f!important;
       box-shadow:0 10px 24px rgba(33,26,22,.16)!important;
+      z-index:1!important;
     }
 
     #header-component .header-actions__cart-icon::after,
@@ -100,12 +104,13 @@
     #header-component button[aria-label*="cart" i]::after,
     #header-component button[name*="cart" i]::after{
       content:""!important;
-      width:23px!important;
-      height:23px!important;
+      width:20px!important;
+      height:20px!important;
       position:absolute!important;
       inset:50% auto auto 50%!important;
       transform:translate(-50%,-50%)!important;
       background:#fffaf4!important;
+      z-index:2!important;
       -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 8V7a5 5 0 0 1 10 0v1h2a1 1 0 0 1 1 1.08l-1 12A1 1 0 0 1 18 22H6a1 1 0 0 1-1-.92l-1-12A1 1 0 0 1 5 8h2Zm2 0h6V7a3 3 0 0 0-6 0v1Zm-2.91 2 .83 10h10.16l.83-10H6.09Z'/%3E%3C/svg%3E") center/contain no-repeat!important;
       mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 8V7a5 5 0 0 1 10 0v1h2a1 1 0 0 1 1 1.08l-1 12A1 1 0 0 1 18 22H6a1 1 0 0 1-1-.92l-1-12A1 1 0 0 1 5 8h2Zm2 0h6V7a3 3 0 0 0-6 0v1Zm-2.91 2 .83 10h10.16l.83-10H6.09Z'/%3E%3C/svg%3E") center/contain no-repeat!important;
     }
