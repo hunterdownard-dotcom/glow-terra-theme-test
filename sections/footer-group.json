@@ -16,6 +16,7 @@
       "blocks": {
         "footer_copyright_jweRK8": {
           "type": "footer-copyright",
+          "disabled": true,
           "settings": {
             "show_powered_by": false,
             "font_size": "0.75rem",
@@ -34,6 +35,7 @@
         },
         "social_links_Ew63Kq": {
           "type": "social-links",
+          "disabled": true,
           "settings": {
             "facebook_url": "https://www.facebook.com/profile.php?id=61588469492369",
             "instagram_url": "https://www.instagram.com/shopglowterra/",
@@ -57,6 +59,7 @@
         "footer_policy_list_VCdnpa",
         "social_links_Ew63Kq"
       ],
+      "disabled": true,
       "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
