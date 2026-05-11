@@ -76,21 +76,36 @@
     #header-component .menu-list__link,
     #header-component .header-menu a{
       position:relative!important;
-      color:#8f604b!important;
+      color:#7f5746!important;
+      font-weight:650!important;
+      text-shadow:0 1px 12px rgba(255,250,244,.26)!important;
     }
 
     #header-component .search-action,
     #header-component .header-actions__action:has(.header-actions__cart-icon),
     #header-component .action__cart{
       position:relative!important;
-      color:#8f604b!important;
+      overflow:hidden!important;
+      color:#7f5746!important;
+      background:linear-gradient(145deg,rgba(255,250,244,.66),rgba(238,226,211,.36))!important;
+      background-color:rgba(255,250,244,.54)!important;
+      border:1px solid rgba(127,87,70,.18)!important;
+      border-color:rgba(127,87,70,.18)!important;
+      box-shadow:0 10px 24px rgba(33,26,22,.08),inset 0 1px 0 rgba(255,255,255,.42)!important;
+      backdrop-filter:blur(12px)!important;
+      -webkit-backdrop-filter:blur(12px)!important;
     }
 
     #header-component .search-action svg,
     #header-component .header-actions__cart-icon svg,
     #header-component .action__cart svg{
-      color:#8f604b!important;
+      color:#7f5746!important;
       stroke:currentColor!important;
+    }
+
+    #header-component .header-actions__cart-icon,
+    #header-component .header-actions__cart-icon .svg-wrapper{
+      color:#7f5746!important;
     }
 
     #header-component .search-action::after{
