@@ -112,20 +112,21 @@
       box-shadow:0 10px 24px rgba(33,26,22,.16)!important;
     }
 
-    #header-component .header-actions__cart-icon::before,
-    #header-component .cart-icon-bubble::before,
-    #header-component .header__icon--cart::before,
-    #header-component .action__cart::before,
-    #header-component a[href="/cart"]::before,
-    #header-component a[href*="/cart"]::before,
-    #header-component [href*="cart"]::before,
     #header-component [class*="cart"]::before,
     #header-component [id*="cart"]::before,
     #header-component [aria-label*="Cart"]::before,
     #header-component [aria-label*="cart"]::before,
     #header-component button[aria-label*="cart" i]::before,
     #header-component button[name*="cart" i]::before{
+      content:none!important;
+      display:none!important;
+    }
+
+    #header-component .header-actions__action:has([class*="cart"])::before,
+    #header-component .header-actions__action:has([aria-label*="Cart"])::before,
+    #header-component .header-actions__action:has([aria-label*="cart"])::before{
       content:""!important;
+      display:block!important;
       width:42px!important;
       height:42px!important;
       position:absolute!important;
@@ -137,20 +138,21 @@
       z-index:1!important;
     }
 
-    #header-component .header-actions__cart-icon::after,
-    #header-component .cart-icon-bubble::after,
-    #header-component .header__icon--cart::after,
-    #header-component .action__cart::after,
-    #header-component a[href="/cart"]::after,
-    #header-component a[href*="/cart"]::after,
-    #header-component [href*="cart"]::after,
     #header-component [class*="cart"]::after,
     #header-component [id*="cart"]::after,
     #header-component [aria-label*="Cart"]::after,
     #header-component [aria-label*="cart"]::after,
     #header-component button[aria-label*="cart" i]::after,
     #header-component button[name*="cart" i]::after{
+      content:none!important;
+      display:none!important;
+    }
+
+    #header-component .header-actions__action:has([class*="cart"])::after,
+    #header-component .header-actions__action:has([aria-label*="Cart"])::after,
+    #header-component .header-actions__action:has([aria-label*="cart"])::after{
       content:""!important;
+      display:block!important;
       width:20px!important;
       height:20px!important;
       position:absolute!important;
@@ -160,6 +162,46 @@
       z-index:2!important;
       -webkit-mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 8V7a5 5 0 0 1 10 0v1h2a1 1 0 0 1 1 1.08l-1 12A1 1 0 0 1 18 22H6a1 1 0 0 1-1-.92l-1-12A1 1 0 0 1 5 8h2Zm2 0h6V7a3 3 0 0 0-6 0v1Zm-2.91 2 .83 10h10.16l.83-10H6.09Z'/%3E%3C/svg%3E") center/contain no-repeat!important;
       mask:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 8V7a5 5 0 0 1 10 0v1h2a1 1 0 0 1 1 1.08l-1 12A1 1 0 0 1 18 22H6a1 1 0 0 1-1-.92l-1-12A1 1 0 0 1 5 8h2Zm2 0h6V7a3 3 0 0 0-6 0v1Zm-2.91 2 .83 10h10.16l.83-10H6.09Z'/%3E%3C/svg%3E") center/contain no-repeat!important;
+    }
+
+    #header-component .header-actions__cart-icon *,
+    #header-component .cart-icon-bubble *,
+    #header-component .header__icon--cart *,
+    #header-component .action__cart *,
+    #header-component a[href="/cart"] *,
+    #header-component a[href*="/cart"] *,
+    #header-component [href*="cart"] *,
+    #header-component [class*="cart"] *,
+    #header-component [id*="cart"] *,
+    #header-component [aria-label*="Cart"] *,
+    #header-component [aria-label*="cart"] *{
+      position:static!important;
+    }
+
+    #header-component .header-actions__cart-icon *::before,
+    #header-component .header-actions__cart-icon *::after,
+    #header-component .cart-icon-bubble *::before,
+    #header-component .cart-icon-bubble *::after,
+    #header-component .header__icon--cart *::before,
+    #header-component .header__icon--cart *::after,
+    #header-component .action__cart *::before,
+    #header-component .action__cart *::after,
+    #header-component a[href="/cart"] *::before,
+    #header-component a[href="/cart"] *::after,
+    #header-component a[href*="/cart"] *::before,
+    #header-component a[href*="/cart"] *::after,
+    #header-component [href*="cart"] *::before,
+    #header-component [href*="cart"] *::after,
+    #header-component [class*="cart"] *::before,
+    #header-component [class*="cart"] *::after,
+    #header-component [id*="cart"] *::before,
+    #header-component [id*="cart"] *::after,
+    #header-component [aria-label*="Cart"] *::before,
+    #header-component [aria-label*="Cart"] *::after,
+    #header-component [aria-label*="cart"] *::before,
+    #header-component [aria-label*="cart"] *::after{
+      content:none!important;
+      display:none!important;
     }
   }
 
