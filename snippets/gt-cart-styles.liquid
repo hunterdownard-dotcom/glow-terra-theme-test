@@ -106,6 +106,54 @@
     }
   }
 
+  search-modal,
+  .search-modal,
+  predictive-search,
+  .predictive-search{
+    --gt-search-green:#40513f;
+    --gt-search-cream:#fffdf8;
+    --gt-search-line:#d9cabc;
+  }
+
+  search-modal input[type="search"]:focus,
+  search-modal input[type="text"]:focus,
+  .search-modal input[type="search"]:focus,
+  .search-modal input[type="text"]:focus,
+  predictive-search input[type="search"]:focus,
+  predictive-search input[type="text"]:focus,
+  .predictive-search input[type="search"]:focus,
+  .predictive-search input[type="text"]:focus{
+    border-color:var(--gt-search-green)!important;
+    box-shadow:0 0 0 2px rgba(64,81,63,.14)!important;
+    outline:0!important;
+  }
+
+  search-modal button[aria-label*="close" i],
+  .search-modal button[aria-label*="close" i],
+  predictive-search button[aria-label*="close" i],
+  .predictive-search button[aria-label*="close" i]{
+    background:var(--gt-search-green)!important;
+    border:0!important;
+    border-radius:50%!important;
+    color:var(--gt-search-cream)!important;
+    box-shadow:0 14px 34px rgba(33,26,22,.18)!important;
+  }
+
+  search-modal button[aria-label*="close" i] svg,
+  .search-modal button[aria-label*="close" i] svg,
+  predictive-search button[aria-label*="close" i] svg,
+  .predictive-search button[aria-label*="close" i] svg{
+    color:var(--gt-search-cream)!important;
+    stroke:currentColor!important;
+  }
+
+  search-modal a:hover,
+  .search-modal a:hover,
+  predictive-search a:hover,
+  .predictive-search a:hover{
+    color:var(--gt-search-green)!important;
+  }
+
   body:has(.cart-page),
   body:has(cart-drawer),
   body:has(.cart-drawer){
