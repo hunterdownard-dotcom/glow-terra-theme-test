@@ -53,17 +53,30 @@
   .search-modal button[aria-label*="close" i],
   predictive-search button[aria-label*="close" i],
   .predictive-search button[aria-label*="close" i]{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    min-height:42px!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
     background:var(--gt-search-green)!important;
     border:0!important;
     border-radius:50%!important;
     color:var(--gt-search-cream)!important;
     box-shadow:0 14px 34px rgba(33,26,22,.18)!important;
+    line-height:1!important;
+    padding:0!important;
   }
 
   search-modal button[aria-label*="close" i] svg,
   .search-modal button[aria-label*="close" i] svg,
   predictive-search button[aria-label*="close" i] svg,
   .predictive-search button[aria-label*="close" i] svg{
+    width:18px!important;
+    height:18px!important;
+    display:block!important;
+    margin:0!important;
     color:var(--gt-search-cream)!important;
     stroke:currentColor!important;
   }
