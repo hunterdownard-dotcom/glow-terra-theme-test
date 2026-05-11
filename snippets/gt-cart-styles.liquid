@@ -30,29 +30,13 @@
       padding:0!important;
     }
 
-    #header-component .header-actions__cart-icon,
-    #header-component .cart-icon-bubble,
-    #header-component .header__icon--cart,
-    #header-component .action__cart,
-    #header-component a[href="/cart"],
-    #header-component a[href*="/cart"],
-    #header-component button[aria-label*="cart" i],
-    #header-component button[name*="cart" i]{
-      width:46px!important;
-      height:46px!important;
-      min-width:46px!important;
-      min-height:46px!important;
-      display:inline-flex!important;
-      align-items:center!important;
-      justify-content:center!important;
-      border-radius:50%!important;
-      overflow:hidden!important;
-      position:relative!important;
-      background:#40513f!important;
-      background-color:#40513f!important;
-      box-shadow:0 10px 24px rgba(33,26,22,.16)!important;
-    }
-
+    #header-component .header-actions__action:has(.header-actions__cart-icon) *,
+    #header-component .header-actions__cart *,
+    #header-component .action__cart *,
+    #header-component a[href="/cart"] *,
+    #header-component a[href*="/cart"] *,
+    #header-component button[aria-label*="cart" i] *,
+    #header-component button[name*="cart" i] *,
     #header-component .header-actions__cart-icon .svg-wrapper,
     #header-component .cart-icon-bubble .svg-wrapper,
     #header-component .header__icon--cart .svg-wrapper,
@@ -61,7 +45,10 @@
     #header-component a[href*="/cart"] .svg-wrapper,
     #header-component button[aria-label*="cart" i] .svg-wrapper,
     #header-component button[name*="cart" i] .svg-wrapper{
-      display:none!important;
+      background:transparent!important;
+      background-color:transparent!important;
+      border:0!important;
+      box-shadow:none!important;
     }
 
     #header-component .header-actions__cart-icon svg,
@@ -75,6 +62,30 @@
       display:none!important;
     }
 
+    #header-component .header-actions__cart-icon,
+    #header-component .cart-icon-bubble,
+    #header-component .header__icon--cart,
+    #header-component .action__cart,
+    #header-component a[href="/cart"],
+    #header-component a[href*="/cart"],
+    #header-component button[aria-label*="cart" i],
+    #header-component button[name*="cart" i]{
+      width:42px!important;
+      height:42px!important;
+      min-width:42px!important;
+      min-height:42px!important;
+      display:inline-flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      border-radius:50%!important;
+      overflow:visible!important;
+      position:relative!important;
+      background:transparent!important;
+      background-color:transparent!important;
+      border:0!important;
+      box-shadow:none!important;
+    }
+
     #header-component .header-actions__cart-icon::before,
     #header-component .cart-icon-bubble::before,
     #header-component .header__icon--cart::before,
@@ -84,8 +95,8 @@
     #header-component button[aria-label*="cart" i]::before,
     #header-component button[name*="cart" i]::before{
       content:""!important;
-      width:46px!important;
-      height:46px!important;
+      width:40px!important;
+      height:40px!important;
       position:absolute!important;
       inset:50% auto auto 50%!important;
       transform:translate(-50%,-50%)!important;
@@ -104,8 +115,8 @@
     #header-component button[aria-label*="cart" i]::after,
     #header-component button[name*="cart" i]::after{
       content:""!important;
-      width:20px!important;
-      height:20px!important;
+      width:19px!important;
+      height:19px!important;
       position:absolute!important;
       inset:50% auto auto 50%!important;
       transform:translate(-50%,-50%)!important;
