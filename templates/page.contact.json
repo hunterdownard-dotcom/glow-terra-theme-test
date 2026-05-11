@@ -11,14 +11,29 @@
   "sections": {
     "main": {
       "type": "gt-contact",
+      "disabled": true,
       "settings": {
         "eyebrow": "Contact Glow Terra",
         "heading": "Let us help with your skincare ritual.",
-        "text": "Questions about ingredients, orders, or choosing the right bar? Send a note and Glow Terra customer care will help."
+        "text": "Questions about ingredients, orders, or choosing the right bar? Send a note and Glow Terra customer care will help.",
+        "email": "",
+        "instagram_url": ""
+      }
+    },
+    "gt_contact_iNXEC8": {
+      "type": "gt-contact",
+      "name": "Glow Terra Contact",
+      "settings": {
+        "eyebrow": "Contact Glow Terra",
+        "heading": "Let us help with your skincare routine.",
+        "text": "Questions about ingredients, orders, or choosing the right bar? Send a note and Glow Terra customer care will help.",
+        "email": "",
+        "instagram_url": ""
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "gt_contact_iNXEC8"
   ]
 }
