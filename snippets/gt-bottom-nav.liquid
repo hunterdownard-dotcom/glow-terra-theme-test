@@ -3,7 +3,7 @@
   @media(max-width:989px){
     #header-group,.header-section,#header-component{display:none!important}
     .gt-bottom-nav{display:flex!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483647!important;background:rgba(255,250,244,.92)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(36,29,24,.12)!important;height:64px!important;padding:8px 10px!important;width:100vw!important;box-sizing:border-box!important;justify-content:space-around!important;align-items:center!important}
-    .gt-bottom-nav a{flex:1!important;margin:0!important;padding:6px 2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;text-decoration:none!important;font-size:10.5px!important;line-height:1!important;font-weight:600!important;color:rgba(36,29,24,.84)!important;background:transparent!important;border:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent!important}
+    .gt-bottom-nav a,.gt-bottom-nav button{flex:1!important;margin:0!important;padding:6px 2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;text-decoration:none!important;font-size:10.5px!important;line-height:1!important;font-weight:600!important;color:rgba(36,29,24,.84)!important;background:transparent!important;border:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent!important;font-family:inherit!important;appearance:none!important}
     .gt-bottom-nav .gt-ico{width:18px!important;height:18px!important;display:inline-flex!important}
     .gt-bottom-nav svg{width:18px!important;height:18px!important;max-width:18px!important;max-height:18px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
     body{padding-bottom:88px!important}
@@ -19,8 +19,49 @@
     <span class="gt-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V7a5 5 0 0 1 10 0v1"></path><path d="M6 8h12l-1 13H7L6 8z"></path></svg></span>
     <span>Products</span>
   </a>
+  <button type="button" class="gt-bottom-nav__search" aria-label="Search">
+    <span class="gt-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.5-4.5"></path></svg></span>
+    <span>Search</span>
+  </button>
   <a href="/pages/contact" aria-label="Contact">
     <span class="gt-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z"></path><path d="M7.5 8.5h9"></path><path d="M7.5 12h6.5"></path></svg></span>
     <span>Contact</span>
   </a>
 </nav>
+
+<script>
+  document.addEventListener('click', function(event) {
+    var trigger = event.target.closest('.gt-bottom-nav__search');
+    if (!trigger) return;
+
+    event.preventDefault();
+
+    var searchDetails = document.querySelector('details-modal details, .header__search details, search-modal details');
+    if (searchDetails) {
+      searchDetails.setAttribute('open', '');
+      setTimeout(function() {
+        var input = searchDetails.querySelector('input[type="search"], input[name="q"]');
+        if (input) input.focus();
+      }, 50);
+      return;
+    }
+
+    var searchDialog = document.querySelector('dialog.search-modal, .search-modal dialog, search-modal dialog');
+    if (searchDialog && typeof searchDialog.showModal === 'function') {
+      searchDialog.showModal();
+      setTimeout(function() {
+        var dialogInput = searchDialog.querySelector('input[type="search"], input[name="q"]');
+        if (dialogInput) dialogInput.focus();
+      }, 50);
+      return;
+    }
+
+    var searchButton = document.querySelector('[aria-label="Search"], [aria-label*="search" i], button[type="button"][name="search"]');
+    if (searchButton && searchButton !== trigger && !searchButton.closest('.gt-bottom-nav')) {
+      searchButton.click();
+      return;
+    }
+
+    window.location.href = '{{ routes.search_url }}';
+  });
+</script>
