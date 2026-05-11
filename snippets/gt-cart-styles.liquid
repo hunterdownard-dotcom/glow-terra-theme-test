@@ -16,6 +16,30 @@
       background:rgba(64,81,63,.82)!important;
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
+      overflow:hidden!important;
+      box-shadow:none!important;
+    }
+
+    #header-component a,
+    #header-component button,
+    #header-component .header-actions__action{
+      transition:color .18s ease,opacity .18s ease!important;
+    }
+
+    #header-component a:hover,
+    #header-component a:focus,
+    #header-component a:focus-visible,
+    #header-component button:hover,
+    #header-component button:focus,
+    #header-component button:focus-visible,
+    #header-component .header-actions__action:hover,
+    #header-component .header-actions__action:focus,
+    #header-component .header-actions__action:focus-visible{
+      background:transparent!important;
+      box-shadow:none!important;
+      transform:none!important;
+      margin:0!important;
+      outline:0!important;
     }
 
     #header-component .header-actions__action:has(.header-actions__cart-icon),
