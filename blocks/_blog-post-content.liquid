@@ -123,20 +123,51 @@
     var images = Array.prototype.slice.call(imageWrap.querySelectorAll('[data-gt-blog-topic-image]'));
     if (!images.length) return;
 
-    var headings = Array.prototype.slice.call(formatter.querySelectorAll('h2, h3'));
+    var anchors = Array.prototype.slice.call(formatter.querySelectorAll('h2, h3, h4, hr'));
 
-    if (!headings.length) {
+    if (!anchors.length) {
+      var children = Array.prototype.slice.call(formatter.children);
+      anchors = children.filter(function(node, index){
+        if (index < 2 || !node.textContent) return false;
+
+        var text = node.textContent.trim();
+        var isShort = text.length > 8 && text.length <= 90;
+        var looksLikeTitle = isShort && !/[.!?]$/.test(text);
+        var hasStrongStart = !!node.querySelector('strong, b');
+
+        return looksLikeTitle || hasStrongStart;
+      });
+    }
+
+    if (anchors.length) {
+      images.forEach(function(image, index){
+        var anchor = anchors[index];
+        if (!anchor) return;
+
+        image.removeAttribute('aria-hidden');
+        anchor.insertAdjacentElement('beforebegin', image);
+      });
+      return;
+    }
+
+    var paragraphs = Array.prototype.slice.call(formatter.querySelectorAll('p')).filter(function(p){
+      return p.textContent.trim().length > 70;
+    });
+
+    if (!paragraphs.length) {
       imageWrap.removeAttribute('aria-hidden');
       imageWrap.classList.add('gt-blog-topic-images--fallback');
       return;
     }
 
+    var spacing = Math.max(2, Math.floor(paragraphs.length / (images.length + 1)));
+
     images.forEach(function(image, index){
-      var heading = headings[index];
-      if (!heading) return;
+      var target = paragraphs[Math.min(paragraphs.length - 1, ((index + 1) * spacing) - 1)];
+      if (!target) return;
 
       image.removeAttribute('aria-hidden');
-      heading.insertAdjacentElement('beforebegin', image);
+      target.insertAdjacentElement('afterend', image);
     });
   })();
 </script>
@@ -361,4 +392,3 @@
   ]
 }
 {% endschema %}
-
