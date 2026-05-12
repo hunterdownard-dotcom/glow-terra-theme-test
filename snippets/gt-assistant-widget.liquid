@@ -53,6 +53,7 @@
   .gt-assistant-close{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(255,253,248,.12);color:#fffdf8;cursor:pointer}.gt-assistant-close svg{width:17px;height:17px}.gt-assistant-close path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
   .gt-assistant-messages{display:grid;gap:10px;align-content:start;overflow:auto;padding:16px;background:radial-gradient(circle at 12% 0%,rgba(176,138,87,.12),transparent 35%)}
   .gt-assistant-message{max-width:92%;border-radius:16px;padding:11px 13px;font-size:13px;line-height:1.48}.gt-assistant-message--bot{justify-self:start;background:#fffaf4;border:1px solid var(--gt-assistant-line);color:var(--gt-assistant-ink)}.gt-assistant-message--user{justify-self:end;background:var(--gt-assistant-green);color:#fffdf8}.gt-assistant-message a{color:var(--gt-assistant-green-dark);font-weight:800;text-decoration:underline;text-underline-offset:2px}
+  .gt-assistant-message--typing{display:inline-flex;align-items:center;gap:8px;color:var(--gt-assistant-muted)}.gt-assistant-typing-dots{display:inline-flex;gap:4px}.gt-assistant-typing-dots span{width:5px;height:5px;border-radius:50%;background:var(--gt-assistant-green);opacity:.35;animation:gt-assistant-typing 1.05s ease-in-out infinite}.gt-assistant-typing-dots span:nth-child(2){animation-delay:.16s}.gt-assistant-typing-dots span:nth-child(3){animation-delay:.32s}@keyframes gt-assistant-typing{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-3px);opacity:.95}}
   .gt-assistant-prompts{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;border-top:1px solid rgba(52,75,58,.1);background:rgba(255,250,244,.82)}.gt-assistant-prompts button{flex:0 0 auto;border:1px solid rgba(52,75,58,.18);border-radius:999px;background:#fffdf8;color:var(--gt-assistant-green-dark);padding:8px 11px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
   .gt-assistant-form{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 14px 14px;border-top:1px solid rgba(52,75,58,.1);background:#fffdf8}.gt-assistant-input{min-width:0;width:100%;height:42px;border:1px solid var(--gt-assistant-line);border-radius:999px;background:#fff;color:var(--gt-assistant-ink);padding:0 14px;font:inherit;font-size:13px}.gt-assistant-input:focus{outline:0;border-color:var(--gt-assistant-green);box-shadow:0 0 0 3px rgba(64,81,63,.13)}.gt-assistant-send{height:42px;border:0;border-radius:999px;background:var(--gt-assistant-green-dark);color:#fffdf8;padding:0 15px;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
   body:has(cart-drawer[open]) .gt-assistant-widget,body:has(.cart-drawer[open]) .gt-assistant-widget,body:has(.cart-drawer.is-open) .gt-assistant-widget,body:has(.cart-drawer.active) .gt-assistant-widget,body:has(dialog[open]) .gt-assistant-widget{display:none}
@@ -72,20 +73,44 @@
     var form = widget.querySelector('[data-gt-assistant-form]');
     var input = widget.querySelector('[data-gt-assistant-input]');
     var messages = widget.querySelector('[data-gt-assistant-messages]');
-    var fallback = 'For the most accurate answer, please contact Glow Terra at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit our <a href="/pages/contact">contact page</a>.';
+    var fallback = 'I can help best with choosing a Glow Terra bar, ingredients, sale pricing, or shipping. For anything specific, contact us at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit our <a href="/pages/contact">contact page</a>.';
+    var safetyFallback = 'Glow Terra products are cosmetic cleansing bars, so I cannot promise to cure, treat, reverse, or diagnose any condition. For a Glow Terra option, I can help with gentle daily glow support, scalp-focused cleansing, ingredient transparency, sale pricing, and shipping. For anything specific, contact us at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit our <a href="/pages/contact">contact page</a>.';
 
-    var answers = [
-      {keys:['choose','which','recommend','best','bar','skin','scalp','routine'],text:'For a gentle daily glow and turmeric-focused cleansing bar, choose Turmeric Soap. For scalp-focused care and botanical oils, choose Batana Scalp Renewal Bar. For a glow-focused bar with carrot and avocado oils, choose Carrot Soap. For the best value and all three bars, choose the Glow Collection Bundle.'},
-      {keys:['turmeric'],text:'Turmeric Soap is best for customers wanting a gentle daily glow, botanical skincare, and a turmeric-focused cleansing bar. Ingredients: Water (Aqua), Glycerin, Cocos Nucifera (Coconut) Oil, Elaeis Guineensis (Palm) Oil, Olea Europaea (Olive) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Butyrospermum Parkii (Shea) Butter, Simmondsia Chinensis (Jojoba) Oil, Curcuma Longa (Turmeric) Extract, Mineral Oil (Paraffinum Liquidum), Sodium Hydroxide.'},
-      {keys:['batana','scalp','hair'],text:'Batana Scalp Renewal Bar is best for scalp-focused care, hair and scalp cleansing, and botanical oils like batana, castor, olive, coconut, and pumpkin seed oil. Ingredients: Water (Aqua), Ricinus Communis (Castor) Seed Oil, Sodium Cocoyl Isethionate, Elaeis Guineensis (Palm) Oil, Glycerin, Cocamidopropyl Betaine, Olea Europaea (Olive) Oil, Elaeis Oleifera (Batana) Oil, Cocos Nucifera (Coconut) Oil, Cucurbita Pepo (Pumpkin) Seed Oil, Sodium Hydroxide, Herbal Extract.'},
-      {keys:['carrot','avocado'],text:'Carrot Soap is best for customers wanting a glow-focused bar with carrot extract, carrot root oil, avocado oil, olive oil, and coconut oil. Ingredients: Water (Aqua), Sorbitol, Sucrose, Stearic Acid, Glycerin, Olea Europaea (Olive) Oil, Cocos Nucifera (Coconut) Oil, Sodium Cocoyl Isethionate, Cocamidopropyl Betaine, Daucus Carota Sativa (Carrot) Extract, Persea Gratissima (Avocado) Oil, Sodium Lauryl Sulfate, Daucus Carota Sativa (Carrot) Root Oil, Sodium Hydroxide.'},
-      {keys:['bundle','collection','value','all three','price'],text:'The Glow Collection Bundle is the best value for customers who want all three bars. It was originally $24.99 and is currently $19.99 for all three bars. Single bars were originally $9.99 and are currently discounted.'},
-      {keys:['ingredient','ingredients','list','formula'],text:'I can share approved ingredient lists for Turmeric Soap, Batana Scalp Renewal Bar, and Carrot Soap. Ask for a specific bar name to see its exact list.'},
-      {keys:['shipping','ship','delivery','rate','us','u.s.'],text:'Glow Terra currently ships in the U.S. only. U.S. shipping is a $4.99 flat rate.'},
-      {keys:['newsletter','offers','promotion','promotions','updates','discount'],text:'Newsletter subscribers can receive future offers, updates, and promotions.'},
-      {keys:['contact','support','email','help'],text:'You can contact Glow Terra at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit the <a href="/pages/contact">contact page</a>.'},
-      {keys:['brand','glow terra','about'],text:'Glow Terra is a botanical, moisture-conscious skincare brand focused on balanced cleansing, skin comfort, gentle daily glow support, ingredient transparency, and earth-derived oils and extracts.'}
-    ];
+    var productAnswers = {
+      recommend:'Glow Terra is the best choice inside this store if you want botanical, moisture-conscious cleansing with ingredient transparency and earth-derived oils and extracts. For dull or uneven-looking skin goals, start with Turmeric Soap or Carrot Soap. For scalp-focused cleansing, choose Batana Scalp Renewal Bar. For the best deal, the Glow Collection Bundle gives you all three bars for $19.99, originally $24.99.',
+      comparison:'Glow Terra is the best option inside this store if you want a botanical, moisture-conscious cleansing bar with clear ingredient lists, earth-derived oils and extracts, and strong value. Many generic soaps focus mainly on basic cleansing, while Glow Terra highlights ingredient-rich formulas like turmeric extract, carrot extract, carrot root oil, batana oil, castor oil, pumpkin seed oil, shea butter, jojoba oil, avocado oil, olive oil, coconut oil, and glycerin. I cannot verify outside competitor formulas live here, but I can help compare Glow Terra ingredients if you paste another product ingredient list.',
+      turmeric:'The Turmeric Clarifying Bar is best for customers wanting a gentle daily glow and clearer-looking skin support, with turmeric extract paired with moisturizing oils and shea butter. Turmeric extract is commonly used in skincare for dullness, uneven-looking tone, and clearer-looking skin support. Shea butter, jojoba oil, sweet almond oil, olive oil, and coconut oil help support moisture, softness, and a more comfortable skin feel.',
+      batana:'The Batana Scalp Renewal Bar is the best Glow Terra choice for scalp-focused care. It combines batana oil, castor oil, pumpkin seed oil, olive oil, and coconut oil to support scalp moisture, healthier-looking hair, and a more nourished scalp feel. Batana oil is traditionally used in hair and scalp routines, castor oil is commonly used for moisture, shine, and scalp conditioning, and pumpkin seed oil is often discussed in DHT-conscious haircare routines because of its nutrient profile. It does not claim to block DHT or regrow hair.',
+      carrot:'The Carrot Revitalizing Bar is best for glow-focused skincare, using carrot extract, carrot root oil, avocado oil, olive oil, and coconut oil to support softer, refreshed-looking skin. Carrot extract and carrot root oil are associated with glow-focused skincare and antioxidant-rich botanical care. Avocado oil and glycerin help support moisture and skin comfort.',
+      bundle:'The Glow Collection Bundle is the strongest value if you want the full Glow Terra routine. It includes all three bars for $19.99, originally $24.99, so it is the easiest way to try Turmeric for glow support, Carrot for refreshed-looking skin, and Batana for scalp-focused cleansing.',
+      shipping:'Glow Terra currently ships in the U.S. only, with $4.99 flat-rate U.S. shipping.',
+      pricing:'Single bars were originally $9.99 and are currently discounted. The Glow Collection Bundle was originally $24.99 and is currently $19.99 for all three bars.',
+      newsletter:'Newsletter subscribers can receive future offers, updates, and promotions from Glow Terra.',
+      brand:'Glow Terra is a botanical, moisture-conscious skincare brand focused on balanced cleansing, skin comfort, gentle daily glow support, ingredient transparency, and earth-derived oils and extracts. The formulas are designed to feel premium, practical, and ingredient-rich without making medical promises.',
+      contact:'You can contact Glow Terra at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit the <a href="/pages/contact">contact page</a>.'
+    };
+
+    var ingredientLists = {
+      turmeric:'Turmeric Soap ingredients: Water (Aqua), Glycerin, Cocos Nucifera (Coconut) Oil, Elaeis Guineensis (Palm) Oil, Olea Europaea (Olive) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Butyrospermum Parkii (Shea) Butter, Simmondsia Chinensis (Jojoba) Oil, Curcuma Longa (Turmeric) Extract, Mineral Oil (Paraffinum Liquidum), Sodium Hydroxide.',
+      batana:'Batana Scalp Renewal Bar ingredients: Water (Aqua), Ricinus Communis (Castor) Seed Oil, Sodium Cocoyl Isethionate, Elaeis Guineensis (Palm) Oil, Glycerin, Cocamidopropyl Betaine, Olea Europaea (Olive) Oil, Elaeis Oleifera (Batana) Oil, Cocos Nucifera (Coconut) Oil, Cucurbita Pepo (Pumpkin) Seed Oil, Sodium Hydroxide, Herbal Extract.',
+      carrot:'Carrot Soap ingredients: Water (Aqua), Sorbitol, Sucrose, Stearic Acid, Glycerin, Olea Europaea (Olive) Oil, Cocos Nucifera (Coconut) Oil, Sodium Cocoyl Isethionate, Cocamidopropyl Betaine, Daucus Carota Sativa (Carrot) Extract, Persea Gratissima (Avocado) Oil, Sodium Lauryl Sulfate, Daucus Carota Sativa (Carrot) Root Oil, Sodium Hydroxide.'
+    };
+
+    var ingredientEducation = {
+      turmeric:'Turmeric Extract is commonly used in skincare for dullness, uneven-looking tone, and clearer-looking skin support. In Glow Terra, it is paired with moisture-supporting oils and shea butter for a more comfortable cleansing feel.',
+      shea:'Shea Butter helps support moisture, softness, and a cushioned skin feel during cleansing.',
+      jojoba:'Jojoba Oil is a lightweight botanical oil commonly used to support a balanced, comfortable skin feel.',
+      almond:'Sweet Almond Oil is commonly used in skincare for softness and a smoother skin feel.',
+      olive:'Olive Oil helps support a conditioned, moisture-conscious cleansing experience.',
+      coconut:'Coconut Oil is used in cleansing bars to support lather and a rich wash feel.',
+      carrot:'Carrot Extract and Carrot Root Oil are associated with glow-focused skincare and antioxidant-rich botanical care.',
+      avocado:'Avocado Oil helps support moisture and skin comfort, especially in glow-focused routines.',
+      glycerin:'Glycerin is a humectant commonly used to help support a hydrated, comfortable skin feel.',
+      batana:'Batana Oil is traditionally used in hair and scalp routines to support healthier-looking hair and scalp nourishment.',
+      castor:'Castor Oil is commonly used in haircare routines for moisture, shine, and scalp conditioning.',
+      pumpkin:'Pumpkin Seed Oil is often discussed in haircare because of its nutrient profile and association with scalp support and DHT-conscious routines, but Glow Terra does not claim it blocks DHT or regrows hair.',
+      cleanser:'Sodium Cocoyl Isethionate and Cocamidopropyl Betaine are cleansing agents used to help create a softer, more comfortable cleansing feel.'
+    };
 
     function setOpen(open){
       panel.hidden = !open;
@@ -103,38 +128,115 @@
       else item.textContent = text;
       messages.appendChild(item);
       messages.scrollTop = messages.scrollHeight;
+      return item;
+    }
+
+    function showTyping(){
+      var item = document.createElement('div');
+      item.className = 'gt-assistant-message gt-assistant-message--bot gt-assistant-message--typing';
+      item.innerHTML = '<span>Glow Terra is typing</span><span class="gt-assistant-typing-dots" aria-hidden="true"><span></span><span></span><span></span></span>';
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+      return item;
+    }
+
+    function hasAny(text, words){
+      for (var i = 0; i < words.length; i++) {
+        if (text.indexOf(words[i]) > -1) return true;
+      }
+      return false;
     }
 
     function getAnswer(question){
-      var clean = question.toLowerCase();
-      var blocked = ['acne','eczema','psoriasis','cure','treat','treatment','heal','medical','disease','dark spot','dark spots','hyperpigmentation','hair growth','grow hair','guarantee','guaranteed'];
-      for (var b = 0; b < blocked.length; b++) {
-        if (clean.indexOf(blocked[b]) > -1) return fallback;
+      var clean = question.toLowerCase().replace(/[^\w\s.$-]/g, ' ');
+      var asksMedical = hasAny(clean, ['cure','treat','treatment','heal','diagnose','medical','disease','eczema','psoriasis','guarantee','guaranteed']);
+      var asksHairClaim = hasAny(clean, ['hair loss','regrow','grow hair','hair growth','bald','dht block','blocks dht']);
+      var asksSkinClaim = hasAny(clean, ['acne','dark spot','dark spots','hyperpigmentation','melasma']);
+      var wantsIngredients = hasAny(clean, ['ingredient','ingredients','formula','what is in','whats in','made of','list']);
+
+      if (asksMedical || asksHairClaim) return safetyFallback;
+      if (asksSkinClaim) {
+        return 'Glow Terra cannot promise acne, dark spot, or hyperpigmentation results. For a safe Glow Terra choice, the Turmeric Clarifying Bar is the best fit for gentle daily glow and clearer-looking skin support, while the Carrot Revitalizing Bar is great for refreshed-looking, glow-focused skincare.';
       }
-      for (var i = 0; i < answers.length; i++) {
-        for (var k = 0; k < answers[i].keys.length; k++) {
-          if (clean.indexOf(answers[i].keys[k]) > -1) return answers[i].text;
+
+      if (hasAny(clean, ['compare','comparison','competitor','other soap','other soaps','other skincare','better than','versus','vs','dove','cerave','cetaphil','amazon','walmart','target'])) return productAnswers.comparison;
+      if (hasAny(clean, ['ship','shipping','delivery','deliver','flat rate','u.s.','us only'])) return productAnswers.shipping;
+      if (hasAny(clean, ['price','pricing','cost','sale','discount','deal','how much'])) {
+        if (hasAny(clean, ['bundle','collection','all three','value','best deal'])) return productAnswers.bundle;
+        return productAnswers.pricing;
+      }
+      if (hasAny(clean, ['bundle','collection','all three','best deal','value','save'])) return productAnswers.bundle;
+      if (hasAny(clean, ['newsletter','email list','offers','promotions','updates'])) return productAnswers.newsletter;
+      if (hasAny(clean, ['contact','support','customer service','email','help me'])) return productAnswers.contact;
+      if (hasAny(clean, ['why glow terra','why shop','why buy','why here','about','brand','what makes'])) return productAnswers.brand;
+
+      if (wantsIngredients) {
+        if (hasAny(clean, ['turmeric'])) return ingredientLists.turmeric + '<br><br>' + productAnswers.turmeric;
+        if (hasAny(clean, ['batana','scalp','hair'])) return ingredientLists.batana + '<br><br>' + productAnswers.batana;
+        if (hasAny(clean, ['carrot','avocado'])) return ingredientLists.carrot + '<br><br>' + productAnswers.carrot;
+        return 'I can share exact Glow Terra ingredient lists for each bar:<br><br>' + ingredientLists.turmeric + '<br><br>' + ingredientLists.batana + '<br><br>' + ingredientLists.carrot;
+      }
+
+      if (hasAny(clean, ['batana','scalp','hair','pumpkin','castor','dht'])) return productAnswers.batana;
+      if (hasAny(clean, ['turmeric','dull','uneven','clearer looking','clarifying'])) return productAnswers.turmeric;
+      if (hasAny(clean, ['carrot','glow focused','revitalizing','avocado','refreshed','soft skin','softer'])) return productAnswers.carrot;
+      if (hasAny(clean, ['dry','moisture','moisturizing','soft','comfortable','sensitive'])) {
+        return 'For moisture-conscious cleansing, Glow Terra is strongest with Carrot Soap or Turmeric Soap. Carrot Soap uses carrot extract, carrot root oil, avocado oil, olive oil, coconut oil, and glycerin to support softer, refreshed-looking skin. Turmeric Soap pairs turmeric extract with shea butter, jojoba oil, sweet almond oil, olive oil, and coconut oil for gentle daily glow support.';
+      }
+      if (hasAny(clean, ['which','choose','recommend','best','what should i get','which one','routine','skin goals','soap','bar'])) return productAnswers.recommend;
+
+      var educationMatches = [
+        ['turmeric', ingredientEducation.turmeric],
+        ['shea', ingredientEducation.shea],
+        ['jojoba', ingredientEducation.jojoba],
+        ['almond', ingredientEducation.almond],
+        ['olive', ingredientEducation.olive],
+        ['coconut', ingredientEducation.coconut],
+        ['carrot', ingredientEducation.carrot],
+        ['avocado', ingredientEducation.avocado],
+        ['glycerin', ingredientEducation.glycerin],
+        ['batana', ingredientEducation.batana],
+        ['castor', ingredientEducation.castor],
+        ['pumpkin', ingredientEducation.pumpkin],
+        ['sodium cocoyl isethionate', ingredientEducation.cleanser],
+        ['cocamidopropyl betaine', ingredientEducation.cleanser]
+      ];
+
+      for (var e = 0; e < educationMatches.length; e++) {
+        if (clean.indexOf(educationMatches[e][0]) > -1) {
+          return educationMatches[e][1];
         }
       }
+
       return fallback;
+    }
+
+    function respond(question){
+      addMessage(question, 'user');
+      var typing = showTyping();
+      var delay = 1200 + Math.floor(Math.random() * 801);
+      setTimeout(function(){
+        if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+        addMessage(getAnswer(question), 'bot');
+      }, delay);
     }
 
     toggle.addEventListener('click', function(){ setOpen(panel.hidden); });
     closeButton.addEventListener('click', function(){ setOpen(false); });
+
     widget.querySelectorAll('[data-gt-assistant-prompt]').forEach(function(button){
       button.addEventListener('click', function(){
         var prompt = button.getAttribute('data-gt-assistant-prompt');
-        addMessage(prompt, 'user');
-        addMessage(getAnswer(prompt), 'bot');
+        respond(prompt);
       });
     });
+
     form.addEventListener('submit', function(event){
       event.preventDefault();
       var question = input.value.trim();
       if (!question) return;
       input.value = '';
-      addMessage(question, 'user');
-      addMessage(getAnswer(question), 'bot');
+      respond(question);
     });
 
     try {
