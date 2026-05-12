@@ -12,20 +12,22 @@
 
   .gt-blog-content {
     max-width: 100%;
-    padding: clamp(24px, 4vw, 48px);
+    padding: clamp(24px, 4vw, 44px);
     color: #211a16;
+    text-align: left;
   }
 
   .gt-blog-content rte-formatter {
     display: block;
-    max-width: 720px;
-    margin-inline: auto;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .gt-blog-content :is(p, li) {
     color: #4f463e;
-    font-size: clamp(16px, 1.6vw, 18px);
-    line-height: 1.78;
+    font-size: clamp(16px, 1.45vw, 18px);
+    font-weight: 400;
+    line-height: 1.76;
   }
 
   .gt-blog-content p {
@@ -33,15 +35,15 @@
   }
 
   .gt-blog-content p:first-child {
-    color: #342820;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.65;
+    color: #3f352e;
+    font-size: clamp(17px, 1.7vw, 20px);
+    font-weight: 400;
+    line-height: 1.7;
   }
 
   .gt-blog-content :is(h2, h3, h4) {
     margin: 1.55em 0 0.55em;
-    color: #211a16;
-    line-height: 1.12;
+    line-height: 1.14;
     letter-spacing: 0;
     text-wrap: balance;
   }
@@ -49,7 +51,9 @@
   .gt-blog-content h2 {
     position: relative;
     padding-top: 18px;
-    font-size: clamp(27px, 3vw, 40px);
+    color: #40513f;
+    font-size: clamp(27px, 3vw, 38px);
+    font-weight: 750;
   }
 
   .gt-blog-content h2:before {
@@ -64,13 +68,15 @@
   }
 
   .gt-blog-content h3 {
-    font-size: clamp(22px, 2.4vw, 30px);
     color: #40513f;
+    font-size: clamp(22px, 2.2vw, 29px);
+    font-weight: 700;
   }
 
   .gt-blog-content h4 {
+    color: #94664f;
     font-size: 19px;
-    color: #344b3a;
+    font-weight: 700;
   }
 
   .gt-blog-content :is(ul, ol) {
@@ -85,7 +91,7 @@
 
   .gt-blog-content li::marker {
     color: #40513f;
-    font-weight: 900;
+    font-weight: 800;
   }
 
   .gt-blog-content blockquote {
@@ -100,15 +106,22 @@
 
   .gt-blog-content blockquote :is(p, li) {
     color: #342820;
-    font-size: clamp(17px, 1.8vw, 20px);
+    font-size: clamp(17px, 1.7vw, 20px);
+    font-weight: 400;
     line-height: 1.65;
   }
 
   .gt-blog-content a {
     color: #344b3a;
-    font-weight: 800;
+    font-weight: 700;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+  }
+
+  .gt-blog-content strong,
+  .gt-blog-content b {
+    color: #40513f;
+    font-weight: 650;
   }
 
   .gt-blog-content img {
@@ -126,11 +139,6 @@
     margin: 2.3em 0;
     border: 0;
     background: rgba(64, 81, 63, 0.16);
-  }
-
-  .gt-blog-content strong {
-    color: #211a16;
-    font-weight: 900;
   }
 
   @media screen and (max-width: 749px) {
