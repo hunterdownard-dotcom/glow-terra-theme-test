@@ -1,0 +1,144 @@
+<div class="gt-assistant-widget" data-gt-assistant-widget>
+  <button class="gt-assistant-button" type="button" aria-expanded="false" aria-controls="gt-assistant-panel" data-gt-assistant-toggle>
+    <span class="gt-assistant-button__icon" aria-hidden="true">
+      <svg viewBox="0 0 48 48">
+        <path class="gt-assistant-icon__bubble" d="M12.5 13.5c4.1-4 12.2-5.1 18.2-2.8 6.4 2.5 9.4 8.2 7.4 14-2.1 6.2-9.3 9.5-17 7.8l-7.5 3.8 1.6-6.8c-5.7-3.8-6.8-11.9-2.7-16z"/>
+        <path class="gt-assistant-icon__leaf" d="M20.5 25.8c7.8-.8 12.2-5.1 14-11.3-6.9.4-12.6 4.1-14.7 10.8-.7 2.1-.7 4-.2 5.8"/>
+        <path class="gt-assistant-icon__stem" d="M21 26c3.2-2.8 6.7-5 10.8-6.6"/>
+        <path class="gt-assistant-icon__glow" d="M16.2 17.4l1.1-2.4 1.1 2.4 2.4 1.1-2.4 1.1-1.1 2.4-1.1-2.4-2.4-1.1 2.4-1.1z"/>
+      </svg>
+    </span>
+    <span class="gt-assistant-button__text">Need help choosing?</span>
+  </button>
+
+  <section class="gt-assistant-panel" id="gt-assistant-panel" aria-label="Glow Terra Assistant" data-gt-assistant-panel hidden>
+    <div class="gt-assistant-panel__header">
+      <div>
+        <p class="gt-assistant-panel__eyebrow">Glow Terra Assistant</p>
+        <p class="gt-assistant-panel__subtitle">Find the right bar for your skin or scalp goals.</p>
+      </div>
+      <button class="gt-assistant-close" type="button" aria-label="Close Glow Terra Assistant" data-gt-assistant-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+      </button>
+    </div>
+
+    <div class="gt-assistant-messages" data-gt-assistant-messages aria-live="polite">
+      <div class="gt-assistant-message gt-assistant-message--bot">Hi, I can help you choose between Turmeric, Batana, Carrot, or the Glow Collection Bundle using Glow Terra approved product info.</div>
+    </div>
+
+    <div class="gt-assistant-prompts" aria-label="Suggested questions">
+      <button type="button" data-gt-assistant-prompt="Which bar should I choose?">Choose a bar</button>
+      <button type="button" data-gt-assistant-prompt="Show ingredient lists">Ingredients</button>
+      <button type="button" data-gt-assistant-prompt="Tell me about shipping">Shipping</button>
+    </div>
+
+    <form class="gt-assistant-form" data-gt-assistant-form>
+      <label class="visually-hidden" for="gt-assistant-input">Ask Glow Terra Assistant</label>
+      <input id="gt-assistant-input" class="gt-assistant-input" type="text" autocomplete="off" placeholder="Ask about bars, ingredients, or shipping" data-gt-assistant-input>
+      <button class="gt-assistant-send" type="submit">Send</button>
+    </form>
+  </section>
+</div>
+
+<style>
+  .gt-assistant-widget{--gt-assistant-ink:#211a16;--gt-assistant-muted:#675c52;--gt-assistant-cream:#fffaf4;--gt-assistant-panel:#fffdf8;--gt-assistant-line:#e4d4c3;--gt-assistant-green:#40513f;--gt-assistant-green-dark:#344b3a;--gt-assistant-clay:#94664f;position:fixed;right:22px;bottom:22px;z-index:2147483000;font-family:inherit;color:var(--gt-assistant-ink)}
+  .gt-assistant-widget *{box-sizing:border-box}
+  .gt-assistant-button{display:inline-flex;align-items:center;gap:10px;min-height:48px;max-width:210px;border:1px solid rgba(52,75,58,.18);border-radius:999px;padding:7px 16px 7px 8px;background:rgba(255,250,244,.94);color:var(--gt-assistant-ink);box-shadow:0 18px 48px rgba(33,26,22,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font:inherit;font-size:13px;font-weight:800;line-height:1;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+  .gt-assistant-button:hover{transform:translateY(-2px);background:#fffdf8;box-shadow:0 24px 58px rgba(33,26,22,.2)}
+  .gt-assistant-button__icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gt-assistant-green),#5d6b48);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+  .gt-assistant-button svg{width:28px;height:28px;display:block}.gt-assistant-icon__bubble{fill:#fffaf4;opacity:.98}.gt-assistant-icon__leaf,.gt-assistant-icon__stem{fill:none;stroke:#40513f;stroke-width:2.15;stroke-linecap:round;stroke-linejoin:round}.gt-assistant-icon__glow{fill:#b08a57;opacity:.95}
+  .gt-assistant-panel{position:absolute;right:0;bottom:64px;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 110px));display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden;border:1px solid rgba(52,75,58,.15);border-radius:18px;background:linear-gradient(180deg,#fffdf8,#fbf3e9);box-shadow:0 28px 80px rgba(33,26,22,.22)}
+  .gt-assistant-panel[hidden]{display:none}
+  .gt-assistant-panel__header{display:flex;justify-content:space-between;gap:16px;padding:18px 18px 14px;background:linear-gradient(135deg,#344b3a,#5d6b48);color:#fffdf8}.gt-assistant-panel__eyebrow{margin:0;font-size:15px;font-weight:900;letter-spacing:0}.gt-assistant-panel__subtitle{margin:5px 0 0;max-width:250px;color:rgba(255,253,248,.78);font-size:12.5px;line-height:1.45}
+  .gt-assistant-close{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(255,253,248,.12);color:#fffdf8;cursor:pointer}.gt-assistant-close svg{width:17px;height:17px}.gt-assistant-close path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .gt-assistant-messages{display:grid;gap:10px;align-content:start;overflow:auto;padding:16px;background:radial-gradient(circle at 12% 0%,rgba(176,138,87,.12),transparent 35%)}
+  .gt-assistant-message{max-width:92%;border-radius:16px;padding:11px 13px;font-size:13px;line-height:1.48}.gt-assistant-message--bot{justify-self:start;background:#fffaf4;border:1px solid var(--gt-assistant-line);color:var(--gt-assistant-ink)}.gt-assistant-message--user{justify-self:end;background:var(--gt-assistant-green);color:#fffdf8}.gt-assistant-message a{color:var(--gt-assistant-green-dark);font-weight:800;text-decoration:underline;text-underline-offset:2px}
+  .gt-assistant-prompts{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;border-top:1px solid rgba(52,75,58,.1);background:rgba(255,250,244,.82)}.gt-assistant-prompts button{flex:0 0 auto;border:1px solid rgba(52,75,58,.18);border-radius:999px;background:#fffdf8;color:var(--gt-assistant-green-dark);padding:8px 11px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .gt-assistant-form{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 14px 14px;border-top:1px solid rgba(52,75,58,.1);background:#fffdf8}.gt-assistant-input{min-width:0;width:100%;height:42px;border:1px solid var(--gt-assistant-line);border-radius:999px;background:#fff;color:var(--gt-assistant-ink);padding:0 14px;font:inherit;font-size:13px}.gt-assistant-input:focus{outline:0;border-color:var(--gt-assistant-green);box-shadow:0 0 0 3px rgba(64,81,63,.13)}.gt-assistant-send{height:42px;border:0;border-radius:999px;background:var(--gt-assistant-green-dark);color:#fffdf8;padding:0 15px;font:inherit;font-size:12px;font-weight:900;cursor:pointer}
+  body:has(cart-drawer[open]) .gt-assistant-widget,body:has(.cart-drawer[open]) .gt-assistant-widget,body:has(.cart-drawer.is-open) .gt-assistant-widget,body:has(.cart-drawer.active) .gt-assistant-widget,body:has(dialog[open]) .gt-assistant-widget{display:none}
+  @media(max-width:989px){.gt-assistant-widget{right:12px;bottom:88px}.gt-assistant-button{min-height:42px;max-width:178px;padding:6px 12px 6px 6px;font-size:12px;box-shadow:0 14px 34px rgba(33,26,22,.16)}.gt-assistant-button__icon{width:30px;height:30px;flex-basis:30px}.gt-assistant-button svg{width:25px;height:25px}.gt-assistant-panel{bottom:54px;width:calc(100vw - 24px);max-height:calc(100dvh - 166px);border-radius:16px}.gt-assistant-panel__header{padding:16px}.gt-assistant-message{font-size:12.5px}.gt-assistant-form{grid-template-columns:1fr}.gt-assistant-send{width:100%}}
+  @media(max-width:380px){.gt-assistant-button__text{max-width:112px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gt-assistant-panel{max-height:calc(100dvh - 154px)}}
+</style>
+
+<script>
+  (function(){
+    var widget = document.querySelector('[data-gt-assistant-widget]');
+    if (!widget || widget.dataset.ready === 'true') return;
+    widget.dataset.ready = 'true';
+
+    var toggle = widget.querySelector('[data-gt-assistant-toggle]');
+    var panel = widget.querySelector('[data-gt-assistant-panel]');
+    var closeButton = widget.querySelector('[data-gt-assistant-close]');
+    var form = widget.querySelector('[data-gt-assistant-form]');
+    var input = widget.querySelector('[data-gt-assistant-input]');
+    var messages = widget.querySelector('[data-gt-assistant-messages]');
+    var fallback = 'For the most accurate answer, please contact Glow Terra at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit our <a href="/pages/contact">contact page</a>.';
+
+    var answers = [
+      {keys:['choose','which','recommend','best','bar','skin','scalp','routine'],text:'For a gentle daily glow and turmeric-focused cleansing bar, choose Turmeric Soap. For scalp-focused care and botanical oils, choose Batana Scalp Renewal Bar. For a glow-focused bar with carrot and avocado oils, choose Carrot Soap. For the best value and all three bars, choose the Glow Collection Bundle.'},
+      {keys:['turmeric'],text:'Turmeric Soap is best for customers wanting a gentle daily glow, botanical skincare, and a turmeric-focused cleansing bar. Ingredients: Water (Aqua), Glycerin, Cocos Nucifera (Coconut) Oil, Elaeis Guineensis (Palm) Oil, Olea Europaea (Olive) Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Butyrospermum Parkii (Shea) Butter, Simmondsia Chinensis (Jojoba) Oil, Curcuma Longa (Turmeric) Extract, Mineral Oil (Paraffinum Liquidum), Sodium Hydroxide.'},
+      {keys:['batana','scalp','hair'],text:'Batana Scalp Renewal Bar is best for scalp-focused care, hair and scalp cleansing, and botanical oils like batana, castor, olive, coconut, and pumpkin seed oil. Ingredients: Water (Aqua), Ricinus Communis (Castor) Seed Oil, Sodium Cocoyl Isethionate, Elaeis Guineensis (Palm) Oil, Glycerin, Cocamidopropyl Betaine, Olea Europaea (Olive) Oil, Elaeis Oleifera (Batana) Oil, Cocos Nucifera (Coconut) Oil, Cucurbita Pepo (Pumpkin) Seed Oil, Sodium Hydroxide, Herbal Extract.'},
+      {keys:['carrot','avocado'],text:'Carrot Soap is best for customers wanting a glow-focused bar with carrot extract, carrot root oil, avocado oil, olive oil, and coconut oil. Ingredients: Water (Aqua), Sorbitol, Sucrose, Stearic Acid, Glycerin, Olea Europaea (Olive) Oil, Cocos Nucifera (Coconut) Oil, Sodium Cocoyl Isethionate, Cocamidopropyl Betaine, Daucus Carota Sativa (Carrot) Extract, Persea Gratissima (Avocado) Oil, Sodium Lauryl Sulfate, Daucus Carota Sativa (Carrot) Root Oil, Sodium Hydroxide.'},
+      {keys:['bundle','collection','value','all three','price'],text:'The Glow Collection Bundle is the best value for customers who want all three bars. It was originally $24.99 and is currently $19.99 for all three bars. Single bars were originally $9.99 and are currently discounted.'},
+      {keys:['ingredient','ingredients','list','formula'],text:'I can share approved ingredient lists for Turmeric Soap, Batana Scalp Renewal Bar, and Carrot Soap. Ask for a specific bar name to see its exact list.'},
+      {keys:['shipping','ship','delivery','rate','us','u.s.'],text:'Glow Terra currently ships in the U.S. only. U.S. shipping is a $4.99 flat rate.'},
+      {keys:['newsletter','offers','promotion','promotions','updates','discount'],text:'Newsletter subscribers can receive future offers, updates, and promotions.'},
+      {keys:['contact','support','email','help'],text:'You can contact Glow Terra at <a href="mailto:team@shopglowterra.com">team@shopglowterra.com</a> or visit the <a href="/pages/contact">contact page</a>.'},
+      {keys:['brand','glow terra','about'],text:'Glow Terra is a botanical, moisture-conscious skincare brand focused on balanced cleansing, skin comfort, gentle daily glow support, ingredient transparency, and earth-derived oils and extracts.'}
+    ];
+
+    function setOpen(open){
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      try { sessionStorage.setItem('gtAssistantState', open ? 'open' : 'closed'); } catch(e) {}
+      if (open && window.matchMedia('(min-width: 750px)').matches) {
+        setTimeout(function(){ input.focus(); }, 80);
+      }
+    }
+
+    function addMessage(text, type){
+      var item = document.createElement('div');
+      item.className = 'gt-assistant-message gt-assistant-message--' + type;
+      if (type === 'bot') item.innerHTML = text;
+      else item.textContent = text;
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function getAnswer(question){
+      var clean = question.toLowerCase();
+      var blocked = ['acne','eczema','psoriasis','cure','treat','treatment','heal','medical','disease','dark spot','dark spots','hyperpigmentation','hair growth','grow hair','guarantee','guaranteed'];
+      for (var b = 0; b < blocked.length; b++) {
+        if (clean.indexOf(blocked[b]) > -1) return fallback;
+      }
+      for (var i = 0; i < answers.length; i++) {
+        for (var k = 0; k < answers[i].keys.length; k++) {
+          if (clean.indexOf(answers[i].keys[k]) > -1) return answers[i].text;
+        }
+      }
+      return fallback;
+    }
+
+    toggle.addEventListener('click', function(){ setOpen(panel.hidden); });
+    closeButton.addEventListener('click', function(){ setOpen(false); });
+    widget.querySelectorAll('[data-gt-assistant-prompt]').forEach(function(button){
+      button.addEventListener('click', function(){
+        var prompt = button.getAttribute('data-gt-assistant-prompt');
+        addMessage(prompt, 'user');
+        addMessage(getAnswer(prompt), 'bot');
+      });
+    });
+    form.addEventListener('submit', function(event){
+      event.preventDefault();
+      var question = input.value.trim();
+      if (!question) return;
+      input.value = '';
+      addMessage(question, 'user');
+      addMessage(getAnswer(question), 'bot');
+    });
+
+    try {
+      if (sessionStorage.getItem('gtAssistantState') === 'open') setOpen(true);
+    } catch(e) {}
+  })();
+</script>
