@@ -110,8 +110,10 @@
 
 <script>
   (function(){
-    var content = document.currentScript.closest('[data-gt-blog-content]');
-    if (!content || content.dataset.topicImagesReady === 'true') return;
+    var script = document.currentScript;
+    var content = script ? script.previousElementSibling : null;
+
+    if (!content || !content.matches('[data-gt-blog-content]') || content.dataset.topicImagesReady === 'true') return;
     content.dataset.topicImagesReady = 'true';
 
     var formatter = content.querySelector('rte-formatter');
@@ -122,6 +124,7 @@
     if (!images.length) return;
 
     var headings = Array.prototype.slice.call(formatter.querySelectorAll('h2, h3'));
+
     if (!headings.length) {
       imageWrap.removeAttribute('aria-hidden');
       imageWrap.classList.add('gt-blog-topic-images--fallback');
@@ -131,6 +134,7 @@
     images.forEach(function(image, index){
       var heading = headings[index];
       if (!heading) return;
+
       image.removeAttribute('aria-hidden');
       heading.insertAdjacentElement('beforebegin', image);
     });
@@ -157,7 +161,7 @@
   }
 
   .gt-blog-content :is(p, li) {
-    color: #4f463e;
+    color: #3f352e;
     font-size: clamp(15px, 1.25vw, 17px);
     font-weight: 400;
     line-height: 1.64;
@@ -168,7 +172,7 @@
   }
 
   .gt-blog-content p:first-child {
-    color: #3f352e;
+    color: #342820;
     font-size: clamp(16px, 1.45vw, 19px);
     font-weight: 400;
     line-height: 1.62;
@@ -176,6 +180,7 @@
 
   .gt-blog-content :is(h2, h3, h4) {
     margin: 1.55em 0 0.55em;
+    color: #211a16;
     line-height: 1.1;
     letter-spacing: 0;
     text-wrap: balance;
@@ -185,10 +190,9 @@
     position: relative;
     padding-top: 22px;
     border-top: 1px solid rgba(64, 81, 63, 0.18);
-    color: #40513f;
     font-family: var(--font-primary--family);
     font-size: clamp(25px, 2.7vw, 36px);
-    font-weight: 800;
+    font-weight: 760;
   }
 
   .gt-blog-content h2:before {
@@ -203,14 +207,12 @@
   }
 
   .gt-blog-content h3 {
-    color: #40513f;
     font-family: var(--font-primary--family);
     font-size: clamp(20px, 2vw, 28px);
-    font-weight: 760;
+    font-weight: 720;
   }
 
   .gt-blog-content h4 {
-    color: #94664f;
     font-size: 18px;
     font-weight: 700;
   }
@@ -248,15 +250,16 @@
   }
 
   .gt-blog-content a {
-    color: #344b3a;
-    font-weight: 750;
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
 
   .gt-blog-content strong,
   .gt-blog-content b {
-    color: #40513f;
+    color: inherit;
     font-weight: 650;
   }
 
@@ -358,3 +361,4 @@
   ]
 }
 {% endschema %}
+
