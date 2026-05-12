@@ -42,26 +42,28 @@
   }
 
   .gt-blog-content :is(h2, h3, h4) {
-    margin: 1.55em 0 0.55em;
-    line-height: 1.14;
+    margin: 1.85em 0 0.7em;
+    line-height: 1.12;
     letter-spacing: 0;
     text-wrap: balance;
   }
 
   .gt-blog-content h2 {
     position: relative;
-    padding-top: 18px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(64, 81, 63, 0.18);
     color: #40513f;
-    font-size: clamp(27px, 3vw, 38px);
-    font-weight: 750;
+    font-family: var(--font-primary--family);
+    font-size: clamp(28px, 3.1vw, 40px);
+    font-weight: 800;
   }
 
   .gt-blog-content h2:before {
     content: "";
     position: absolute;
-    top: 0;
+    top: -1px;
     left: 0;
-    width: 54px;
+    width: 74px;
     height: 2px;
     border-radius: 999px;
     background: #b08a57;
@@ -69,8 +71,9 @@
 
   .gt-blog-content h3 {
     color: #40513f;
-    font-size: clamp(22px, 2.2vw, 29px);
-    font-weight: 700;
+    font-family: var(--font-primary--family);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 760;
   }
 
   .gt-blog-content h4 {
@@ -82,7 +85,7 @@
   .gt-blog-content :is(ul, ol) {
     display: grid;
     gap: 10px;
-    margin: 1.2em 0;
+    margin: 1.25em 0;
     padding: 20px 22px 20px 42px;
     border: 1px solid rgba(64, 81, 63, 0.12);
     border-radius: 10px;
@@ -95,7 +98,7 @@
   }
 
   .gt-blog-content blockquote {
-    margin: 1.7em 0;
+    margin: 1.8em 0;
     padding: clamp(20px, 3vw, 30px);
     border-left: 4px solid #40513f;
     border-radius: 0 10px 10px 0;
@@ -113,7 +116,7 @@
 
   .gt-blog-content a {
     color: #344b3a;
-    font-weight: 700;
+    font-weight: 750;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
@@ -138,7 +141,7 @@
     height: 1px;
     margin: 2.3em 0;
     border: 0;
-    background: rgba(64, 81, 63, 0.16);
+    background: rgba(64, 81, 63, 0.18);
   }
 
   @media screen and (max-width: 749px) {
@@ -153,6 +156,10 @@
 
     .gt-blog-content p:first-child {
       font-size: 17px;
+    }
+
+    .gt-blog-content h2 {
+      font-size: clamp(25px, 8vw, 34px);
     }
 
     .gt-blog-content :is(ul, ol) {
