@@ -1,7 +1,40 @@
+{% liquid
+  assign gt_article_suffix = template.suffix | default: article.template_suffix | default: ''
+  assign gt_article_title = article.title | downcase
+  assign gt_cta_heading = section.settings.product_cta_heading | default: 'Build your Glow Terra routine'
+  assign gt_cta_text = section.settings.product_cta_text | default: 'Explore the bar that pairs best with this guide.'
+  assign gt_cta_label = section.settings.product_cta_label | default: 'Shop Glow Terra'
+  assign gt_cta_link = routes.all_products_collection_url
 
+  if gt_article_suffix contains 'carrot' or gt_article_title contains 'carrot'
+    assign gt_cta_heading = 'Continue with the Carrot Revitalizing Bar'
+    assign gt_cta_text = 'A glow-focused botanical bar for a softer, refreshed-looking routine.'
+    assign gt_cta_label = 'Shop Carrot Bar'
+    assign gt_cta_link = '/products/carrot-revitalizing-soap-bar'
+  elsif gt_article_suffix contains 'turmeric' or gt_article_title contains 'turmeric'
+    assign gt_cta_heading = 'Continue with the Turmeric Clarifying Bar'
+    assign gt_cta_text = 'A turmeric-focused cleansing bar made for gentle daily glow support.'
+    assign gt_cta_label = 'Shop Turmeric Bar'
+    assign gt_cta_link = '/products/turmeric-clarifying-soap-bar'
+  elsif gt_article_suffix contains 'batana' or gt_article_title contains 'batana'
+    assign gt_cta_heading = 'Continue with the Batana Scalp Renewal Bar'
+    assign gt_cta_text = 'A scalp-focused botanical bar with batana, castor, olive, coconut, and pumpkin seed oils.'
+    assign gt_cta_label = 'Shop Batana Bar'
+    assign gt_cta_link = '/products/batana-scalp-renewal-bar'
+  elsif gt_article_suffix contains 'overall' or gt_article_title contains 'collection' or gt_article_title contains 'system'
+    assign gt_cta_heading = 'Try the full Glow Collection'
+    assign gt_cta_text = 'Bring Turmeric, Carrot, and Batana together as one purposeful botanical routine.'
+    assign gt_cta_label = 'Shop Glow Collection'
+    assign gt_cta_link = '/products/the-glow-collection-1'
+  endif
+
+  if section.settings.product_cta_link != blank
+    assign gt_cta_link = section.settings.product_cta_link
+  endif
+%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<div class="section color-{{ section.settings.color_scheme }}">
+<div class="section color-{{ section.settings.color_scheme }} gt-blog-article">
   <div
     class="
       spacing-style
@@ -9,23 +42,76 @@
       layout-panel-flex--column
       section-content-wrapper
       mobile-column
+      gt-blog-article__shell
     "
     style="
       {% render 'layout-panel-style', settings: section.settings %}
       {% render 'spacing-style', settings: section.settings %}
     "
   >
-    <header>
+    <header class="gt-blog-article__header">
+      <span class="gt-blog-article__eyebrow">Glow Terra Journal</span>
       {%- content_for 'block', id: 'blog-post-title', type: 'text' %}
       {%- content_for 'block', id: 'blog-post-details', type: '_blog-post-info-text' %}
     </header>
 
-    {%- if article.image -%}
-      {%- content_for 'block', id: 'blog-post-image', type: '_blog-post-featured-image' %}
-    {%- endif -%}
-    {%- content_for 'block', id: 'blog-post-content', type: '_blog-post-content' %}
+    {% if section.settings.editorial_image_1 != blank %}
+      <figure class="gt-blog-article__media">
+        {{
+          section.settings.editorial_image_1
+          | image_url: width: 1800
+          | image_tag:
+            loading: 'eager',
+            widths: '400, 700, 1000, 1400, 1800',
+            sizes: '(min-width: 990px) 900px, calc(100vw - 40px)',
+            class: 'gt-blog-article__image',
+            alt: section.settings.editorial_image_1.alt
+        }}
+        {% if section.settings.editorial_image_1_caption != blank %}
+          <figcaption>{{ section.settings.editorial_image_1_caption }}</figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
 
-    {% comment %} Dynamic area for @app blocks only, at the bottom {% endcomment %}
+    {%- if article.image -%}
+      <div class="gt-blog-article__featured-image">
+        {%- content_for 'block', id: 'blog-post-image', type: '_blog-post-featured-image' %}
+      </div>
+    {%- endif -%}
+
+    <div class="gt-blog-article__content-card">
+      {%- content_for 'block', id: 'blog-post-content', type: '_blog-post-content' %}
+    </div>
+
+    {% if section.settings.editorial_image_2 != blank %}
+      <figure class="gt-blog-article__media gt-blog-article__media--secondary">
+        {{
+          section.settings.editorial_image_2
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 700, 1000, 1400, 1600',
+            sizes: '(min-width: 990px) 820px, calc(100vw - 40px)',
+            class: 'gt-blog-article__image',
+            alt: section.settings.editorial_image_2.alt
+        }}
+        {% if section.settings.editorial_image_2_caption != blank %}
+          <figcaption>{{ section.settings.editorial_image_2_caption }}</figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
+
+    {% if section.settings.show_product_cta %}
+      <aside class="gt-blog-article__cta" aria-label="Glow Terra product recommendation">
+        <div>
+          <span>Glow Terra pick</span>
+          <h2>{{ gt_cta_heading }}</h2>
+          <p>{{ gt_cta_text }}</p>
+        </div>
+        <a href="{{ gt_cta_link }}">{{ gt_cta_label }}</a>
+      </aside>
+    {% endif %}
+
     {% content_for 'blocks' %}
 
     {% if blog.comments_enabled? %}
@@ -64,10 +150,171 @@
 </script>
 
 {% stylesheet %}
+  .gt-blog-article {
+    --gt-blog-ink: #211a16;
+    --gt-blog-muted: #675c52;
+    --gt-blog-green: #40513f;
+    --gt-blog-green-dark: #344b3a;
+    --gt-blog-clay: #94664f;
+
+    background:
+      radial-gradient(circle at 14% 0%, rgba(176, 138, 87, 0.13), transparent 34%),
+      linear-gradient(180deg, #fffaf4 0%, #f8efe4 48%, #fffdf8 100%);
+    color: var(--gt-blog-ink);
+  }
+
+  .gt-blog-article__shell {
+    width: min(1040px, calc(100% - 40px));
+    margin-inline: auto;
+  }
+
+  .gt-blog-article__header {
+    width: min(860px, 100%);
+    margin: 0 auto;
+    padding: clamp(36px, 5vw, 70px) 0 8px;
+    text-align: center;
+  }
+
+  .gt-blog-article__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--gt-blog-clay);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .gt-blog-article__eyebrow:before,
+  .gt-blog-article__eyebrow:after {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: rgba(148, 102, 79, 0.42);
+  }
+
+  .gt-blog-article__header h1 {
+    max-width: 840px;
+    margin-inline: auto;
+    color: var(--gt-blog-ink);
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .gt-blog-article__header :is(time, span, p) {
+    color: var(--gt-blog-muted);
+  }
+
+  .gt-blog-article__media,
+  .gt-blog-article__featured-image {
+    width: min(940px, 100%);
+    margin: clamp(24px, 4vw, 42px) auto 0;
+  }
+
+  .gt-blog-article__media {
+    border: 1px solid rgba(64, 81, 63, 0.13);
+    border-radius: 10px;
+    padding: 10px;
+    background: rgba(255, 253, 248, 0.74);
+    box-shadow: 0 24px 70px rgba(66, 48, 34, 0.12);
+  }
+
+  .gt-blog-article__media--secondary {
+    width: min(820px, 100%);
+    margin-top: 34px;
+  }
+
+  .gt-blog-article__image,
+  .gt-blog-article .blog-post-featured-image__image {
+    display: block;
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .gt-blog-article__media figcaption {
+    margin: 10px 4px 0;
+    color: var(--gt-blog-muted);
+    font-size: 13px;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .gt-blog-article__content-card {
+    width: min(850px, 100%);
+    margin: clamp(28px, 4vw, 48px) auto 0;
+    border: 1px solid rgba(64, 81, 63, 0.13);
+    border-radius: 10px;
+    background: rgba(255, 253, 248, 0.92);
+    box-shadow: 0 26px 72px rgba(66, 48, 34, 0.1);
+  }
+
+  .gt-blog-article__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: min(850px, 100%);
+    margin: clamp(28px, 4vw, 48px) auto 0;
+    padding: clamp(22px, 4vw, 34px);
+    border: 1px solid rgba(64, 81, 63, 0.18);
+    border-radius: 10px;
+    background:
+      linear-gradient(135deg, rgba(64, 81, 63, 0.96), rgba(93, 107, 72, 0.94)),
+      #40513f;
+    color: #fffdf8;
+    box-shadow: 0 24px 70px rgba(33, 26, 22, 0.16);
+  }
+
+  .gt-blog-article__cta span {
+    display: block;
+    margin-bottom: 8px;
+    color: #ead8c2;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .gt-blog-article__cta h2 {
+    margin: 0;
+    color: #fffdf8;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .gt-blog-article__cta p {
+    max-width: 560px;
+    margin: 10px 0 0;
+    color: rgba(255, 253, 248, 0.78);
+    line-height: 1.55;
+  }
+
+  .gt-blog-article__cta a {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border-radius: 999px;
+    padding: 0 20px;
+    background: #fffdf8;
+    color: var(--gt-blog-ink);
+    font-weight: 900;
+    text-decoration: none;
+    box-shadow: 0 14px 34px rgba(33, 26, 22, 0.18);
+  }
+
   .blog-post-comments-container {
     width: 100%;
     max-width: var(--normal-content-width);
-    margin: 0 auto;
+    margin: 40px auto 0;
   }
 
   .blog-post-comments {
@@ -109,6 +356,40 @@
   .blog-post-comments-pagination .current,
   .blog-post-comments-pagination a:hover {
     border-bottom: 1px solid var(--color-foreground);
+  }
+
+  @media screen and (max-width: 749px) {
+    .gt-blog-article__shell {
+      width: min(100% - 28px, 1040px);
+    }
+
+    .gt-blog-article__header {
+      padding-top: 34px;
+      text-align: left;
+    }
+
+    .gt-blog-article__eyebrow:before,
+    .gt-blog-article__eyebrow:after {
+      display: none;
+    }
+
+    .gt-blog-article__header h1 {
+      font-size: clamp(32px, 11vw, 44px);
+    }
+
+    .gt-blog-article__content-card {
+      border-radius: 8px;
+    }
+
+    .gt-blog-article__cta {
+      display: block;
+      border-radius: 8px;
+    }
+
+    .gt-blog-article__cta a {
+      width: 100%;
+      margin-top: 18px;
+    }
   }
 {% endstylesheet %}
 
@@ -153,6 +434,63 @@
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Glow Terra editorial images"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image_1",
+      "label": "Editorial image 1"
+    },
+    {
+      "type": "text",
+      "id": "editorial_image_1_caption",
+      "label": "Editorial image 1 caption"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image_2",
+      "label": "Editorial image 2"
+    },
+    {
+      "type": "text",
+      "id": "editorial_image_2_caption",
+      "label": "Editorial image 2 caption"
+    },
+    {
+      "type": "header",
+      "content": "Glow Terra CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_cta",
+      "label": "Show product CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_cta_heading",
+      "label": "Fallback CTA heading",
+      "default": "Build your Glow Terra routine"
+    },
+    {
+      "type": "textarea",
+      "id": "product_cta_text",
+      "label": "Fallback CTA text",
+      "default": "Explore the bar that pairs best with this guide."
+    },
+    {
+      "type": "text",
+      "id": "product_cta_label",
+      "label": "Fallback CTA button label",
+      "default": "Shop Glow Terra"
+    },
+    {
+      "type": "url",
+      "id": "product_cta_link",
+      "label": "Optional custom CTA link"
     },
     {
       "type": "header",
