@@ -1,0 +1,136 @@
+<div class="gt-product-conversion" aria-label="Glow Terra product trust details">
+  <div class="gt-product-conversion__trust">
+    <span>Secure Checkout</span>
+    <span>Protected Checkout</span>
+    <span>Fast Processing</span>
+    <span>Natural Ingredients</span>
+  </div>
+
+  <div class="gt-product-conversion__notes">
+    <div>
+      <strong>Shipping calculated at checkout</strong>
+      <span>Clear checkout totals before you place your order.</span>
+    </div>
+    <div>
+      <strong>Estimated delivery: 3-5 business days</strong>
+      <span>Orders are packed with care for a smooth delivery experience.</span>
+    </div>
+    <div>
+      <strong>Handcrafted botanical skincare</strong>
+      <span>Glow Terra bars are built around thoughtful botanical ingredients.</span>
+    </div>
+    <div>
+      <strong>Bundle &amp; save available</strong>
+      <span>Choose the Glow Collection when you want the complete routine.</span>
+    </div>
+  </div>
+
+  <div class="gt-product-conversion__confidence">
+    <article>
+      <span>01</span>
+      <h3>Ingredient-forward formula</h3>
+      <p>Created for customers who want a bar that feels purposeful, clean, and easy to understand.</p>
+    </article>
+    <article>
+      <span>02</span>
+      <h3>Daily routine support</h3>
+      <p>A polished cleansing experience made to support skin comfort without loud claims or clutter.</p>
+    </article>
+    <article>
+      <span>03</span>
+      <h3>Premium care feel</h3>
+      <p>Simple, earthy, and moisture-conscious so the product page feels as finished as the formula.</p>
+    </article>
+  </div>
+
+  <div class="gt-product-faq" aria-label="Product questions">
+    <details>
+      <summary>How do I use this bar?</summary>
+      <p>Lather with water, apply gently, rinse thoroughly, and allow the bar to dry between uses.</p>
+    </details>
+    <details>
+      <summary>Is shipping free?</summary>
+      <p>Shipping is calculated at checkout.</p>
+    </details>
+    <details>
+      <summary>When will my order ship?</summary>
+      <p>Glow Terra orders are processed as quickly as possible. Estimated delivery is 3-5 business days.</p>
+    </details>
+    <details>
+      <summary>Can I use this daily?</summary>
+      <p>This bar is designed for regular cleansing routines. Adjust use based on your skin or scalp comfort.</p>
+    </details>
+    <details>
+      <summary>Where are ingredients shown?</summary>
+      <p>Ingredients are shown in the product description and product imagery when available.</p>
+    </details>
+  </div>
+</div>
+
+{% if current_variant.available %}
+  <div class="gt-product-mobile-sticky" data-gt-product-mobile-sticky>
+    <div>
+      <span>{{ product.title }}</span>
+      <strong>{{ current_variant.price | money }}</strong>
+    </div>
+    <button class="gt-btn gt-btn--dark" type="button" data-gt-sticky-add>Add to Cart</button>
+  </div>
+{% endif %}
+
+<style>
+  .gt-product-conversion{display:grid;gap:16px;margin:22px 0 26px}
+  .gt-product-conversion__trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;overflow:hidden;border:1px solid var(--gt-line);border-radius:8px;background:var(--gt-line);animation:gt-product-fade-up .7s ease both}
+  .gt-product-conversion__trust span{display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px 9px;background:#fff;color:#344b3a;font-size:12px;font-weight:800;text-align:center}
+  .gt-product-conversion__notes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;animation:gt-product-fade-up .75s ease both}
+  .gt-product-conversion__notes div,.gt-product-conversion__confidence article{border:1px solid rgba(64,81,63,.12);border-radius:8px;background:#fff;padding:14px;box-shadow:0 16px 36px rgba(66,48,34,.06)}
+  .gt-product-conversion__notes strong{display:block;color:#211a16;font-size:13px;line-height:1.25}
+  .gt-product-conversion__notes span{display:block;margin-top:5px;color:var(--gt-muted);font-size:12px;line-height:1.45}
+  .gt-product-conversion__confidence{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;animation:gt-product-fade-up .8s ease both}
+  .gt-product-conversion__confidence span{display:inline-flex;margin-bottom:10px;color:var(--gt-clay);font-size:12px;font-weight:900;letter-spacing:.08em}
+  .gt-product-conversion__confidence h3{margin:0;color:#211a16;font-size:15px;line-height:1.2}
+  .gt-product-conversion__confidence p{margin:8px 0 0;color:var(--gt-muted);font-size:12.5px;line-height:1.55}
+  .gt-product-faq{overflow:hidden;border:1px solid rgba(64,81,63,.14);border-radius:8px;background:#fff;animation:gt-product-fade-up .85s ease both}
+  .gt-product-faq details+details{border-top:1px solid rgba(64,81,63,.1)}
+  .gt-product-faq summary{cursor:pointer;list-style:none;padding:15px 16px;color:#211a16;font-size:14px;font-weight:850}
+  .gt-product-faq summary::-webkit-details-marker{display:none}
+  .gt-product-faq summary:after{content:"+";float:right;color:#40513f;font-weight:900}
+  .gt-product-faq details[open] summary:after{content:"-"}
+  .gt-product-faq p{margin:0;padding:0 16px 16px;color:var(--gt-muted);font-size:13px;line-height:1.58}
+  .gt-product-mobile-sticky{display:none}
+
+  @keyframes gt-product-fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:990px){
+    .gt-product-conversion__trust{grid-template-columns:repeat(2,1fr)}
+    .gt-product-conversion__confidence{grid-template-columns:1fr}
+  }
+
+  @media(max-width:680px){
+    .gt-product-conversion__notes{grid-template-columns:1fr}
+    .gt-product-mobile-sticky{position:fixed;left:12px;right:12px;bottom:76px;z-index:2147482500;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(64,81,63,.16);border-radius:16px;background:rgba(255,253,248,.96);box-shadow:0 18px 48px rgba(33,26,22,.2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:10px 10px 10px 14px}
+    .gt-product-mobile-sticky div{min-width:0}
+    .gt-product-mobile-sticky span{display:block;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#211a16;font-size:12px;font-weight:800}
+    .gt-product-mobile-sticky strong{display:block;margin-top:2px;color:#40513f;font-size:13px}
+    .gt-product-mobile-sticky .gt-btn{min-height:42px;padding:0 16px;white-space:nowrap}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .gt-product-conversion__trust,.gt-product-conversion__notes,.gt-product-conversion__confidence,.gt-product-faq{animation:none}
+  }
+</style>
+
+<script>
+  (function(){
+    if (window.gtProductTrustReady) return;
+    window.gtProductTrustReady = true;
+
+    document.addEventListener('click', function(event){
+      var stickyButton = event.target.closest('[data-gt-sticky-add]');
+      if (!stickyButton) return;
+
+      var form = document.querySelector('.gt-product-form');
+      var submit = form && form.querySelector('button[type="submit"]');
+      if (submit && !submit.disabled) submit.click();
+    });
+  })();
+</script>
