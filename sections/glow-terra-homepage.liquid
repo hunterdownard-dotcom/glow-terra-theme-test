@@ -388,4 +388,80 @@
   "name": "Glow Terra Homepage",
   "settings": [
     { "type": "text", "id": "hero_eyebrow", "label": "Hero eyebrow", "default": "Small batch botanical skincare" },
-    { "type": "text", "id": "hero_heading", "label": "Hero heading", "default": "Nature-
+    { "type": "text", "id": "hero_heading", "label": "Hero heading", "default": "Nature-Driven Skincare That Delivers Real Results" },
+    { "type": "textarea", "id": "hero_text", "label": "Hero text", "default": "Luxury handcrafted soap bars powered by multi-oil botanical formulations." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero background image" },
+    { "type": "image_picker", "id": "hero_side_image", "label": "Hero side image" },
+    { "type": "collection", "id": "featured_collection", "label": "Shop collection" },
+    { "type": "product", "id": "bundle_product", "label": "Glow Collection Bundle product" },
+    { "type": "image_picker", "id": "banner_image", "label": "Bundle banner image" },
+
+    { "type": "header", "content": "Ingredient comparison section" },
+    { "type": "text", "id": "comparison_eyebrow", "label": "Eyebrow", "default": "INGREDIENT TRANSPARENCY" },
+    { "type": "text", "id": "comparison_heading", "label": "Heading", "default": "Before you buy a viral soap, check the label." },
+    { "type": "textarea", "id": "comparison_text", "label": "Body text", "default": "Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather." },
+
+    { "type": "image_picker", "id": "comparison_left_image", "label": "Left comparison image" },
+    { "type": "image_picker", "id": "comparison_right_image", "label": "Right Glow Terra image" },
+    { "type": "image_picker", "id": "comparison_left_mobile_image", "label": "Optional mobile left image" },
+    { "type": "image_picker", "id": "comparison_right_mobile_image", "label": "Optional mobile right image" },
+
+    { "type": "text", "id": "comparison_left_title", "label": "Left card title", "default": "What buyers miss" },
+    { "type": "textarea", "id": "comparison_left_text", "label": "Left card text", "default": "Crowded claims, unclear wording, misspelled label details, and trend-heavy ingredient lists can make a product feel less trustworthy once you actually read it." },
+    { "type": "text", "id": "comparison_right_title", "label": "Right card title", "default": "What Glow Terra focuses on" },
+    { "type": "textarea", "id": "comparison_right_text", "label": "Right card text", "default": "Readable ingredient labels, botanical oils and butters, fragrance-free focus, and formulas made to support daily skin routines." },
+
+    { "type": "text", "id": "comparison_primary_label", "label": "Primary button label", "default": "Shop Glow Terra" },
+    { "type": "url", "id": "comparison_primary_link", "label": "Primary button link" },
+    { "type": "text", "id": "comparison_secondary_label", "label": "Secondary button label", "default": "Learn more" },
+    { "type": "url", "id": "comparison_secondary_link", "label": "Secondary button link" },
+
+    { "type": "text", "id": "comparison_trust_1", "label": "Trust item 1", "default": "Readable labels" },
+    { "type": "text", "id": "comparison_trust_2", "label": "Trust item 2", "default": "Botanical oils" },
+    { "type": "text", "id": "comparison_trust_3", "label": "Trust item 3", "default": "Fragrance-free focus" },
+    { "type": "text", "id": "comparison_trust_4", "label": "Trust item 4", "default": "Made with care" }
+  ],
+  "blocks": [
+    { "type": "featured_product", "name": "Featured product", "settings": [{ "type": "product", "id": "product", "label": "Product" }] },
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "image_picker", "id": "avatar", "label": "Avatar image" },
+      { "type": "text", "id": "name", "label": "Customer name", "default": "Maya R." },
+      { "type": "textarea", "id": "quote", "label": "Review", "default": "The Turmeric Bar feels clean and gentle on my skin." }
+    ] },
+    { "type": "ingredient", "name": "Ingredient", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Turmeric" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "A classic botanical for a clarified, fresh-feeling finish." },
+      { "type": "image_picker", "id": "image", "label": "Image" }
+    ] },
+    { "type": "social_image", "name": "Routine guide item", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Cleanse gently" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Use your selected bar with warm water, then let it dry between uses." },
+      { "type": "text", "id": "alt", "label": "Alt text", "default": "Glow Terra skincare routine" }
+    ] }
+  ],
+  "presets": [
+    {
+      "name": "Glow Terra Homepage",
+      "blocks": [
+        { "type": "featured_product", "settings": { "product": "turmeric-clarifying-bar" } },
+        { "type": "featured_product", "settings": { "product": "carrot-glow-bar" } },
+        { "type": "featured_product", "settings": { "product": "batana-scalp-renewal-bar" } },
+        { "type": "featured_product", "settings": { "product": "glow-collection-bundle" } },
+        { "type": "review", "settings": { "name": "Maya R.", "quote": "The Turmeric Bar feels clean and gentle on my skin." } },
+        { "type": "review", "settings": { "name": "Jordan L.", "quote": "The Batana bar has become part of my weekly routine." } },
+        { "type": "review", "settings": { "name": "Alina P.", "quote": "Simple ingredients, nice lather, and my skin does not feel tight after." } },
+        { "type": "ingredient", "settings": { "title": "Turmeric", "text": "A classic botanical for a clarified, fresh-feeling finish." } },
+        { "type": "ingredient", "settings": { "title": "Batana Oil", "text": "A rich oil used in scalp and hair routines for a weekly reset." } },
+        { "type": "ingredient", "settings": { "title": "Carrot Extract", "text": "A glow-supporting botanical that pairs with gentle plant oils." } },
+        { "type": "ingredient", "settings": { "title": "Shea Butter", "text": "A creamy butter that gives each bar a cushioned feel." } },
+        { "type": "ingredient", "settings": { "title": "Jojoba Oil", "text": "A lightweight botanical oil selected for a balanced finish." } },
+        { "type": "social_image", "settings": { "title": "Cleanse gently", "text": "Use your selected bar with warm water, then let it dry between uses." } },
+        { "type": "social_image", "settings": { "title": "Rotate by need", "text": "Keep Turmeric, Carrot, and Batana ready so each bar has a clear role." } },
+        { "type": "social_image", "settings": { "title": "Build the bundle routine", "text": "Use the 3-Bar Bundle as a simple weekly system for face, body, and scalp care." } },
+        { "type": "social_image", "settings": { "title": "Use Batana weekly", "text": "Work the Batana bar into scalp and hair wash days as a focused reset." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
