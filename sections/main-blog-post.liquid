@@ -153,9 +153,13 @@
   .gt-blog-article {
     --gt-blog-ink: #211a16;
     --gt-blog-muted: #675c52;
+    --gt-blog-cream: #fffaf4;
+    --gt-blog-panel: #fffdf8;
+    --gt-blog-line: rgba(64, 81, 63, 0.16);
     --gt-blog-green: #40513f;
     --gt-blog-green-dark: #344b3a;
     --gt-blog-clay: #94664f;
+    --gt-blog-gold: #b08a57;
 
     background:
       radial-gradient(circle at 14% 0%, rgba(176, 138, 87, 0.13), transparent 34%),
@@ -169,18 +173,17 @@
   }
 
   .gt-blog-article__header {
-    width: min(900px, 100%);
+    width: min(920px, 100%);
     margin: 0 auto;
-    padding: clamp(38px, 5vw, 74px) 0 10px;
+    padding: clamp(36px, 5vw, 70px) 0 8px;
     text-align: center;
   }
 
   .gt-blog-article__eyebrow {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 14px;
     color: var(--gt-blog-clay);
     font-size: 12px;
     font-weight: 900;
@@ -191,24 +194,39 @@
   .gt-blog-article__eyebrow:before,
   .gt-blog-article__eyebrow:after {
     content: "";
-    width: 28px;
+    width: 24px;
     height: 1px;
     background: rgba(148, 102, 79, 0.42);
   }
 
-  .gt-blog-article__header h1 {
-    max-width: 880px;
-    margin: 0 auto;
-    color: var(--gt-blog-ink);
-    font-family: var(--font-primary--family);
-    font-size: clamp(38px, 5.4vw, 68px);
-    font-weight: 850;
-    line-height: 0.98;
-    letter-spacing: 0;
+  .gt-blog-article__header h1,
+  .gt-blog-article__header [id*="blog-post-title"],
+  .gt-blog-article__header [id*="blog-post-title"] *,
+  .gt-blog-article__header .text-block,
+  .gt-blog-article__header .text-block *,
+  .gt-blog-article__header [class*="text"],
+  .gt-blog-article__header [class*="text"] * {
+    max-width: 920px;
+    margin-inline: auto;
+    color: var(--gt-blog-ink) !important;
+    font-family: inherit !important;
+    font-size: clamp(34px, 4.5vw, 58px) !important;
+    line-height: 1.08 !important;
+    font-weight: 700 !important;
+    font-style: normal !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
     text-wrap: balance;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .gt-blog-article__header :is(time, p) {
+  .gt-blog-article__header em,
+  .gt-blog-article__header i {
+    font-style: normal !important;
+  }
+
+  .gt-blog-article__header :is(time, span, p) {
     color: var(--gt-blog-muted);
   }
 
@@ -249,7 +267,7 @@
   }
 
   .gt-blog-article__content-card {
-    width: min(980px, 100%);
+    width: min(850px, 100%);
     margin: clamp(28px, 4vw, 48px) auto 0;
     border: 1px solid rgba(64, 81, 63, 0.13);
     border-radius: 10px;
@@ -262,7 +280,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    width: min(980px, 100%);
+    width: min(850px, 100%);
     margin: clamp(28px, 4vw, 48px) auto 0;
     padding: clamp(22px, 4vw, 34px);
     border: 1px solid rgba(64, 81, 63, 0.18);
@@ -278,9 +296,9 @@
     display: block;
     margin-bottom: 8px;
     color: #ead8c2;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
@@ -371,22 +389,23 @@
       text-align: center;
     }
 
-    .gt-blog-article__eyebrow {
-      width: 100%;
-      gap: 10px;
-      justify-content: center;
-    }
-
     .gt-blog-article__eyebrow:before,
     .gt-blog-article__eyebrow:after {
-      display: block;
-      width: 22px;
+      display: none;
     }
 
-    .gt-blog-article__header h1 {
-      max-width: 360px;
-      font-size: clamp(34px, 10vw, 46px);
-      line-height: 0.98;
+    .gt-blog-article__header h1,
+    .gt-blog-article__header [id*="blog-post-title"],
+    .gt-blog-article__header [id*="blog-post-title"] *,
+    .gt-blog-article__header .text-block,
+    .gt-blog-article__header .text-block *,
+    .gt-blog-article__header [class*="text"],
+    .gt-blog-article__header [class*="text"] * {
+      font-size: clamp(30px, 9vw, 42px) !important;
+      line-height: 1.1 !important;
+      font-weight: 700 !important;
+      font-style: normal !important;
+      text-align: center !important;
     }
 
     .gt-blog-article__content-card {
@@ -454,82 +473,22 @@
     {
       "type": "image_picker",
       "id": "editorial_image_1",
-      "label": "Top editorial image"
+      "label": "Editorial image 1"
     },
     {
       "type": "text",
       "id": "editorial_image_1_caption",
-      "label": "Top editorial image caption"
+      "label": "Editorial image 1 caption"
     },
     {
       "type": "image_picker",
       "id": "editorial_image_2",
-      "label": "Bottom editorial image"
+      "label": "Editorial image 2"
     },
     {
       "type": "text",
       "id": "editorial_image_2_caption",
-      "label": "Bottom editorial image caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_1",
-      "label": "Section image 1"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_1_caption",
-      "label": "Section image 1 caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_2",
-      "label": "Section image 2"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_2_caption",
-      "label": "Section image 2 caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_3",
-      "label": "Section image 3"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_3_caption",
-      "label": "Section image 3 caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_4",
-      "label": "Section image 4"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_4_caption",
-      "label": "Section image 4 caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_5",
-      "label": "Section image 5"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_5_caption",
-      "label": "Section image 5 caption"
-    },
-    {
-      "type": "image_picker",
-      "id": "topic_image_6",
-      "label": "Section image 6"
-    },
-    {
-      "type": "text",
-      "id": "topic_image_6_caption",
-      "label": "Section image 6 caption"
+      "label": "Editorial image 2 caption"
     },
     {
       "type": "header",
