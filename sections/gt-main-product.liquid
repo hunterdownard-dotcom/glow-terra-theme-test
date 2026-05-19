@@ -1,52 +1,3 @@
-{% render 'gt-premium-styles' %}
-{% render 'gt-bottom-nav' %}
-
-{% liquid
-  assign current_variant = product.selected_or_first_available_variant
-%}
-
-<section class="gt-store gt-product-page">
-  <div class="gt-wrap gt-product-layout">
-    <div class="gt-product-media" aria-label="{{ product.title | escape }} media">
-      {% if product.images.size > 0 %}
-        {% for image in product.images %}
-          <div class="gt-product-media__item">
-            {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: image.alt | default: product.title }}
-          </div>
-        {% endfor %}
-      {% elsif product.featured_image != blank %}
-        <div class="gt-product-media__item">
-          {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: product.title }}
-        </div>
-      {% else %}
-        <div class="gt-product-media__item">
-          {{ 'product-1' | placeholder_svg_tag }}
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="gt-product-info">
-      <p class="gt-eyebrow">{{ section.settings.eyebrow }}</p>
-      <h1 class="gt-title">{{ product.title }}</h1>
-      <div class="gt-price gt-product-price">
-        {% if product.compare_at_price > product.price %}
-          <span>{{ product.price | money }}</span>
-          <s>{{ product.compare_at_price | money }}</s>
-        {% else %}
-          <span>{{ product.price | money }}</span>
-        {% endif %}
-      </div>
-
-      <div class="gt-product-trust">
-        <span>Secure checkout</span>
-        <span>Fast U.S. shipping</span>
-        <span>Small batch crafted</span>
-      </div>
-
-      <div class="gt-product-benefits" aria-label="Product highlights">
-        <span>Botanical oil base</span>
-        <span>Skin-first formula</span>
-        <span>Clean daily care</span>
       </div>
 
       {% form 'product', product, class: 'gt-product-form' %}
@@ -70,6 +21,8 @@
           {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
       {% endform %}
+
+      {% render 'gt-product-trust-conversion', product: product, current_variant: current_variant %}
 
       <div class="gt-product-care">
         <div><strong>Ships fast</strong><span>Carefully packed from the U.S.</span></div>
@@ -141,10 +94,19 @@
   .gt-product-media__item:first-child img,.gt-product-media__item:first-child video,.gt-product-media__item:first-child model-viewer,.gt-product-media__item:first-child svg{aspect-ratio:1.12/1}
   .gt-product-media__item:not(:first-child) img,.gt-product-media__item:not(:first-child) video,.gt-product-media__item:not(:first-child) model-viewer,.gt-product-media__item:not(:first-child) svg{aspect-ratio:1}
   .gt-product-info{position:sticky;top:84px;align-self:start;background:linear-gradient(180deg,#fffdf8,#f8f0e5);border:1px solid rgba(52,75,58,.13);border-radius:8px;padding:34px;box-shadow:0 24px 70px rgba(52,75,58,.13)}
-  .gt-product-info h1{font-size:clamp(36px,4vw,56px)}.gt-product-price{margin:16px 0 18px;font-size:21px}.gt-product-trust{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}.gt-product-trust span{border:1px solid var(--gt-line);border-radius:999px;padding:8px 10px;color:var(--gt-muted);font-size:12px;font-weight:700}
-  .gt-product-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 24px}.gt-product-benefits span{background:#eef1e8;border:1px solid rgba(52,75,58,.14);border-radius:8px;padding:12px 10px;font-size:12px;font-weight:800;color:var(--gt-moss);text-align:center}
-  .gt-product-form{display:grid;gap:12px;margin:0 0 26px;background:#fff;border:1px solid var(--gt-line);border-radius:8px;padding:18px}.gt-product-form label{font-weight:800;font-size:13px}.gt-product-form .gt-btn{width:100%;margin-top:8px}
-  .gt-product-care{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:-8px 0 24px}.gt-product-care div{border:1px solid rgba(52,75,58,.12);border-radius:8px;padding:13px;background:rgba(255,253,248,.72)}.gt-product-care strong{display:block;font-size:13px;color:var(--gt-moss)}.gt-product-care span{display:block;margin-top:4px;color:var(--gt-muted);font-size:12px;line-height:1.45}
+  .gt-product-info h1{font-size:clamp(36px,4vw,56px)}
+  .gt-product-price{margin:16px 0 18px;font-size:21px}
+  .gt-product-trust{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;overflow:hidden;margin:18px 0 20px;border:1px solid var(--gt-line);border-radius:8px;background:var(--gt-line)}
+  .gt-product-trust span{display:flex;align-items:center;justify-content:center;min-height:42px;padding:10px 8px;background:#fff;color:#344b3a;font-size:12px;font-weight:800;text-align:center}
+  .gt-product-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 24px}
+  .gt-product-benefits span{background:#eef1e8;border:1px solid rgba(52,75,58,.14);border-radius:8px;padding:12px 10px;font-size:12px;font-weight:800;color:var(--gt-moss);text-align:center}
+  .gt-product-form{display:grid;gap:12px;margin:0 0 20px;background:#fff;border:1px solid var(--gt-line);border-radius:8px;padding:18px}
+  .gt-product-form label{font-weight:800;font-size:13px}
+  .gt-product-form .gt-btn{width:100%;margin-top:8px}
+  .gt-product-care{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 24px}
+  .gt-product-care div{border:1px solid rgba(52,75,58,.12);border-radius:8px;padding:13px;background:rgba(255,253,248,.72)}
+  .gt-product-care strong{display:block;font-size:13px;color:var(--gt-moss)}
+  .gt-product-care span{display:block;margin-top:4px;color:var(--gt-muted);font-size:12px;line-height:1.45}
   .gt-product-description{color:var(--gt-muted);line-height:1.65;margin:24px 0}
   .gt-product-related{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   @media(max-width:990px){.gt-product-layout{grid-template-columns:1fr;gap:24px}.gt-product-info{position:static}.gt-product-related{grid-template-columns:repeat(2,1fr)}}
@@ -158,7 +120,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Glow Terra skincare" },
     { "type": "textarea", "id": "ingredient_text", "label": "Ingredient highlight text", "default": "Made with a thoughtful botanical oil base and skin-first ingredients. See product description for the exact formula." },
     { "type": "textarea", "id": "usage_text", "label": "Usage text", "default": "Lather with water, apply gently, rinse thoroughly, and allow the bar to dry between uses." },
-    { "type": "textarea", "id": "shipping_text", "label": "Shipping and returns text", "default": "Ships from the U.S. Returns and support are handled through Glow Terra customer care." },
+    { "type": "textarea", "id": "shipping_text", "label": "Shipping and returns text", "default": "Shipping is calculated at checkout. Orders are processed with care and support is handled through Glow Terra customer care." },
     { "type": "checkbox", "id": "show_related", "label": "Show related products", "default": true }
   ],
   "presets": [{ "name": "Glow Terra Product" }]
