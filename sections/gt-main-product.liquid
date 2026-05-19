@@ -1,3 +1,53 @@
+{% render 'gt-premium-styles' %}
+{% render 'gt-bottom-nav' %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<section class="gt-store gt-product-page">
+  <div class="gt-wrap gt-product-layout">
+    <div class="gt-product-media" aria-label="{{ product.title | escape }} media">
+      {% if product.images.size > 0 %}
+        {% for image in product.images %}
+          <div class="gt-product-media__item">
+            {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: image.alt | default: product.title }}
+          </div>
+        {% endfor %}
+      {% elsif product.featured_image != blank %}
+        <div class="gt-product-media__item">
+          {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: product.title }}
+        </div>
+      {% else %}
+        <div class="gt-product-media__item">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="gt-product-info">
+      <p class="gt-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="gt-title">{{ product.title }}</h1>
+      <div class="gt-price gt-product-price">
+        {% if product.compare_at_price > product.price %}
+          <span>{{ product.price | money }}</span>
+          <s>{{ product.compare_at_price | money }}</s>
+        {% else %}
+          <span>{{ product.price | money }}</span>
+        {% endif %}
+      </div>
+
+      <div class="gt-product-trust">
+        <span>Secure Checkout</span>
+        <span>Protected Checkout</span>
+        <span>Fast Processing</span>
+        <span>Natural Ingredients</span>
+      </div>
+
+      <div class="gt-product-benefits" aria-label="Product highlights">
+        <span>Botanical oil base</span>
+        <span>Skin-first formula</span>
+        <span>Clean daily care</span>
       </div>
 
       {% form 'product', product, class: 'gt-product-form' %}
