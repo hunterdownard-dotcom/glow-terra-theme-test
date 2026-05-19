@@ -135,7 +135,24 @@
         "hero_image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_00_21_AM_9378859d-cbec-442a-a843-d0ed743a868f.png",
         "hero_side_image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_51_45_AM.png",
         "featured_collection": "",
-        "bundle_product": "glow-collection-bundle"
+        "bundle_product": "glow-collection-bundle",
+        "comparison_eyebrow": "INGREDIENT TRANSPARENCY",
+        "comparison_heading": "Before you buy a viral soap, check the label.",
+        "comparison_text": "Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather.",
+        "comparison_left_image": "shopify://shop_images/website_real_viral_tiktok_soap.png",
+        "comparison_right_image": "shopify://shop_images/ChatGPT_Image_May_19_2026_06_08_04_AM.png",
+        "comparison_left_title": "What buyers miss",
+        "comparison_left_text": "Crowded claims, unclear wording, misspelled label details, and trend-heavy ingredient lists can make a product feel less trustworthy once you actually read it.",
+        "comparison_right_title": "What Glow Terra focuses on",
+        "comparison_right_text": "Readable ingredient labels, botanical oils and butters, fragrance-free focus, and formulas made to support daily skin routines.",
+        "comparison_primary_label": "Shop Glow Terra",
+        "comparison_primary_link": "",
+        "comparison_secondary_label": "Learn more",
+        "comparison_secondary_link": "",
+        "comparison_trust_1": "Readable labels",
+        "comparison_trust_2": "Botanical oils",
+        "comparison_trust_3": "Fragrance-free focus",
+        "comparison_trust_4": "Made with care"
       }
     }
   },
