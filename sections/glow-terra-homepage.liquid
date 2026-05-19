@@ -19,8 +19,6 @@
   assign comparison_text = section.settings.comparison_text | default: 'Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather.'
   assign comparison_primary_label = section.settings.comparison_primary_label | default: 'Shop Glow Terra'
   assign comparison_primary_link = section.settings.comparison_primary_link | default: collection_url
-  assign comparison_secondary_label = section.settings.comparison_secondary_label | default: 'Learn more'
-  assign comparison_secondary_link = section.settings.comparison_secondary_link | default: '/blogs/news'
 %}
 
 <section class="gt-store gt-home" aria-label="Glow Terra homepage">
@@ -201,9 +199,6 @@
         {% if comparison_primary_label != blank %}
           <a class="gt-btn gt-btn--dark" href="{{ comparison_primary_link }}">{{ comparison_primary_label }}</a>
         {% endif %}
-        {% if comparison_secondary_label != blank %}
-          <a class="gt-btn gt-btn--light" href="{{ comparison_secondary_link }}">{{ comparison_secondary_label }}</a>
-        {% endif %}
       </div>
     </div>
 
@@ -215,7 +210,7 @@
               {% if section.settings.comparison_left_mobile_image != blank %}
                 <source media="(max-width: 680px)" srcset="{{ section.settings.comparison_left_mobile_image | image_url: width: 900 }}">
               {% endif %}
-              {{ section.settings.comparison_left_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.comparison_left_image.alt }}
+              {{ section.settings.comparison_left_image | image_url: width: 1600 | image_tag: loading: 'lazy', alt: section.settings.comparison_left_image.alt }}
             </picture>
           {% else %}
             {{ 'collection-1' | placeholder_svg_tag }}
@@ -234,7 +229,7 @@
               {% if section.settings.comparison_right_mobile_image != blank %}
                 <source media="(max-width: 680px)" srcset="{{ section.settings.comparison_right_mobile_image | image_url: width: 900 }}">
               {% endif %}
-              {{ section.settings.comparison_right_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.comparison_right_image.alt }}
+              {{ section.settings.comparison_right_image | image_url: width: 1600 | image_tag: loading: 'lazy', alt: section.settings.comparison_right_image.alt }}
             </picture>
           {% else %}
             {{ 'collection-2' | placeholder_svg_tag }}
@@ -347,9 +342,10 @@
   .gt-home-review strong{color:#40513f}
 
   .gt-ingredient-comparison{display:grid;gap:30px}
-  .gt-ingredient-comparison__intro{max-width:860px}
-  .gt-ingredient-comparison__intro .gt-copy{max-width:760px}
-  .gt-ingredient-comparison__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .gt-ingredient-comparison__intro{max-width:880px;margin-inline:auto;text-align:center}
+  .gt-ingredient-comparison__intro .gt-title{max-width:820px;margin-inline:auto}
+  .gt-ingredient-comparison__intro .gt-copy{max-width:760px;margin-inline:auto}
+  .gt-ingredient-comparison__actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
   .gt-ingredient-comparison__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}
   .gt-ingredient-comparison__card{display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid rgba(36,29,24,.08);border-radius:8px;background:linear-gradient(145deg,#fffdf8,#f7ecdf);box-shadow:0 22px 58px rgba(66,48,34,.11)}
   .gt-ingredient-comparison__card--glow{border-color:rgba(64,81,63,.16)}
@@ -359,8 +355,17 @@
   .gt-ingredient-comparison__caption{padding:22px}
   .gt-ingredient-comparison__caption h3{margin:0 0 8px;color:#211a16;font-size:clamp(21px,2vw,28px);line-height:1.12;font-weight:800;letter-spacing:0}
   .gt-ingredient-comparison__caption p{margin:0;color:var(--gt-muted);font-size:15px;line-height:1.62}
-  .gt-ingredient-comparison__trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;overflow:hidden;border:1px solid var(--gt-line);border-radius:8px;background:var(--gt-line)}
-  .gt-ingredient-comparison__trust span{display:flex;align-items:center;justify-content:center;min-height:52px;padding:14px 10px;background:var(--gt-card);color:#344b3a;font-size:13px;font-weight:800;text-align:center}
+  .gt-ingredient-comparison__trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;overflow:hidden;border:1px solid var(--gt-line);background:var(--gt-line)}
+  .gt-ingredient-comparison__trust span{display:flex;align-items:center;justify-content:center;min-height:58px;padding:16px 12px;background:var(--gt-card);color:#211a16;font-size:14px;font-weight:800;text-align:center}
+
+  @media(min-width:990px){
+    .gt-wrap.gt-ingredient-comparison{width:min(1320px,calc(100% - 48px));max-width:1320px}
+    .gt-ingredient-comparison{gap:34px}
+    .gt-ingredient-comparison__grid{gap:12px}
+    .gt-ingredient-comparison__image{min-height:620px;padding:8px}
+    .gt-ingredient-comparison__image img,.gt-ingredient-comparison__image svg{max-height:760px}
+    .gt-ingredient-comparison__caption{padding:18px 20px 20px}
+  }
 
   .gt-home-ingredients{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   .gt-home-ingredients article{background:var(--gt-card);border:1px solid rgba(36,29,24,.08);border-radius:8px;overflow:hidden}
@@ -413,9 +418,6 @@
 
     { "type": "text", "id": "comparison_primary_label", "label": "Primary button label", "default": "Shop Glow Terra" },
     { "type": "url", "id": "comparison_primary_link", "label": "Primary button link" },
-    { "type": "text", "id": "comparison_secondary_label", "label": "Secondary button label", "default": "Learn more" },
-    { "type": "url", "id": "comparison_secondary_link", "label": "Secondary button link" },
-
     { "type": "text", "id": "comparison_trust_1", "label": "Trust item 1", "default": "Readable labels" },
     { "type": "text", "id": "comparison_trust_2", "label": "Trust item 2", "default": "Botanical oils" },
     { "type": "text", "id": "comparison_trust_3", "label": "Trust item 3", "default": "Fragrance-free focus" },
@@ -465,3 +467,4 @@
   ]
 }
 {% endschema %}
+
