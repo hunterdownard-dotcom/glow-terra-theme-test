@@ -1,18 +1,13 @@
 <div class="gt-cart-drawer" data-gt-cart-drawer hidden>
   <div class="gt-cart-drawer__overlay" data-gt-cart-close></div>
-
   <aside class="gt-cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Glow Terra cart">
     <header class="gt-cart-drawer__header">
       <div>
         <p>Glow Terra Cart</p>
         <span data-gt-cart-count-text>{{ cart.item_count }} item{% if cart.item_count != 1 %}s{% endif %}</span>
       </div>
-
       <button type="button" aria-label="Close cart" data-gt-cart-close>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 6l12 12"></path>
-          <path d="M18 6L6 18"></path>
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
       </button>
     </header>
 
@@ -20,69 +15,20 @@
       <div class="gt-cart-drawer__loading">Loading your cart...</div>
     </div>
 
-    <template data-gt-cart-recommendations-template>
-      <section class="gt-cart-drawer__recommendations" aria-label="Complete your Glow Terra routine">
-        <div class="gt-cart-drawer__recommendations-header">
-          <p>Complete Your Routine</p>
-          <span>Pair your cart with another Glow Terra favorite.</span>
-        </div>
-
-        <div class="gt-cart-drawer__recommendations-track">
-          {% for recommendation in collections.all.products limit: 8 %}
-            {% assign recommendation_variant = recommendation.selected_or_first_available_variant %}
-
-            {% if recommendation.available and recommendation_variant != blank %}
-              <article class="gt-cart-recommendation" data-product-id="{{ recommendation.id }}">
-                <a
-                  class="gt-cart-recommendation__image"
-                  href="{{ recommendation.url }}"
-                  aria-label="{{ recommendation.title | escape }}"
-                >
-                  {% if recommendation.featured_image != blank %}
-                    {{
-                      recommendation.featured_image
-                      | image_url: width: 360
-                      | image_tag:
-                        loading: 'lazy',
-                        alt: recommendation.featured_image.alt | default: recommendation.title
-                    }}
-                  {% else %}
-                    {{ 'product-1' | placeholder_svg_tag }}
-                  {% endif %}
-                </a>
-
-                <div class="gt-cart-recommendation__content">
-                  <a href="{{ recommendation.url }}">{{ recommendation.title }}</a>
-                  <strong>{{ recommendation.price | money }}</strong>
-                  <button
-                    type="button"
-                    data-gt-cart-recommend-add
-                    data-variant-id="{{ recommendation_variant.id }}"
-                  >
-                    Add
-                  </button>
-                </div>
-              </article>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </section>
-    </template>
-
     <footer class="gt-cart-drawer__footer" data-gt-cart-footer hidden>
       <div class="gt-cart-drawer__subtotal">
         <span>Subtotal</span>
         <strong data-gt-cart-subtotal>{{ cart.total_price | money }}</strong>
       </div>
-
       <p class="gt-cart-drawer__note">Shipping calculated at checkout</p>
-
       <a class="gt-cart-drawer__checkout" href="/checkout">Checkout</a>
-
-      <button class="gt-cart-drawer__continue" type="button" data-gt-cart-close>
-        Continue Shopping
-      </button>
-
+      <button class="gt-cart-drawer__continue" type="button" data-gt-cart-close>Continue Shopping</button>
+      <div class="gt-cart-drawer__trust">
+        <span>Secure Checkout</span>
+        <span>Protected Checkout</span>
+        <span>Fast Processing</span>
+        <span>Natural Ingredients</span>
+      </div>
       <div class="gt-cart-drawer__mini-notes">
         <span>Estimated delivery: 3-5 business days</span>
         <span>Bundle &amp; save available</span>
@@ -93,463 +39,57 @@
 </div>
 
 <style>
-  .gt-cart-drawer{
-    position:fixed;
-    inset:0;
-    z-index:2147483200;
-    color:#211a16;
-    font-family:inherit;
-  }
-
-  .gt-cart-drawer[hidden]{
-    display:none;
-  }
-
-  .gt-cart-drawer__overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(33,26,22,.36);
-    opacity:0;
-    transition:opacity .28s ease;
-  }
-
-  .gt-cart-drawer__panel{
-    position:absolute;
-    top:0;
-    right:0;
-    display:grid;
-    grid-template-rows:auto minmax(0,1fr) auto;
-    width:min(440px,100vw);
-    height:100%;
-    background:linear-gradient(180deg,#fffdf8,#fbf3e9);
-    border-left:1px solid rgba(64,81,63,.14);
-    box-shadow:-28px 0 80px rgba(33,26,22,.22);
-    transform:translateX(105%);
-    transition:transform .34s cubic-bezier(.22,1,.36,1);
-  }
-
-  .gt-cart-drawer.is-open .gt-cart-drawer__overlay{
-    opacity:1;
-  }
-
-  .gt-cart-drawer.is-open .gt-cart-drawer__panel{
-    transform:translateX(0);
-  }
-
-  .gt-cart-drawer__header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    padding:20px;
-    border-bottom:1px solid rgba(64,81,63,.12);
-    background:#fffdf8;
-  }
-
-  .gt-cart-drawer__header p{
-    margin:0;
-    color:#211a16;
-    font-size:20px;
-    font-weight:900;
-    letter-spacing:0;
-  }
-
-  .gt-cart-drawer__header span{
-    display:block;
-    margin-top:4px;
-    color:#675c52;
-    font-size:12px;
-    font-weight:700;
-  }
-
-  .gt-cart-drawer__header button{
-    display:grid;
-    place-items:center;
-    width:38px;
-    height:38px;
-    border:1px solid rgba(64,81,63,.15);
-    border-radius:50%;
-    background:#fff;
-    color:#40513f;
-    cursor:pointer;
-  }
-
-  .gt-cart-drawer__header svg{
-    width:18px;
-    height:18px;
-  }
-
-  .gt-cart-drawer__header path{
-    fill:none;
-    stroke:currentColor;
-    stroke-width:2;
-    stroke-linecap:round;
-  }
-
-  .gt-cart-drawer__body{
-    overflow:auto;
-    padding:16px 18px 18px;
-  }
-
-  .gt-cart-drawer__loading,
-  .gt-cart-drawer__empty{
-    display:grid;
-    place-items:center;
-    min-height:260px;
-    text-align:center;
-    color:#675c52;
-  }
-
-  .gt-cart-drawer__empty h2{
-    margin:0;
-    color:#211a16;
-    font-size:24px;
-    line-height:1.12;
-  }
-
-  .gt-cart-drawer__empty p{
-    max-width:280px;
-    margin:10px auto 18px;
-    color:#675c52;
-    line-height:1.5;
-  }
-
-  .gt-cart-drawer__empty a{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:44px;
-    border-radius:999px;
-    padding:0 18px;
-    background:#344b3a;
-    color:#fffdf8;
-    font-weight:900;
-    text-decoration:none;
-  }
-
-  .gt-cart-drawer__items{
-    display:grid;
-    gap:12px;
-  }
-
-  .gt-cart-item{
-    display:grid;
-    grid-template-columns:76px 1fr;
-    gap:12px;
-    border:1px solid rgba(64,81,63,.11);
-    border-radius:10px;
-    background:#fff;
-    padding:10px;
-    box-shadow:0 16px 36px rgba(66,48,34,.07);
-  }
-
-  .gt-cart-item__image{
-    overflow:hidden;
-    border-radius:8px;
-    background:#f5eadc;
-  }
-
-  .gt-cart-item__image img,
-  .gt-cart-item__image svg{
-    display:block;
-    width:100%;
-    aspect-ratio:1;
-    object-fit:cover;
-  }
-
-  .gt-cart-item__title{
-    display:block;
-    color:#211a16;
-    font-size:14px;
-    font-weight:900;
-    line-height:1.25;
-    text-decoration:none;
-  }
-
-  .gt-cart-item__variant{
-    margin:4px 0 0;
-    color:#675c52;
-    font-size:12px;
-    line-height:1.35;
-  }
-
-  .gt-cart-item__price{
-    margin-top:7px;
-    color:#40513f;
-    font-size:13px;
-    font-weight:900;
-  }
-
-  .gt-cart-item__controls{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:10px;
-  }
-
-  .gt-cart-qty{
-    display:inline-grid;
-    grid-template-columns:32px 34px 32px;
-    align-items:center;
-    overflow:hidden;
-    border:1px solid rgba(64,81,63,.16);
-    border-radius:999px;
-    background:#fffdf8;
-  }
-
-  .gt-cart-qty button{
-    height:32px;
-    border:0;
-    background:transparent;
-    color:#40513f;
-    font-size:18px;
-    font-weight:900;
-    cursor:pointer;
-  }
-
-  .gt-cart-qty span{
-    text-align:center;
-    color:#211a16;
-    font-size:13px;
-    font-weight:900;
-  }
-
-  .gt-cart-remove{
-    border:0;
-    background:transparent;
-    color:#94664f;
-    font:inherit;
-    font-size:12px;
-    font-weight:800;
-    text-decoration:underline;
-    text-underline-offset:3px;
-    cursor:pointer;
-  }
-
-  .gt-cart-drawer__recommendations{
-    margin-top:16px;
-    padding-top:16px;
-    border-top:1px solid rgba(64,81,63,.12);
-  }
-
-  .gt-cart-drawer__recommendations-header{
-    margin-bottom:11px;
-  }
-
-  .gt-cart-drawer__recommendations-header p{
-    margin:0;
-    color:#211a16;
-    font-size:16px;
-    font-weight:900;
-    letter-spacing:0;
-  }
-
-  .gt-cart-drawer__recommendations-header span{
-    display:block;
-    margin-top:4px;
-    color:#675c52;
-    font-size:12px;
-    line-height:1.4;
-  }
-
-  .gt-cart-drawer__recommendations-track{
-    display:grid;
-    grid-auto-flow:column;
-    grid-auto-columns:minmax(168px,1fr);
-    gap:10px;
-    overflow-x:auto;
-    padding-bottom:3px;
-    scroll-snap-type:x proximity;
-  }
-
-  .gt-cart-recommendation{
-    display:grid;
-    grid-template-rows:auto 1fr;
-    overflow:hidden;
-    border:1px solid rgba(64,81,63,.12);
-    border-radius:10px;
-    background:#fff;
-    box-shadow:0 14px 34px rgba(66,48,34,.08);
-    scroll-snap-align:start;
-  }
-
-  .gt-cart-recommendation[hidden]{
-    display:none;
-  }
-
-  .gt-cart-recommendation__image{
-    display:block;
-    overflow:hidden;
-    background:#f5eadc;
-  }
-
-  .gt-cart-recommendation__image img,
-  .gt-cart-recommendation__image svg{
-    display:block;
-    width:100%;
-    aspect-ratio:1.1/1;
-    object-fit:cover;
-  }
-
-  .gt-cart-recommendation__content{
-    display:grid;
-    align-content:start;
-    gap:7px;
-    padding:10px;
-  }
-
-  .gt-cart-recommendation__content a{
-    display:-webkit-box;
-    overflow:hidden;
-    color:#211a16;
-    font-size:12.5px;
-    font-weight:900;
-    line-height:1.28;
-    text-decoration:none;
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
-  }
-
-  .gt-cart-recommendation__content strong{
-    color:#40513f;
-    font-size:13px;
-    line-height:1;
-  }
-
-  .gt-cart-recommendation__content button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:34px;
-    border:0;
-    border-radius:999px;
-    background:#344b3a;
-    color:#fffdf8;
-    font:inherit;
-    font-size:12px;
-    font-weight:900;
-    cursor:pointer;
-  }
-
-  .gt-cart-recommendation__content button[aria-busy="true"]{
-    opacity:.72;
-    cursor:wait;
-  }
-
-  .gt-cart-drawer__footer{
-    border-top:1px solid rgba(64,81,63,.12);
-    background:#fffdf8;
-    padding:16px 18px calc(18px + env(safe-area-inset-bottom));
-    box-shadow:0 -18px 42px rgba(66,48,34,.08);
-  }
-
-  .gt-cart-drawer__subtotal{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:8px;
-    color:#211a16;
-    font-weight:900;
-  }
-
-  .gt-cart-drawer__subtotal strong{
-    font-size:18px;
-  }
-
-  .gt-cart-drawer__note{
-    margin:0 0 12px;
-    color:#675c52;
-    font-size:12.5px;
-    line-height:1.45;
-  }
-
-  .gt-cart-drawer__checkout{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:48px;
-    border-radius:999px;
-    background:#211a16;
-    color:#fffdf8;
-    font-weight:900;
-    text-decoration:none;
-    box-shadow:0 18px 42px rgba(33,26,22,.18);
-  }
-
-  .gt-cart-drawer__continue{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    min-height:42px;
-    margin-top:8px;
-    border:1px solid rgba(64,81,63,.16);
-    border-radius:999px;
-    background:#fff;
-    color:#40513f;
-    font:inherit;
-    font-weight:900;
-    cursor:pointer;
-  }
-
-  .gt-cart-drawer__mini-notes{
-    display:grid;
-    gap:5px;
-    margin-top:11px;
-    color:#675c52;
-    font-size:12px;
-    line-height:1.35;
-  }
-
-  body.gt-cart-drawer-open{
-    overflow:hidden;
-  }
+  .gt-cart-drawer{position:fixed;inset:0;z-index:2147483200;color:#211a16;font-family:inherit}
+  .gt-cart-drawer[hidden]{display:none}
+  .gt-cart-drawer__overlay{position:absolute;inset:0;background:rgba(33,26,22,.36);opacity:0;transition:opacity .28s ease}
+  .gt-cart-drawer__panel{position:absolute;top:0;right:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;width:min(440px,100vw);height:100%;background:linear-gradient(180deg,#fffdf8,#fbf3e9);border-left:1px solid rgba(64,81,63,.14);box-shadow:-28px 0 80px rgba(33,26,22,.22);transform:translateX(105%);transition:transform .34s cubic-bezier(.22,1,.36,1)}
+  .gt-cart-drawer.is-open .gt-cart-drawer__overlay{opacity:1}
+  .gt-cart-drawer.is-open .gt-cart-drawer__panel{transform:translateX(0)}
+  .gt-cart-drawer__header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px;border-bottom:1px solid rgba(64,81,63,.12);background:#fffdf8}
+  .gt-cart-drawer__header p{margin:0;color:#211a16;font-size:20px;font-weight:900;letter-spacing:0}
+  .gt-cart-drawer__header span{display:block;margin-top:4px;color:#675c52;font-size:12px;font-weight:700}
+  .gt-cart-drawer__header button{display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(64,81,63,.15);border-radius:50%;background:#fff;color:#40513f;cursor:pointer}
+  .gt-cart-drawer__header svg{width:18px;height:18px}
+  .gt-cart-drawer__header path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .gt-cart-drawer__body{overflow:auto;padding:16px 18px 18px}
+  .gt-cart-drawer__loading,.gt-cart-drawer__empty{display:grid;place-items:center;min-height:260px;text-align:center;color:#675c52}
+  .gt-cart-drawer__empty h2{margin:0;color:#211a16;font-size:24px;line-height:1.12}
+  .gt-cart-drawer__empty p{max-width:280px;margin:10px auto 18px;color:#675c52;line-height:1.5}
+  .gt-cart-drawer__empty a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;padding:0 18px;background:#344b3a;color:#fffdf8;font-weight:900;text-decoration:none}
+  .gt-cart-drawer__items{display:grid;gap:12px}
+  .gt-cart-item{display:grid;grid-template-columns:76px 1fr;gap:12px;border:1px solid rgba(64,81,63,.11);border-radius:10px;background:#fff;padding:10px;box-shadow:0 16px 36px rgba(66,48,34,.07)}
+  .gt-cart-item__image{overflow:hidden;border-radius:8px;background:#f5eadc}
+  .gt-cart-item__image img,.gt-cart-item__image svg{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+  .gt-cart-item__title{display:block;color:#211a16;font-size:14px;font-weight:900;line-height:1.25;text-decoration:none}
+  .gt-cart-item__variant{margin:4px 0 0;color:#675c52;font-size:12px;line-height:1.35}
+  .gt-cart-item__price{margin-top:7px;color:#40513f;font-size:13px;font-weight:900}
+  .gt-cart-item__controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+  .gt-cart-qty{display:inline-grid;grid-template-columns:32px 34px 32px;align-items:center;overflow:hidden;border:1px solid rgba(64,81,63,.16);border-radius:999px;background:#fffdf8}
+  .gt-cart-qty button{height:32px;border:0;background:transparent;color:#40513f;font-size:18px;font-weight:900;cursor:pointer}
+  .gt-cart-qty span{text-align:center;color:#211a16;font-size:13px;font-weight:900}
+  .gt-cart-remove{border:0;background:transparent;color:#94664f;font:inherit;font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .gt-cart-drawer__footer{border-top:1px solid rgba(64,81,63,.12);background:#fffdf8;padding:16px 18px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -18px 42px rgba(66,48,34,.08)}
+  .gt-cart-drawer__subtotal{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px;color:#211a16;font-weight:900}
+  .gt-cart-drawer__subtotal strong{font-size:18px}
+  .gt-cart-drawer__note{margin:0 0 12px;color:#675c52;font-size:12.5px;line-height:1.45}
+  .gt-cart-drawer__checkout{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;background:#211a16;color:#fffdf8;font-weight:900;text-decoration:none;box-shadow:0 18px 42px rgba(33,26,22,.18)}
+  .gt-cart-drawer__continue{display:flex;align-items:center;justify-content:center;width:100%;min-height:42px;margin-top:8px;border:1px solid rgba(64,81,63,.16);border-radius:999px;background:#fff;color:#40513f;font:inherit;font-weight:900;cursor:pointer}
+  .gt-cart-drawer__trust{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;overflow:hidden;margin-top:12px;border:1px solid rgba(64,81,63,.13);border-radius:8px;background:rgba(64,81,63,.13)}
+  .gt-cart-drawer__trust span{display:flex;align-items:center;justify-content:center;min-height:40px;padding:8px;background:#fff;color:#344b3a;font-size:11px;font-weight:850;text-align:center}
+  .gt-cart-drawer__mini-notes{display:grid;gap:5px;margin-top:10px;color:#675c52;font-size:12px;line-height:1.35}
+  body.gt-cart-drawer-open{overflow:hidden}
 
   @media(max-width:680px){
-    .gt-cart-drawer__panel{
-      width:100vw;
-    }
-
-    .gt-cart-drawer__header{
-      padding:16px;
-    }
-
-    .gt-cart-drawer__body{
-      padding:12px 12px 138px;
-    }
-
-    .gt-cart-item{
-      grid-template-columns:62px 1fr;
-      padding:9px;
-    }
-
-    .gt-cart-drawer__recommendations{
-      margin-top:14px;
-      padding-top:14px;
-    }
-
-    .gt-cart-drawer__recommendations-track{
-      grid-auto-columns:minmax(148px,1fr);
-    }
-
-    .gt-cart-drawer__footer{
-      position:sticky;
-      bottom:0;
-      padding:12px 12px calc(12px + env(safe-area-inset-bottom));
-    }
-
-    .gt-cart-drawer__checkout{
-      min-height:50px;
-    }
+    .gt-cart-drawer__panel{width:100vw}
+    .gt-cart-drawer__header{padding:16px}
+    .gt-cart-drawer__body{padding:12px 12px 170px}
+    .gt-cart-item{grid-template-columns:62px 1fr;padding:9px}
+    .gt-cart-drawer__footer{position:sticky;bottom:0;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}
+    .gt-cart-drawer__checkout{min-height:50px}
   }
 
   @media(prefers-reduced-motion:reduce){
-    .gt-cart-drawer__overlay,
-    .gt-cart-drawer__panel{
-      transition:none;
-    }
+    .gt-cart-drawer__overlay,.gt-cart-drawer__panel{transition:none}
   }
 </style>
 
@@ -565,19 +105,14 @@
     var footer = drawer.querySelector('[data-gt-cart-footer]');
     var subtotal = drawer.querySelector('[data-gt-cart-subtotal]');
     var countText = drawer.querySelector('[data-gt-cart-count-text]');
-    var recommendationTemplate = drawer.querySelector('[data-gt-cart-recommendations-template]');
     var currency = '{{ cart.currency.iso_code | default: shop.currency }}';
 
     function formatMoney(cents){
       if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
         return window.Shopify.formatMoney(cents);
       }
-
       try {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: currency || 'USD'
-        }).format((cents || 0) / 100);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format((cents || 0) / 100);
       } catch(e) {
         return '$' + ((cents || 0) / 100).toFixed(2);
       }
@@ -610,38 +145,9 @@
     function itemImage(item){
       if (item.image) {
         var separator = item.image.indexOf('?') > -1 ? '&' : '?';
-
-        return '<img src="' +
-          escapeHtml(item.image + separator + 'width=160') +
-          '" alt="' +
-          escapeHtml(item.product_title) +
-          '" loading="lazy">';
+        return '<img src="' + escapeHtml(item.image + separator + 'width=160') + '" alt="' + escapeHtml(item.product_title) + '" loading="lazy">';
       }
-
       return '<svg viewBox="0 0 80 80" aria-hidden="true"><rect width="80" height="80" fill="#f5eadc"></rect></svg>';
-    }
-
-    function recommendations(cart){
-      if (!recommendationTemplate) return '';
-
-      var wrapper = document.createElement('div');
-      var productIds = {};
-
-      wrapper.innerHTML = recommendationTemplate.innerHTML;
-
-      cart.items.forEach(function(item){
-        productIds[String(item.product_id)] = true;
-      });
-
-      wrapper.querySelectorAll('[data-product-id]').forEach(function(card){
-        if (productIds[card.getAttribute('data-product-id')]) {
-          card.hidden = true;
-        }
-      });
-
-      if (!wrapper.querySelector('[data-product-id]:not([hidden])')) return '';
-
-      return wrapper.innerHTML;
     }
 
     function render(cart){
@@ -650,58 +156,33 @@
       footer.hidden = !cart.item_count;
 
       if (!cart.item_count) {
-        body.innerHTML =
-          '<div class="gt-cart-drawer__empty">' +
-            '<div>' +
-              '<h2>Your Glow Terra cart is empty</h2>' +
-              '<p>Explore botanical bars for skin, scalp, and daily glow support.</p>' +
-              '<a href="{{ routes.all_products_collection_url }}">Continue Shopping</a>' +
-            '</div>' +
-          '</div>';
-
+        body.innerHTML = '<div class="gt-cart-drawer__empty"><div><h2>Your Glow Terra cart is empty</h2><p>Explore botanical bars for skin, scalp, and daily glow support.</p><a href="{{ routes.all_products_collection_url }}">Continue Shopping</a></div></div>';
         return;
       }
 
-      body.innerHTML =
-        '<div class="gt-cart-drawer__items">' +
-          cart.items.map(function(item){
-            var variant = item.variant_title && item.variant_title !== 'Default Title'
-              ? '<p class="gt-cart-item__variant">' + escapeHtml(item.variant_title) + '</p>'
-              : '';
-
-            return '<article class="gt-cart-item" data-key="' + escapeHtml(item.key) + '">' +
-              '<a class="gt-cart-item__image" href="' + escapeHtml(item.url) + '">' +
-                itemImage(item) +
-              '</a>' +
-              '<div>' +
-                '<a class="gt-cart-item__title" href="' + escapeHtml(item.url) + '">' +
-                  escapeHtml(item.product_title) +
-                '</a>' +
-                variant +
-                '<div class="gt-cart-item__price">' +
-                  formatMoney(item.final_line_price) +
-                '</div>' +
-                '<div class="gt-cart-item__controls">' +
-                  '<div class="gt-cart-qty" aria-label="Quantity controls">' +
-                    '<button type="button" data-gt-cart-qty="' + (item.quantity - 1) + '" aria-label="Decrease quantity">-</button>' +
-                    '<span>' + item.quantity + '</span>' +
-                    '<button type="button" data-gt-cart-qty="' + (item.quantity + 1) + '" aria-label="Increase quantity">+</button>' +
-                  '</div>' +
-                  '<button class="gt-cart-remove" type="button" data-gt-cart-remove>Remove</button>' +
-                '</div>' +
+      body.innerHTML = '<div class="gt-cart-drawer__items">' + cart.items.map(function(item){
+        var variant = item.variant_title && item.variant_title !== 'Default Title' ? '<p class="gt-cart-item__variant">' + escapeHtml(item.variant_title) + '</p>' : '';
+        return '<article class="gt-cart-item" data-key="' + escapeHtml(item.key) + '">' +
+          '<a class="gt-cart-item__image" href="' + escapeHtml(item.url) + '">' + itemImage(item) + '</a>' +
+          '<div>' +
+            '<a class="gt-cart-item__title" href="' + escapeHtml(item.url) + '">' + escapeHtml(item.product_title) + '</a>' +
+            variant +
+            '<div class="gt-cart-item__price">' + formatMoney(item.final_line_price) + '</div>' +
+            '<div class="gt-cart-item__controls">' +
+              '<div class="gt-cart-qty" aria-label="Quantity controls">' +
+                '<button type="button" data-gt-cart-qty="' + (item.quantity - 1) + '" aria-label="Decrease quantity">-</button>' +
+                '<span>' + item.quantity + '</span>' +
+                '<button type="button" data-gt-cart-qty="' + (item.quantity + 1) + '" aria-label="Increase quantity">+</button>' +
               '</div>' +
-            '</article>';
-          }).join('') +
-        '</div>' +
-        recommendations(cart);
+              '<button class="gt-cart-remove" type="button" data-gt-cart-remove>Remove</button>' +
+            '</div>' +
+          '</div>' +
+        '</article>';
+      }).join('') + '</div>';
     }
 
     function fetchCart(){
-      return fetch('/cart.js', {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function(response){
+      return fetch('/cart.js', { headers: { 'Accept': 'application/json' } }).then(function(response){
         if (!response.ok) throw new Error('Cart request failed');
         return response.json();
       });
@@ -713,62 +194,43 @@
 
     function openDrawer(){
       drawer.hidden = false;
-
       requestAnimationFrame(function(){
         drawer.classList.add('is-open');
         document.body.classList.add('gt-cart-drawer-open');
       });
-
       refresh();
     }
 
     function closeDrawer(){
       drawer.classList.remove('is-open');
       document.body.classList.remove('gt-cart-drawer-open');
-
       window.setTimeout(function(){
-        if (!drawer.classList.contains('is-open')) {
-          drawer.hidden = true;
-        }
+        if (!drawer.classList.contains('is-open')) drawer.hidden = true;
       }, 280);
     }
 
     function changeItem(key, quantity){
       body.setAttribute('aria-busy','true');
-
       return fetch('/cart/change.js', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          id: key,
-          quantity: Math.max(0, quantity)
-        })
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: key, quantity: Math.max(0, quantity) })
       })
       .then(function(response){
         if (!response.ok) throw new Error('Cart change failed');
         return response.json();
       })
       .then(render)
-      .finally(function(){
-        body.removeAttribute('aria-busy');
-      });
+      .finally(function(){ body.removeAttribute('aria-busy'); });
     }
 
     function submitAdd(form){
       var button = form.querySelector('button[type="submit"], input[type="submit"]');
-
-      if (button) {
-        button.setAttribute('aria-busy','true');
-      }
+      if (button) button.setAttribute('aria-busy','true');
 
       return fetch('/cart/add.js', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json'
-        },
+        headers: { 'Accept': 'application/json' },
         body: new FormData(form)
       })
       .then(function(response){
@@ -781,37 +243,7 @@
         HTMLFormElement.prototype.submit.call(form);
       })
       .finally(function(){
-        if (button) {
-          button.removeAttribute('aria-busy');
-        }
-      });
-    }
-
-    function addRecommendation(button){
-      var variantId = button.getAttribute('data-variant-id');
-
-      if (!variantId) return;
-
-      button.setAttribute('aria-busy','true');
-
-      return fetch('/cart/add.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          id: variantId,
-          quantity: 1
-        })
-      })
-      .then(function(response){
-        if (!response.ok) throw new Error('Recommendation add failed');
-        return response.json();
-      })
-      .then(refresh)
-      .finally(function(){
-        button.removeAttribute('aria-busy');
+        if (button) button.removeAttribute('aria-busy');
       });
     }
 
@@ -821,15 +253,7 @@
         return;
       }
 
-      var recommendationAdd = event.target.closest('[data-gt-cart-recommend-add]');
-
-      if (recommendationAdd) {
-        addRecommendation(recommendationAdd);
-        return;
-      }
-
       var item = event.target.closest('.gt-cart-item');
-
       if (!item) return;
 
       if (event.target.closest('[data-gt-cart-remove]')) {
@@ -838,27 +262,20 @@
       }
 
       var qty = event.target.closest('[data-gt-cart-qty]');
-
       if (qty) {
-        changeItem(
-          item.getAttribute('data-key'),
-          parseInt(qty.getAttribute('data-gt-cart-qty'), 10)
-        );
+        changeItem(item.getAttribute('data-key'), parseInt(qty.getAttribute('data-gt-cart-qty'), 10));
       }
     });
 
     document.addEventListener('click', function(event){
       var opener = event.target.closest('[data-gt-cart-open]');
-
       if (!opener) return;
-
       event.preventDefault();
       openDrawer();
     });
 
     document.addEventListener('submit', function(event){
       var form = event.target;
-
       if (!form.matches('form[action*="/cart/add"], form[action$="/cart/add"]')) return;
       if (form.dataset.gtCartNativeSubmit === 'true') return;
       if (form.closest('[data-gt-cart-drawer]')) return;
@@ -868,14 +285,11 @@
     }, true);
 
     document.addEventListener('keydown', function(event){
-      if (event.key === 'Escape' && !drawer.hidden) {
-        closeDrawer();
-      }
+      if (event.key === 'Escape' && !drawer.hidden) closeDrawer();
     });
 
     window.gtOpenCartDrawer = openDrawer;
     window.gtRefreshCartDrawer = refresh;
-
     refresh();
   })();
 </script>
