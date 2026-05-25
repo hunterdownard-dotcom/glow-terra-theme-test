@@ -380,22 +380,85 @@
   }
 
   @media(max-width:990px){
-    .gt-summer-sale{margin-top:calc(env(safe-area-inset-top,0px) * -1);padding-top:env(safe-area-inset-top,0px);background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%)}
-    .gt-summer-sale__inner{gap:4px 6px;min-height:0;padding:5px 0}
-    .gt-summer-sale__copy{width:100%;gap:2px 6px}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:9.5px;line-height:1.15;white-space:normal;flex-basis:100%}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:46px;min-height:25px;padding:2px 4px}
+    html,
+    body{
+      background:#344b3a;
+    }
+
+    .gt-summer-sale{
+      margin-top:0;
+      padding-top:env(safe-area-inset-top,0px);
+      padding-top:max(env(safe-area-inset-top,0px),0px);
+      background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);
+    }
+
+    .gt-summer-sale__inner{
+      gap:4px 6px;
+      min-height:0;
+      padding:5px 0;
+    }
+
+    .gt-summer-sale__copy{
+      width:100%;
+      gap:2px 6px;
+    }
+
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){
+      font-size:9.5px;
+      line-height:1.15;
+      white-space:normal;
+      flex-basis:100%;
+    }
+
+    .gt-summer-sale__deals span,
+    .gt-summer-sale__countdown span{
+      min-width:46px;
+      min-height:25px;
+      padding:2px 4px;
+    }
   }
 
   @media(max-width:680px){
-    .gt-summer-sale{margin-top:calc(env(safe-area-inset-top,0px) * -1);padding-top:env(safe-area-inset-top,0px)}
-    .gt-summer-sale__inner{padding:4px 0 5px;gap:3px}
-    .gt-summer-sale__eyebrow{width:100%;font-size:8.8px;line-height:1.05;letter-spacing:.1em}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:8.4px;line-height:1.1}
-    .gt-summer-sale__deals,.gt-summer-sale__countdown{gap:3px}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:41px;min-height:23px;padding:2px 3px;border-radius:6px}
-    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:10.5px}
-    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:5.8px;margin-top:1px}
+    .gt-summer-sale__inner{
+      padding:4px 0 5px;
+      gap:3px;
+    }
+
+    .gt-summer-sale__eyebrow{
+      width:100%;
+      font-size:8.8px;
+      line-height:1.05;
+      letter-spacing:.1em;
+    }
+
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){
+      font-size:8.4px;
+      line-height:1.1;
+    }
+
+    .gt-summer-sale__deals,
+    .gt-summer-sale__countdown{
+      gap:3px;
+    }
+
+    .gt-summer-sale__deals span,
+    .gt-summer-sale__countdown span{
+      min-width:41px;
+      min-height:23px;
+      padding:2px 3px;
+      border-radius:6px;
+    }
+
+    .gt-summer-sale__deals strong,
+    .gt-summer-sale__countdown strong{
+      font-size:10.5px;
+    }
+
+    .gt-summer-sale__deals small,
+    .gt-summer-sale__countdown small{
+      font-size:5.8px;
+      margin-top:1px;
+    }
   }
 
   .gt-home-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff;overflow:hidden}
