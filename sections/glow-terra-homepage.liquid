@@ -19,9 +19,63 @@
   assign comparison_text = section.settings.comparison_text | default: 'Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather.'
   assign comparison_primary_label = section.settings.comparison_primary_label | default: 'Shop Glow Terra'
   assign comparison_primary_link = section.settings.comparison_primary_link | default: collection_url
+
+  assign summer_sale_label = section.settings.summer_sale_primary_label | default: 'Shop Sale'
+  assign summer_sale_link = section.settings.summer_sale_primary_link | default: collection_url
 %}
 
 <section class="gt-store gt-home" aria-label="Glow Terra homepage">
+  {% if section.settings.summer_sale_enabled %}
+    <section class="gt-summer-sale" aria-label="Glow Terra summer sale">
+      <div class="gt-wrap gt-summer-sale__inner">
+        <div class="gt-summer-sale__copy">
+          <p class="gt-summer-sale__eyebrow">{{ section.settings.summer_sale_eyebrow }}</p>
+          <h2>{{ section.settings.summer_sale_heading }}</h2>
+          <p>{{ section.settings.summer_sale_text }}</p>
+        </div>
+
+        <div class="gt-summer-sale__deals" aria-label="Summer sale prices">
+          <span>
+            <strong>$4.99</strong>
+            <small>Single bars</small>
+          </span>
+          <span>
+            <strong>$11.99</strong>
+            <small>Glow Collection</small>
+          </span>
+        </div>
+
+        <div
+          class="gt-summer-sale__countdown"
+          data-gt-summer-sale-countdown
+          data-end="{{ section.settings.summer_sale_end_date | escape }}"
+          aria-label="Summer sale countdown"
+        >
+          <span>
+            <strong data-gt-summer-days>00</strong>
+            <small>Days</small>
+          </span>
+          <span>
+            <strong data-gt-summer-hours>00</strong>
+            <small>Hours</small>
+          </span>
+          <span>
+            <strong data-gt-summer-minutes>00</strong>
+            <small>Minutes</small>
+          </span>
+          <span>
+            <strong data-gt-summer-seconds>00</strong>
+            <small>Seconds</small>
+          </span>
+        </div>
+
+        {% if summer_sale_label != blank %}
+          <a class="gt-summer-sale__button" href="{{ summer_sale_link }}">{{ summer_sale_label }}</a>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+
   <div class="gt-home-hero">
     {% if section.settings.hero_image != blank %}
       {{ section.settings.hero_image | image_url: width: 2200 | image_tag: class: 'gt-home-hero__bg', loading: 'eager', alt: section.settings.hero_image.alt }}
@@ -325,6 +379,18 @@
 </section>
 
 <style>
+  .gt-summer-sale{position:relative;z-index:2;background:linear-gradient(135deg,#344b3a 0%,#40513f 54%,#5d6b48 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.16);box-shadow:0 18px 48px rgba(33,26,22,.13)}
+  .gt-summer-sale__inner{display:grid;grid-template-columns:minmax(0,1.18fr) auto auto auto;gap:18px;align-items:center;padding:18px 0}
+  .gt-summer-sale__copy h2{margin:0;color:#fffdf8;font-size:clamp(24px,2.4vw,38px);line-height:1.05;letter-spacing:0}
+  .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){max-width:600px;margin:8px 0 0;color:rgba(255,253,248,.82);font-size:14px;line-height:1.5}
+  .gt-summer-sale__eyebrow{margin:0 0 7px;color:#ead8c2;font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+  .gt-summer-sale__deals,.gt-summer-sale__countdown{display:grid;grid-auto-flow:column;gap:8px}
+  .gt-summer-sale__deals span,.gt-summer-sale__countdown span{display:grid;place-items:center;min-width:92px;min-height:62px;padding:9px 12px;border:1px solid rgba(255,253,248,.16);border-radius:8px;background:rgba(255,250,244,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+  .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{display:block;color:#fffdf8;font-size:22px;line-height:1;font-weight:900}
+  .gt-summer-sale__deals small,.gt-summer-sale__countdown small{display:block;margin-top:6px;color:rgba(255,253,248,.72);font-size:11px;font-weight:800;letter-spacing:.04em;text-align:center;text-transform:uppercase}
+  .gt-summer-sale__button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border-radius:999px;padding:0 20px;background:#fffdf8;color:#211a16;font-weight:900;text-decoration:none;box-shadow:0 16px 34px rgba(33,26,22,.2);white-space:nowrap}
+  .gt-summer-sale__button:hover{transform:translateY(-1px)}
+
   .gt-home-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff;overflow:hidden}
   .gt-home-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.86) contrast(.96)}
   .gt-home-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(30,22,17,.84),rgba(45,35,28,.58) 46%,rgba(246,230,211,.16)),linear-gradient(0deg,rgba(20,15,12,.45),rgba(20,15,12,.08))}
@@ -398,9 +464,47 @@
   .gt-home-newsletter__form{display:grid;grid-template-columns:1fr auto;gap:10px;margin:0}.gt-home-newsletter__form .gt-field{border-color:rgba(255,255,255,.24);background:rgba(255,253,248,.96)}
   .gt-home-newsletter__form .gt-btn{background:#fffdf8;color:#211a16!important;box-shadow:none}
   .gt-home-newsletter__trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.gt-home-newsletter__trust span{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:rgba(255,255,255,.82)}
-  @media(max-width:990px){.gt-home-hero__inner{grid-template-columns:1fr}.gt-home-products{grid-template-columns:repeat(2,1fr)}.gt-home-trust{grid-template-columns:repeat(2,1fr)}.gt-home-why{grid-template-columns:1fr}.gt-home-ingredients{grid-template-columns:repeat(3,1fr)}.gt-home-social{grid-template-columns:repeat(2,1fr)}.gt-ingredient-comparison__grid{grid-template-columns:1fr}.gt-ingredient-comparison__trust{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:680px){.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-review{grid-template-columns:52px 1fr;align-items:center}.gt-home-review img,.gt-home-review__avatar{width:52px;height:52px;align-self:center;justify-self:center}.gt-ingredient-comparison__intro{max-width:100%}.gt-ingredient-comparison__actions{display:grid}.gt-ingredient-comparison__image{min-height:0;padding:12px}.gt-ingredient-comparison__image img,.gt-ingredient-comparison__image svg{max-height:none}.gt-ingredient-comparison__caption{padding:18px}.gt-ingredient-comparison__trust{grid-template-columns:1fr}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr;gap:14px}.gt-routine-card img,.gt-routine-card svg{height:220px}.gt-home-newsletter{padding:38px 0}.gt-home-newsletter__inner{grid-template-columns:1fr;gap:22px}.gt-home-newsletter__form{grid-template-columns:1fr}.gt-home-ingredients h3,.gt-home-ingredient-title--polished{font-size:20px;line-height:1.15}}
+  @media(max-width:990px){.gt-summer-sale__inner{grid-template-columns:1fr;gap:14px;padding:16px 0}.gt-summer-sale__deals,.gt-summer-sale__countdown{grid-auto-flow:initial;grid-template-columns:repeat(2,1fr)}.gt-summer-sale__countdown{grid-template-columns:repeat(4,1fr)}.gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:0}.gt-summer-sale__button{width:100%}.gt-home-hero__inner{grid-template-columns:1fr}.gt-home-products{grid-template-columns:repeat(2,1fr)}.gt-home-trust{grid-template-columns:repeat(2,1fr)}.gt-home-why{grid-template-columns:1fr}.gt-home-ingredients{grid-template-columns:repeat(3,1fr)}.gt-home-social{grid-template-columns:repeat(2,1fr)}.gt-ingredient-comparison__grid{grid-template-columns:1fr}.gt-ingredient-comparison__trust{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:680px){.gt-summer-sale__copy h2{font-size:26px}.gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:18px}.gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-height:58px;padding:8px 5px}.gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:9.5px}.gt-home-hero{min-height:auto}.gt-home-hero__inner{padding:70px 0 48px}.gt-home-hero h1{font-size:42px}.gt-home-hero__actions{display:grid}.gt-home-hero__feature div{left:16px;right:16px;bottom:16px;width:auto}.gt-home-trust,.gt-home-products,.gt-home-why__grid,.gt-home-reviews,.gt-home-ingredients{grid-template-columns:1fr}.gt-home-review{grid-template-columns:52px 1fr;align-items:center}.gt-home-review img,.gt-home-review__avatar{width:52px;height:52px;align-self:center;justify-self:center}.gt-ingredient-comparison__intro{max-width:100%}.gt-ingredient-comparison__actions{display:grid}.gt-ingredient-comparison__image{min-height:0;padding:12px}.gt-ingredient-comparison__image img,.gt-ingredient-comparison__image svg{max-height:none}.gt-ingredient-comparison__caption{padding:18px}.gt-ingredient-comparison__trust{grid-template-columns:1fr}.gt-home-sale{display:block;padding:32px 22px}.gt-home-sale .gt-btn{margin-top:18px}.gt-home-social{grid-template-columns:1fr;gap:14px}.gt-routine-card img,.gt-routine-card svg{height:220px}.gt-home-newsletter{padding:38px 0}.gt-home-newsletter__inner{grid-template-columns:1fr;gap:22px}.gt-home-newsletter__form{grid-template-columns:1fr}.gt-home-ingredients h3,.gt-home-ingredient-title--polished{font-size:20px;line-height:1.15}}
 </style>
+
+<script>
+  (function(){
+    var countdown = document.querySelector('[data-gt-summer-sale-countdown]');
+    if (!countdown || countdown.dataset.ready === 'true') return;
+    countdown.dataset.ready = 'true';
+
+    var endRaw = countdown.getAttribute('data-end');
+    var endDate = endRaw ? new Date(endRaw) : null;
+    var days = countdown.querySelector('[data-gt-summer-days]');
+    var hours = countdown.querySelector('[data-gt-summer-hours]');
+    var minutes = countdown.querySelector('[data-gt-summer-minutes]');
+    var seconds = countdown.querySelector('[data-gt-summer-seconds]');
+
+    function pad(value){
+      return String(Math.max(0, value)).padStart(2, '0');
+    }
+
+    function updateCountdown(){
+      if (!endDate || isNaN(endDate.getTime())) return;
+
+      var diff = Math.max(0, endDate.getTime() - Date.now());
+      var totalSeconds = Math.floor(diff / 1000);
+      var dayValue = Math.floor(totalSeconds / 86400);
+      var hourValue = Math.floor((totalSeconds % 86400) / 3600);
+      var minuteValue = Math.floor((totalSeconds % 3600) / 60);
+      var secondValue = totalSeconds % 60;
+
+      if (days) days.textContent = pad(dayValue);
+      if (hours) hours.textContent = pad(hourValue);
+      if (minutes) minutes.textContent = pad(minuteValue);
+      if (seconds) seconds.textContent = pad(secondValue);
+    }
+
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+  })();
+</script>
 
 {% schema %}
 {
@@ -414,6 +518,15 @@
     { "type": "collection", "id": "featured_collection", "label": "Shop collection" },
     { "type": "product", "id": "bundle_product", "label": "Glow Collection Bundle product" },
     { "type": "image_picker", "id": "banner_image", "label": "Bundle banner image" },
+
+    { "type": "header", "content": "Summer sale banner" },
+    { "type": "checkbox", "id": "summer_sale_enabled", "label": "Show summer sale banner", "default": true },
+    { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "50% OFF SUMMER SALE" },
+    { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "Glow Terra Summer Sale" },
+    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "50% off for a limited time. Single bars are $4.99 and the Glow Collection is $11.99." },
+    { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-09-22T09:00:00-04:00" },
+    { "type": "text", "id": "summer_sale_primary_label", "label": "Button label", "default": "Shop Sale" },
+    { "type": "url", "id": "summer_sale_primary_link", "label": "Button link" },
 
     { "type": "header", "content": "Ingredient comparison section" },
     { "type": "text", "id": "comparison_eyebrow", "label": "Eyebrow", "default": "INGREDIENT TRANSPARENCY" },
