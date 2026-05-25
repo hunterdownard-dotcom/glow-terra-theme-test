@@ -19,9 +19,6 @@
   assign comparison_text = section.settings.comparison_text | default: 'Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather.'
   assign comparison_primary_label = section.settings.comparison_primary_label | default: 'Shop Glow Terra'
   assign comparison_primary_link = section.settings.comparison_primary_link | default: collection_url
-
-  assign summer_sale_label = section.settings.summer_sale_primary_label | default: 'Available Now'
-  assign summer_sale_link = section.settings.summer_sale_primary_link | default: collection_url
 %}
 
 <section class="gt-store gt-home" aria-label="Glow Terra homepage">
@@ -68,10 +65,6 @@
             <small>Seconds</small>
           </span>
         </div>
-
-        {% if summer_sale_label != blank %}
-          <a class="gt-summer-sale__button" href="{{ summer_sale_link }}">{{ summer_sale_label }}</a>
-        {% endif %}
       </div>
     </section>
   {% endif %}
@@ -380,36 +373,33 @@
 
 <style>
   .gt-summer-sale{position:relative;z-index:2;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 10px 28px rgba(33,26,22,.12)}
-  .gt-summer-sale__inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:12px;align-items:center;min-height:58px;padding:8px 0}
-  .gt-summer-sale__copy{display:flex;align-items:center;gap:10px;min-width:0}
-  .gt-summer-sale__copy h2{margin:0;color:#fffdf8;font-size:15px;line-height:1.1;font-weight:900;letter-spacing:0;white-space:nowrap}
-  .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.78);font-size:12px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .gt-summer-sale__eyebrow{flex:0 0 auto;margin:0;color:#ead8c2;font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
-  .gt-summer-sale__deals,.gt-summer-sale__countdown{display:grid;grid-auto-flow:column;gap:6px}
-  .gt-summer-sale__deals span,.gt-summer-sale__countdown span{display:grid;place-items:center;min-width:68px;min-height:38px;padding:5px 9px;border:1px solid rgba(255,253,248,.15);border-radius:7px;background:rgba(255,250,244,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
-  .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{display:block;color:#fffdf8;font-size:16px;line-height:1;font-weight:900}
-  .gt-summer-sale__deals small,.gt-summer-sale__countdown small{display:block;margin-top:4px;color:rgba(255,253,248,.7);font-size:8.5px;font-weight:900;letter-spacing:.04em;text-align:center;text-transform:uppercase}
-  .gt-summer-sale__button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;border-radius:999px;padding:0 16px;background:#fffdf8;color:#211a16;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(33,26,22,.16);white-space:nowrap}
-  .gt-summer-sale__button:hover{transform:translateY(-1px)}
+  .gt-summer-sale__inner{display:flex;align-items:center;justify-content:center;gap:8px 10px;min-height:44px;padding:6px 0;text-align:center;flex-wrap:wrap}
+  .gt-summer-sale__copy{display:flex;align-items:center;justify-content:center;gap:7px 9px;min-width:0;flex-wrap:wrap}
+  .gt-summer-sale__copy h2{margin:0;color:#fffdf8;font-size:13px;line-height:1.1;font-weight:900;letter-spacing:0;white-space:nowrap}
+  .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.8);font-size:11.5px;line-height:1.25;white-space:nowrap}
+  .gt-summer-sale__eyebrow{margin:0;color:#ead8c2;font-size:10.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+  .gt-summer-sale__deals,.gt-summer-sale__countdown{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+  .gt-summer-sale__deals span,.gt-summer-sale__countdown span{display:grid;place-items:center;min-width:58px;min-height:32px;padding:4px 8px;border:1px solid rgba(255,253,248,.15);border-radius:7px;background:rgba(255,250,244,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+  .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{display:block;color:#fffdf8;font-size:14px;line-height:1;font-weight:900}
+  .gt-summer-sale__deals small,.gt-summer-sale__countdown small{display:block;margin-top:3px;color:rgba(255,253,248,.7);font-size:7.8px;font-weight:900;letter-spacing:.04em;text-align:center;text-transform:uppercase}
 
   @media(max-width:990px){
-    .gt-summer-sale__inner{grid-template-columns:1fr;gap:9px;min-height:0;padding:11px 0;text-align:center}
-    .gt-summer-sale__copy{justify-content:center;flex-wrap:wrap;gap:6px 10px}
-    .gt-summer-sale__copy h2{font-size:17px}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){flex-basis:100%;white-space:normal;font-size:12px}
-    .gt-summer-sale__deals,.gt-summer-sale__countdown{grid-auto-flow:initial;width:100%}
-    .gt-summer-sale__deals{grid-template-columns:repeat(2,1fr)}
-    .gt-summer-sale__countdown{grid-template-columns:repeat(4,1fr)}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:0;min-height:42px}
-    .gt-summer-sale__button{width:min(100%,220px);margin-inline:auto}
+    .gt-summer-sale__inner{gap:6px 8px;min-height:0;padding:8px 0}
+    .gt-summer-sale__copy{width:100%;gap:5px 8px}
+    .gt-summer-sale__copy h2{font-size:14px}
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:11px;white-space:normal;flex-basis:100%}
+    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:56px;min-height:31px;padding:4px 6px}
   }
 
   @media(max-width:680px){
-    .gt-summer-sale__inner{padding:10px 0}
-    .gt-summer-sale__copy h2{font-size:16px}
-    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:15px}
-    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:8px}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-height:40px;padding:5px 4px}
+    .gt-summer-sale__inner{padding:8px 0;gap:6px}
+    .gt-summer-sale__copy h2{font-size:13px}
+    .gt-summer-sale__eyebrow{font-size:10px}
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:10.5px;line-height:1.25}
+    .gt-summer-sale__deals,.gt-summer-sale__countdown{gap:4px}
+    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:50px;min-height:29px;padding:4px 5px;border-radius:6px}
+    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:13px}
+    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:7px;margin-top:2px}
   }
 
   .gt-home-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff;overflow:hidden}
@@ -544,10 +534,8 @@
     { "type": "checkbox", "id": "summer_sale_enabled", "label": "Show summer sale banner", "default": true },
     { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "50% OFF SUMMER SALE" },
     { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "Glow Terra Summer Sale" },
-    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "50% off for a limited time. Single bars are $4.99 and the Glow Collection is $11.99." },
+    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Limited time offer. Single bars are $4.99 and the Glow Collection is $11.99." },
     { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-09-22T09:00:00-04:00" },
-    { "type": "text", "id": "summer_sale_primary_label", "label": "Button label", "default": "Available Now" },
-    { "type": "url", "id": "summer_sale_primary_link", "label": "Button link" },
 
     { "type": "header", "content": "Ingredient comparison section" },
     { "type": "text", "id": "comparison_eyebrow", "label": "Eyebrow", "default": "INGREDIENT TRANSPARENCY" },
