@@ -23,29 +23,23 @@
 
 <section class="gt-store gt-home" aria-label="Glow Terra homepage">
   {% if section.settings.summer_sale_enabled %}
-    <section class="gt-summer-sale" aria-label="Glow Terra summer sale">
+    <section class="gt-summer-sale" aria-label="Glow Terra summer clearance event">
       <div class="gt-wrap gt-summer-sale__inner">
         <div class="gt-summer-sale__copy">
           <p class="gt-summer-sale__eyebrow">{{ section.settings.summer_sale_eyebrow }}</p>
           <p>{{ section.settings.summer_sale_text }}</p>
         </div>
 
-        <div class="gt-summer-sale__deals" aria-label="Summer sale prices">
-          <span>
-            <strong>$4.99</strong>
-            <small>Single bars</small>
-          </span>
-          <span>
-            <strong>$11.99</strong>
-            <small>Glow Collection</small>
-          </span>
+        <div class="gt-summer-sale__deals" aria-label="Summer clearance prices">
+          <span><strong>$4.99</strong></span>
+          <span><strong>$11.99</strong></span>
         </div>
 
         <div
           class="gt-summer-sale__countdown"
           data-gt-summer-sale-countdown
           data-end="{{ section.settings.summer_sale_end_date | escape }}"
-          aria-label="Summer sale countdown"
+          aria-label="Summer clearance countdown"
         >
           <span>
             <strong data-gt-summer-days>00</strong>
@@ -386,6 +380,7 @@
   }
 
   @media(max-width:990px){
+    .gt-summer-sale{margin-top:calc(env(safe-area-inset-top,0px) * -1);padding-top:env(safe-area-inset-top,0px)}
     .gt-summer-sale__inner{gap:5px 7px;min-height:0;padding:7px 0}
     .gt-summer-sale__copy{width:100%;gap:4px 7px}
     .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:10px;white-space:normal;flex-basis:100%}
@@ -532,9 +527,9 @@
 
     { "type": "header", "content": "Summer sale banner" },
     { "type": "checkbox", "id": "summer_sale_enabled", "label": "Show summer sale banner", "default": true },
-    { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "50% OFF SUMMER SALE" },
-    { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "Glow Terra Summer Sale" },
-    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Limited time offer. Single bars are $4.99 and the Glow Collection is $11.99." },
+    { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "SUMMER CLEARANCE EVENT" },
+    { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "SUMMER CLEARANCE EVENT" },
+    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Up to 55% Off • Limited Time" },
     { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-09-22T09:00:00-04:00" },
 
     { "type": "header", "content": "Ingredient comparison section" },
