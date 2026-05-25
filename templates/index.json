@@ -80,7 +80,7 @@
           "type": "social_image",
           "settings": {
             "image": "shopify://shop_images/idk.jpg",
-            "title": "Scalp Cleanse & Massage",
+            "title": "Scalp Cleanse and Massage",
             "text": "Work into a rich lather and massage gently into the scalp and hair before rinsing thoroughly.",
             "alt": "Glow Terra skincare routine"
           }
@@ -89,7 +89,7 @@
           "type": "social_image",
           "settings": {
             "image": "shopify://shop_images/idk_3.jpg",
-            "title": "Refresh & Brighten",
+            "title": "Refresh and Brighten",
             "text": "Lather with warm water and cleanse gently to leave skin feeling fresh, clean, and balanced.",
             "alt": "Glow Terra botanical ingredients"
           }
@@ -136,6 +136,11 @@
         "hero_side_image": "shopify://shop_images/ChatGPT_Image_May_8_2026_07_51_45_AM.png",
         "featured_collection": "",
         "bundle_product": "glow-collection-bundle",
+        "summer_sale_enabled": true,
+        "summer_sale_eyebrow": "SUMMER CLEARANCE EVENT",
+        "summer_sale_heading": "SUMMER CLEARANCE EVENT",
+        "summer_sale_text": "Up to 55% Off • Limited Time",
+        "summer_sale_end_date": "2026-09-22T09:00:00-04:00",
         "comparison_eyebrow": "INGREDIENT TRANSPARENCY",
         "comparison_heading": "Before you buy a viral soap, check the label.",
         "comparison_text": "Viral bars can look convincing online, but the label often tells the real story. Glow Terra is built around clear ingredient choices, botanical oils, and formulas designed to feel intentional from the first lather.",
