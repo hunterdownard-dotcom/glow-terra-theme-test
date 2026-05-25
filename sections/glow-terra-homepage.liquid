@@ -27,7 +27,6 @@
       <div class="gt-wrap gt-summer-sale__inner">
         <div class="gt-summer-sale__copy">
           <p class="gt-summer-sale__eyebrow">{{ section.settings.summer_sale_eyebrow }}</p>
-          <h2>{{ section.settings.summer_sale_heading }}</h2>
           <p>{{ section.settings.summer_sale_text }}</p>
         </div>
 
@@ -372,34 +371,35 @@
 </section>
 
 <style>
-  .gt-summer-sale{position:relative;z-index:2;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 10px 28px rgba(33,26,22,.12)}
-  .gt-summer-sale__inner{display:flex;align-items:center;justify-content:center;gap:8px 10px;min-height:44px;padding:6px 0;text-align:center;flex-wrap:wrap}
-  .gt-summer-sale__copy{display:flex;align-items:center;justify-content:center;gap:7px 9px;min-width:0;flex-wrap:wrap}
-  .gt-summer-sale__copy h2{margin:0;color:#fffdf8;font-size:13px;line-height:1.1;font-weight:900;letter-spacing:0;white-space:nowrap}
-  .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.8);font-size:11.5px;line-height:1.25;white-space:nowrap}
-  .gt-summer-sale__eyebrow{margin:0;color:#ead8c2;font-size:10.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
-  .gt-summer-sale__deals,.gt-summer-sale__countdown{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
-  .gt-summer-sale__deals span,.gt-summer-sale__countdown span{display:grid;place-items:center;min-width:58px;min-height:32px;padding:4px 8px;border:1px solid rgba(255,253,248,.15);border-radius:7px;background:rgba(255,250,244,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
-  .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{display:block;color:#fffdf8;font-size:14px;line-height:1;font-weight:900}
-  .gt-summer-sale__deals small,.gt-summer-sale__countdown small{display:block;margin-top:3px;color:rgba(255,253,248,.7);font-size:7.8px;font-weight:900;letter-spacing:.04em;text-align:center;text-transform:uppercase}
+  .gt-summer-sale{position:relative;z-index:2;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 8px 22px rgba(33,26,22,.11)}
+  .gt-summer-sale__inner{display:flex;align-items:center;justify-content:center;gap:6px 10px;min-height:38px;padding:4px 0;text-align:center;flex-wrap:wrap}
+  .gt-summer-sale__copy{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;flex-wrap:wrap}
+  .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.82);font-size:10.5px;line-height:1.2;white-space:nowrap}
+  .gt-summer-sale__eyebrow{margin:0;color:#ead8c2;font-size:10.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;text-align:center}
+  .gt-summer-sale__deals,.gt-summer-sale__countdown{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
+  .gt-summer-sale__deals span,.gt-summer-sale__countdown span{display:grid;place-items:center;min-width:54px;min-height:30px;padding:3px 7px;border:1px solid rgba(255,253,248,.15);border-radius:7px;background:rgba(255,250,244,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+  .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{display:block;color:#fffdf8;font-size:13px;line-height:1;font-weight:900}
+  .gt-summer-sale__deals small,.gt-summer-sale__countdown small{display:block;margin-top:2px;color:rgba(255,253,248,.7);font-size:7px;font-weight:900;letter-spacing:.04em;text-align:center;text-transform:uppercase}
+
+  @media(min-width:990px){
+    .gt-summer-sale__countdown{align-self:center;transform:translateY(-1px)}
+  }
 
   @media(max-width:990px){
-    .gt-summer-sale__inner{gap:6px 8px;min-height:0;padding:8px 0}
-    .gt-summer-sale__copy{width:100%;gap:5px 8px}
-    .gt-summer-sale__copy h2{font-size:14px}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:11px;white-space:normal;flex-basis:100%}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:56px;min-height:31px;padding:4px 6px}
+    .gt-summer-sale__inner{gap:5px 7px;min-height:0;padding:7px 0}
+    .gt-summer-sale__copy{width:100%;gap:4px 7px}
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:10px;white-space:normal;flex-basis:100%}
+    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:50px;min-height:29px;padding:3px 5px}
   }
 
   @media(max-width:680px){
-    .gt-summer-sale__inner{padding:8px 0;gap:6px}
-    .gt-summer-sale__copy h2{font-size:13px}
-    .gt-summer-sale__eyebrow{font-size:10px}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:10.5px;line-height:1.25}
+    .gt-summer-sale__inner{padding:7px 0;gap:5px}
+    .gt-summer-sale__eyebrow{width:100%;font-size:10px}
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:9.5px;line-height:1.25}
     .gt-summer-sale__deals,.gt-summer-sale__countdown{gap:4px}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:50px;min-height:29px;padding:4px 5px;border-radius:6px}
-    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:13px}
-    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:7px;margin-top:2px}
+    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:47px;min-height:27px;padding:3px 4px;border-radius:6px}
+    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:12px}
+    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:6.5px;margin-top:2px}
   }
 
   .gt-home-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff;overflow:hidden}
