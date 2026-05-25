@@ -365,8 +365,9 @@
 </section>
 
 <style>
-  .gt-summer-sale{position:relative;z-index:2;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 8px 22px rgba(33,26,22,.11)}
-  .gt-summer-sale__inner{display:flex;align-items:center;justify-content:center;gap:6px 10px;min-height:38px;padding:4px 0;text-align:center;flex-wrap:wrap}
+  .gt-summer-sale{position:relative;z-index:2;overflow:hidden;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 8px 22px rgba(33,26,22,.11)}
+  .gt-summer-sale:before{content:"";position:absolute;inset:0 0 auto;height:0;pointer-events:none;z-index:0}
+  .gt-summer-sale__inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px 10px;min-height:38px;padding:4px 0;text-align:center;flex-wrap:wrap}
   .gt-summer-sale__copy{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;flex-wrap:wrap}
   .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.82);font-size:10.5px;line-height:1.2;white-space:nowrap}
   .gt-summer-sale__eyebrow{margin:0;color:#ead8c2;font-size:10.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;text-align:center}
@@ -380,22 +381,94 @@
   }
 
   @media(max-width:990px){
-    .gt-summer-sale{margin-top:calc(env(safe-area-inset-top,0px) * -1);padding-top:env(safe-area-inset-top,0px);background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%)}
-    .gt-summer-sale__inner{gap:4px 6px;min-height:0;padding:5px 0}
-    .gt-summer-sale__copy{width:100%;gap:2px 6px}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:9.5px;line-height:1.15;white-space:normal;flex-basis:100%}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:46px;min-height:25px;padding:2px 4px}
+    .gt-summer-sale{
+      margin-top:calc(env(safe-area-inset-top,0px) * -1);
+      padding-top:env(safe-area-inset-top,0px);
+      background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);
+    }
+
+    .gt-summer-sale:before{
+      height:14px;
+      background:linear-gradient(180deg,rgba(255,253,248,.32) 0%,rgba(255,253,248,.12) 42%,rgba(52,75,58,0) 100%);
+    }
+
+    .gt-summer-sale__inner{
+      gap:4px 6px;
+      min-height:0;
+      padding:5px 0;
+    }
+
+    .gt-summer-sale__copy{
+      width:100%;
+      gap:2px 6px;
+    }
+
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){
+      font-size:9.5px;
+      line-height:1.15;
+      white-space:normal;
+      flex-basis:100%;
+    }
+
+    .gt-summer-sale__deals span,
+    .gt-summer-sale__countdown span{
+      min-width:46px;
+      min-height:25px;
+      padding:2px 4px;
+    }
   }
 
   @media(max-width:680px){
-    .gt-summer-sale{margin-top:calc(env(safe-area-inset-top,0px) * -1);padding-top:env(safe-area-inset-top,0px)}
-    .gt-summer-sale__inner{padding:4px 0 5px;gap:3px}
-    .gt-summer-sale__eyebrow{width:100%;font-size:8.8px;line-height:1.05;letter-spacing:.1em}
-    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){font-size:8.4px;line-height:1.1}
-    .gt-summer-sale__deals,.gt-summer-sale__countdown{gap:3px}
-    .gt-summer-sale__deals span,.gt-summer-sale__countdown span{min-width:41px;min-height:23px;padding:2px 3px;border-radius:6px}
-    .gt-summer-sale__deals strong,.gt-summer-sale__countdown strong{font-size:10.5px}
-    .gt-summer-sale__deals small,.gt-summer-sale__countdown small{font-size:5.8px;margin-top:1px}
+    .gt-summer-sale{
+      margin-top:calc(env(safe-area-inset-top,0px) * -1);
+      padding-top:env(safe-area-inset-top,0px);
+    }
+
+    .gt-summer-sale:before{
+      height:12px;
+      background:linear-gradient(180deg,rgba(255,253,248,.34) 0%,rgba(255,253,248,.13) 44%,rgba(52,75,58,0) 100%);
+    }
+
+    .gt-summer-sale__inner{
+      padding:4px 0 5px;
+      gap:3px;
+    }
+
+    .gt-summer-sale__eyebrow{
+      width:100%;
+      font-size:8.8px;
+      line-height:1.05;
+      letter-spacing:.1em;
+    }
+
+    .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){
+      font-size:8.4px;
+      line-height:1.1;
+    }
+
+    .gt-summer-sale__deals,
+    .gt-summer-sale__countdown{
+      gap:3px;
+    }
+
+    .gt-summer-sale__deals span,
+    .gt-summer-sale__countdown span{
+      min-width:41px;
+      min-height:23px;
+      padding:2px 3px;
+      border-radius:6px;
+    }
+
+    .gt-summer-sale__deals strong,
+    .gt-summer-sale__countdown strong{
+      font-size:10.5px;
+    }
+
+    .gt-summer-sale__deals small,
+    .gt-summer-sale__countdown small{
+      font-size:5.8px;
+      margin-top:1px;
+    }
   }
 
   .gt-home-hero{position:relative;min-height:760px;display:grid;align-items:center;background:#1f1a16;color:#fff;overflow:hidden}
@@ -481,8 +554,30 @@
     if (!countdown || countdown.dataset.ready === 'true') return;
     countdown.dataset.ready = 'true';
 
-    var endRaw = countdown.getAttribute('data-end');
-    var endDate = endRaw ? new Date(endRaw) : null;
+    var cycleLength = 14 * 24 * 60 * 60 * 1000;
+    var storageKey = 'gtSummerSaleCycleStart';
+    var now = Date.now();
+    var cycleStart = now;
+
+    try {
+      var storedStart = window.localStorage.getItem(storageKey);
+      if (storedStart) {
+        cycleStart = parseInt(storedStart, 10);
+      }
+
+      if (!cycleStart || isNaN(cycleStart) || cycleStart > now) {
+        cycleStart = now;
+      }
+
+      while (now - cycleStart >= cycleLength) {
+        cycleStart += cycleLength;
+      }
+
+      window.localStorage.setItem(storageKey, String(cycleStart));
+    } catch (error) {
+      cycleStart = now;
+    }
+
     var days = countdown.querySelector('[data-gt-summer-days]');
     var hours = countdown.querySelector('[data-gt-summer-hours]');
     var minutes = countdown.querySelector('[data-gt-summer-minutes]');
@@ -493,9 +588,17 @@
     }
 
     function updateCountdown(){
-      if (!endDate || isNaN(endDate.getTime())) return;
+      var currentTime = Date.now();
 
-      var diff = Math.max(0, endDate.getTime() - Date.now());
+      while (currentTime - cycleStart >= cycleLength) {
+        cycleStart += cycleLength;
+
+        try {
+          window.localStorage.setItem(storageKey, String(cycleStart));
+        } catch (error) {}
+      }
+
+      var diff = Math.max(0, cycleStart + cycleLength - currentTime);
       var totalSeconds = Math.floor(diff / 1000);
       var dayValue = Math.floor(totalSeconds / 86400);
       var hourValue = Math.floor((totalSeconds % 86400) / 3600);
