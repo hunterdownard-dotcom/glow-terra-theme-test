@@ -366,7 +366,6 @@
 
 <style>
   .gt-summer-sale{position:relative;z-index:2;overflow:hidden;background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);color:#fffdf8;border-bottom:1px solid rgba(255,253,248,.14);box-shadow:0 8px 22px rgba(33,26,22,.11)}
-  .gt-summer-sale:before{content:"";position:absolute;inset:0 0 auto;height:0;pointer-events:none;z-index:0}
   .gt-summer-sale__inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px 10px;min-height:38px;padding:4px 0;text-align:center;flex-wrap:wrap}
   .gt-summer-sale__copy{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;flex-wrap:wrap}
   .gt-summer-sale__copy p:not(.gt-summer-sale__eyebrow){margin:0;color:rgba(255,253,248,.82);font-size:10.5px;line-height:1.2;white-space:nowrap}
@@ -381,16 +380,7 @@
   }
 
   @media(max-width:990px){
-    .gt-summer-sale{
-      margin-top:calc(env(safe-area-inset-top,0px) * -1);
-      padding-top:env(safe-area-inset-top,0px);
-      background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%);
-    }
-
-    .gt-summer-sale:before{
-      height:14px;
-      background:linear-gradient(180deg,rgba(255,253,248,.32) 0%,rgba(255,253,248,.12) 42%,rgba(52,75,58,0) 100%);
-    }
+    .gt-summer-sale{background:linear-gradient(135deg,#344b3a 0%,#40513f 58%,#4f6044 100%)}
 
     .gt-summer-sale__inner{
       gap:4px 6px;
@@ -419,16 +409,6 @@
   }
 
   @media(max-width:680px){
-    .gt-summer-sale{
-      margin-top:calc(env(safe-area-inset-top,0px) * -1);
-      padding-top:env(safe-area-inset-top,0px);
-    }
-
-    .gt-summer-sale:before{
-      height:12px;
-      background:linear-gradient(180deg,rgba(255,253,248,.34) 0%,rgba(255,253,248,.13) 44%,rgba(52,75,58,0) 100%);
-    }
-
     .gt-summer-sale__inner{
       padding:4px 0 5px;
       gap:3px;
@@ -555,28 +535,7 @@
     countdown.dataset.ready = 'true';
 
     var cycleLength = 14 * 24 * 60 * 60 * 1000;
-    var storageKey = 'gtSummerSaleCycleStart';
-    var now = Date.now();
-    var cycleStart = now;
-
-    try {
-      var storedStart = window.localStorage.getItem(storageKey);
-      if (storedStart) {
-        cycleStart = parseInt(storedStart, 10);
-      }
-
-      if (!cycleStart || isNaN(cycleStart) || cycleStart > now) {
-        cycleStart = now;
-      }
-
-      while (now - cycleStart >= cycleLength) {
-        cycleStart += cycleLength;
-      }
-
-      window.localStorage.setItem(storageKey, String(cycleStart));
-    } catch (error) {
-      cycleStart = now;
-    }
+    var firstEndTime = new Date('2026-06-24T23:59:59-04:00').getTime();
 
     var days = countdown.querySelector('[data-gt-summer-days]');
     var hours = countdown.querySelector('[data-gt-summer-hours]');
@@ -589,16 +548,11 @@
 
     function updateCountdown(){
       var currentTime = Date.now();
-
-      while (currentTime - cycleStart >= cycleLength) {
-        cycleStart += cycleLength;
-
-        try {
-          window.localStorage.setItem(storageKey, String(cycleStart));
-        } catch (error) {}
+      while (currentTime >= firstEndTime) {
+        firstEndTime += cycleLength;
       }
 
-      var diff = Math.max(0, cycleStart + cycleLength - currentTime);
+      var diff = Math.max(0, firstEndTime - currentTime);
       var totalSeconds = Math.floor(diff / 1000);
       var dayValue = Math.floor(totalSeconds / 86400);
       var hourValue = Math.floor((totalSeconds % 86400) / 3600);
@@ -633,8 +587,8 @@
     { "type": "checkbox", "id": "summer_sale_enabled", "label": "Show summer sale banner", "default": true },
     { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "SUMMER CLEARANCE EVENT" },
     { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "SUMMER CLEARANCE EVENT" },
-    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Up to 55% Off • Limited Time" },
-    { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-09-22T09:00:00-04:00" },
+    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Up to 55% Off â€¢ Limited Time" },
+    { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-06-24T23:59:59-04:00" },
 
     { "type": "header", "content": "Ingredient comparison section" },
     { "type": "text", "id": "comparison_eyebrow", "label": "Eyebrow", "default": "INGREDIENT TRANSPARENCY" },
@@ -702,3 +656,4 @@
   ]
 }
 {% endschema %}
+
