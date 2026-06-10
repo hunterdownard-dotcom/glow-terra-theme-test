@@ -554,12 +554,28 @@
     if (!countdown || countdown.dataset.ready === 'true') return;
     countdown.dataset.ready = 'true';
 
-    var endRaw = countdown.getAttribute('data-end');
     var cycleLength = 14 * 24 * 60 * 60 * 1000;
-    var firstEndTime = endRaw ? new Date(endRaw).getTime() : Date.now() + cycleLength;
+    var storageKey = 'gtSummerSaleCycleStart';
+    var now = Date.now();
+    var cycleStart = now;
 
-    if (!firstEndTime || isNaN(firstEndTime)) {
-      firstEndTime = Date.now() + cycleLength;
+    try {
+      var storedStart = window.localStorage.getItem(storageKey);
+      if (storedStart) {
+        cycleStart = parseInt(storedStart, 10);
+      }
+
+      if (!cycleStart || isNaN(cycleStart) || cycleStart > now) {
+        cycleStart = now;
+      }
+
+      while (now - cycleStart >= cycleLength) {
+        cycleStart += cycleLength;
+      }
+
+      window.localStorage.setItem(storageKey, String(cycleStart));
+    } catch (error) {
+      cycleStart = now;
     }
 
     var days = countdown.querySelector('[data-gt-summer-days]');
@@ -573,15 +589,16 @@
 
     function updateCountdown(){
       var currentTime = Date.now();
-      var diff = firstEndTime - currentTime;
 
-      if (diff <= 0) {
-        var elapsedSinceFirstEnd = currentTime - firstEndTime;
-        var completedCycles = Math.floor(elapsedSinceFirstEnd / cycleLength);
-        diff = firstEndTime + ((completedCycles + 1) * cycleLength) - currentTime;
+      while (currentTime - cycleStart >= cycleLength) {
+        cycleStart += cycleLength;
+
+        try {
+          window.localStorage.setItem(storageKey, String(cycleStart));
+        } catch (error) {}
       }
 
-      diff = Math.max(0, diff);
+      var diff = Math.max(0, cycleStart + cycleLength - currentTime);
       var totalSeconds = Math.floor(diff / 1000);
       var dayValue = Math.floor(totalSeconds / 86400);
       var hourValue = Math.floor((totalSeconds % 86400) / 3600);
@@ -616,7 +633,7 @@
     { "type": "checkbox", "id": "summer_sale_enabled", "label": "Show summer sale banner", "default": true },
     { "type": "text", "id": "summer_sale_eyebrow", "label": "Sale eyebrow", "default": "SUMMER CLEARANCE EVENT" },
     { "type": "text", "id": "summer_sale_heading", "label": "Sale heading", "default": "SUMMER CLEARANCE EVENT" },
-    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Up to 55% Off â€¢ Limited Time" },
+    { "type": "textarea", "id": "summer_sale_text", "label": "Sale text", "default": "Up to 55% Off • Limited Time" },
     { "type": "text", "id": "summer_sale_end_date", "label": "Countdown end date", "default": "2026-09-22T09:00:00-04:00" },
 
     { "type": "header", "content": "Ingredient comparison section" },
